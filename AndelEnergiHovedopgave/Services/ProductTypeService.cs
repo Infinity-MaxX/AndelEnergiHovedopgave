@@ -13,10 +13,9 @@ namespace AndelEnergiHovedopgave.Services
     public class ProductTypeService : IProductTypeService
     {
         private string _connectionString = Secret.ConnectionString;
-        string getAll = @"SELECT * FROM ProductArea";
-        string insert = @"INSERT INTO ProductArea (Type) VALUES (@Type)";
-        string insert_with_id = @"INSERT INTO ProductArea (Type,id) VALUES (@Type,@Id)";
-        string getById = @"SELECT * FROM ProductArea WHERE Id = @Id";
+        private string getAll = @"SELECT * FROM ProductArea";
+        private string insert = @"INSERT INTO ProductArea (Type) VALUES (@Type)";
+        private string getById = @"SELECT * FROM ProductArea WHERE Id = @Id";
 
         public List<ProductType> GetAll()
         {
@@ -58,28 +57,6 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     MySqlCommand command = new MySqlCommand(insert, connection);
                     command.Parameters.AddWithValue("@Type", productType.Type);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-                catch (MySqlException ex)
-                {
-                    throw new Exception($"Database error: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"An error occurred: {ex.Message}");
-                }
-            }
-        }
-        public void InsertWithId(ProductType productType)
-        {
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
-            {
-                try
-                {
-                    MySqlCommand command = new MySqlCommand(insert, connection);
-                    command.Parameters.AddWithValue("@Type", productType.Type);
-                    command.Parameters.AddWithValue("@Id", productType.Id);
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
