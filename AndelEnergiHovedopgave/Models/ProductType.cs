@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AndelEnergiHovedopgave.Models
 {
-    public class ProductType
+    public class ProductType 
     {
         public int Id { get; set; }
         public string Type { get; set; }
