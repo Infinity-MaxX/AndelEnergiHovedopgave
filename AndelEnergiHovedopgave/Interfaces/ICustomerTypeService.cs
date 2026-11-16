@@ -10,5 +10,7 @@ namespace AndelEnergiHovedopgave.Interfaces
         public List<CustomerType> GetAll();
         public CustomerType Insert(CustomerType customerType);
         public CustomerType GetById(int id);
+        public CustomerType GetByType(string type);
+        public CustomerType Delete(int id);
     }
 }

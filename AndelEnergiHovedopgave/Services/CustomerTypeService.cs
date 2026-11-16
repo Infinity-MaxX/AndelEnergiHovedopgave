@@ -13,7 +13,9 @@ namespace AndelEnergiHovedopgave.Services
         private string getAll = "SELECT * FROM CustomerType";
         private string insert = "INSERT INTO CustomerType (Type) VALUES (@Type)";
         private string getById = "SELECT * FROM CustomerType WHERE Id = @Id";
-     
+        private string getByType = "SELECT * FROM CustomerType WHERE Type = @Type";
+        private string deleteQuery = "DELETE FROM CustomerType WHERE Id = @Id";
+
 
         public List<CustomerType> GetAll()
         {
@@ -56,7 +58,7 @@ namespace AndelEnergiHovedopgave.Services
                 CustomerType foundCustomerType = new CustomerType();
                 try 
                 {
-                    using (MySqlCommand comand = new MySqlCommand(getById)) 
+                    using (MySqlCommand comand = new MySqlCommand(getById, connection)) 
                     {
                         comand.Parameters.AddWithValue("@Id", id);
                         connection.Open();
@@ -82,6 +84,39 @@ namespace AndelEnergiHovedopgave.Services
             }
             
         }
+        public CustomerType GetByType(string type)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                CustomerType foundCustomerType = new CustomerType();
+                try
+                {
+                    using (MySqlCommand comand = new MySqlCommand(getByType,connection))
+                    {
+                        comand.Parameters.AddWithValue("@Type", type);
+                        connection.Open();
+
+                        MySqlDataReader reader = comand.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            int foundId = reader.GetInt32("Id");
+                            string foundType = reader.GetString("Type");
+                            foundCustomerType = new CustomerType(foundId, foundType);
+                        }
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while retrieving customer type by ID: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while retrieving customer type by ID: {ex.Message}");
+                }
+                return foundCustomerType;
+            }
+
+        }
 
         public CustomerType Insert(CustomerType customerType)
         {
@@ -105,6 +140,32 @@ namespace AndelEnergiHovedopgave.Services
                     throw new Exception($"An error occurred while inserting customer type: {ex.Message}");
                 }
                 return customerType;
+            }
+        }
+
+        public CustomerType Delete(int id)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                CustomerType deletedCustomerType = GetById(id);
+                try
+                {
+                    using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while deleting customer type: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
+                }
+                return deletedCustomerType;
             }
         }
     }

@@ -11,4 +11,6 @@ namespace AndelEnergiHovedopgave.Interfaces
         public SalesChannel Insert(SalesChannel salesChannel);
         public SalesChannel GetById(int id);
 
+
     }
+}
