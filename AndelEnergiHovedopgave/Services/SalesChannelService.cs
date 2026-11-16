@@ -140,7 +140,7 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
-        public SalesChannel InsertWithID(SalesChannel salesChannel)
+        public SalesChannel InsertWithId(SalesChannel salesChannel)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionstring))
             {

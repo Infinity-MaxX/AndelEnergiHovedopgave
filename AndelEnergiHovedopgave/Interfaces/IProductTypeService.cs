@@ -9,8 +9,8 @@ namespace AndelEnergiHovedopgave.Interfaces
     public interface IProductTypeService
     {
         public List<ProductType> GetAll();
-        public void Insert(ProductType productType);
-        public ProductType InsertWithID(ProductType productType);
+        public ProductType Insert(ProductType productType);
+        public ProductType InsertWithId(ProductType productType);
         public ProductType GetById(int id);
         public ProductType GetByType(string type);
         public void Delete(int id);

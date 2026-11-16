@@ -144,7 +144,7 @@ namespace AndelEnergiHovedopgave.Services
                 return customerType;
             }
         }
-        public CustomerType InsertWithID(CustomerType customerType)
+        public CustomerType InsertWithId(CustomerType customerType)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {

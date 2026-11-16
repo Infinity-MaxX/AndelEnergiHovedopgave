@@ -11,33 +11,33 @@ public class TestSalesChannel
     public void GetAll()
     {
         //Arrange
-        ICustomerTypeService cts = new CustomerTypeService();
-        List<CustomerType> customerTypes = cts.GetAll();
+        ISalesChannelService cts = new SalesChannelService();
+        List<SalesChannel> salesChannels = cts.GetAll();
 
         //Act
-        int count = customerTypes.Count;
+        int count = salesChannels.Count;
 
         //Assert
-        Assert.IsNotEmpty(customerTypes);
+        Assert.IsNotEmpty(salesChannels);
     }
 
     [TestMethod]
     public void Insert()
     {
         //Arrange
-        ICustomerTypeService cts = new CustomerTypeService();
-        List<CustomerType> customerTypes = cts.GetAll();
-        CustomerType newCt = new CustomerType("TestCustomerType");
+        ISalesChannelService cts = new SalesChannelService();
+        List<SalesChannel> salesChannels = cts.GetAll();
+        SalesChannel newSc = new SalesChannel("TestSalesChannel");
 
         //Act
-        int countBeforeInsert = customerTypes.Count;
-        cts.Insert(newCt);
-        CustomerType foundCt = cts.GetByType("TestCustomerType");
+        int countBeforeInsert = salesChannels.Count;
+        cts.Insert(newSc);
+        SalesChannel foundSc = cts.GetByChannel("TestSalesChannel");
         int countAfterInsert = cts.GetAll().Count;
-        cts.Delete(foundCt.Id);
+        cts.Delete(foundSc.Id);
 
         //Assert
-        Assert.IsTrue(newCt.Type == foundCt.Type);
+        Assert.IsTrue(newSc.Channel == foundSc.Channel);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
     }
 
@@ -46,19 +46,19 @@ public class TestSalesChannel
     public void GetById()
     {
         //Arrange
-        ICustomerTypeService cts = new CustomerTypeService();
-        List<CustomerType> customerTypes = cts.GetAll();
-        CustomerType newCt = new CustomerType(5, "TestCustomerType");
+        ISalesChannelService cts = new SalesChannelService();
+        List<SalesChannel> salesChannels = cts.GetAll();
+        SalesChannel newSc = new SalesChannel(5, "TestSalesChannel");
 
         //Act
-        int countBeforeInsert = customerTypes.Count;
-        cts.InsertWithID(newCt);
-        CustomerType foundCt = cts.GetById(newCt.Id);
+        int countBeforeInsert = salesChannels.Count;
+        cts.InsertWithId(newSc);
+        SalesChannel foundSc = cts.GetById(newSc.Id);
         int countAfterInsert = cts.GetAll().Count;
-        cts.Delete(foundCt.Id);
+        cts.Delete(foundSc.Id);
 
         //Assert
-        Assert.IsTrue(newCt.Id == foundCt.Id);
+        Assert.IsTrue(newSc.Id == foundSc.Id);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
     }
 

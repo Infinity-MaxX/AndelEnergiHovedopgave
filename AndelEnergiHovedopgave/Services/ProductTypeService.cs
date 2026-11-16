@@ -52,7 +52,7 @@ namespace AndelEnergiHovedopgave.Services
 
             }
         }
-        public void Insert(ProductType productType)
+        public ProductType Insert(ProductType productType)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -71,6 +71,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred: {ex.Message}");
                 }
+                return productType;
             }
         }
         public ProductType InsertWithId(ProductType productType)

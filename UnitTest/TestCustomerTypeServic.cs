@@ -53,7 +53,7 @@
 
             //Act
             int countBeforeInsert = customerTypes.Count;
-            cts.InsertWithID(newCt);
+            cts.InsertWithId(newCt);
             CustomerType foundCt = cts.GetById(newCt.Id);
             int countAfterInsert = cts.GetAll().Count;
             cts.Delete(foundCt.Id);
