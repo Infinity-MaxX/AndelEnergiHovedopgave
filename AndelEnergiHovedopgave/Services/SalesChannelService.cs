@@ -82,7 +82,27 @@ namespace AndelEnergiHovedopgave.Services
 
         public SalesChannel Insert(SalesChannel salesChannel)
         {
-            throw new NotImplementedException();
+            using(MySqlConnection connection= new MySqlConnection(_connectionstring))
+            {
+                try
+                {
+                    using (MySqlCommand command = new MySqlCommand(insert, connection))
+                    {
+                        command.Parameters.AddWithValue("@Channel", salesChannel.Channel);
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred: {ex.Message}");
+                }
+                return salesChannel;
+            }
         }
     }
 }
