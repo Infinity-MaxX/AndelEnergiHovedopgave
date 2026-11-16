@@ -71,6 +71,28 @@ namespace AndelEnergiHovedopgave.Services
                 }
             }
         }
+        public void InsertWithId(ProductType productType)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(insert, connection);
+                    command.Parameters.AddWithValue("@Type", productType.Type);
+                    command.Parameters.AddWithValue("@Id", productType.Id);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred: {ex.Message}");
+                }
+            }
+        }
 
         public ProductType GetById(int id)
         {
