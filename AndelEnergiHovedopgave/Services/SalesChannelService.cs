@@ -3,6 +3,7 @@ using AndelEnergiHovedopgave.Models;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
 using System.Text;
 
 namespace AndelEnergiHovedopgave.Services
@@ -49,7 +50,34 @@ namespace AndelEnergiHovedopgave.Services
 
         public SalesChannel GetById(int id)
         {
-            throw new NotImplementedException();
+            using(MySqlConnection connection = new MySqlConnection(_connectionstring))
+            {
+                SalesChannel foundSalesChannel = new SalesChannel();
+                try
+                {
+                    using (MySqlCommand command = new MySqlCommand(getById, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+                        connection.Open();
+                        MySqlDataReader reader = command.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            int foundId = reader.GetInt32(0);
+                            string foundchannel = reader.GetString(1);
+                            foundSalesChannel = new SalesChannel(foundId, foundchannel);
+                        }
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred: {ex.Message}");
+                }
+                return foundSalesChannel;
+            }
         }
 
         public SalesChannel Insert(SalesChannel salesChannel)

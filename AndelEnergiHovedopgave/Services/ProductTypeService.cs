@@ -87,9 +87,9 @@ namespace AndelEnergiHovedopgave.Services
 
                     if (reader.Read())
                     {
-                        int productId = reader.GetInt32(0);
-                        string type = reader.GetString(1);
-                        foundProductType= new ProductType(productId, type);
+                        int foundId = reader.GetInt32(0);
+                        string foundtype = reader.GetString(1);
+                        foundProductType= new ProductType(foundId, foundtype);
                     }
                     connection.Close();
                 }

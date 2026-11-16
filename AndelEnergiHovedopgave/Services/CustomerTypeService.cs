@@ -64,9 +64,9 @@ namespace AndelEnergiHovedopgave.Services
                         MySqlDataReader reader = comand.ExecuteReader();
                         if (reader.Read()) 
                         {
-                            int customerId = reader.GetInt32("Id");
-                            string customerType= reader.GetString("Type");
-                            foundCustomerType= new CustomerType(customerId, customerType);
+                            int foundId = reader.GetInt32("Id");
+                            string foundType = reader.GetString("Type");
+                            foundCustomerType= new CustomerType(foundId, foundType);
                         }
                     }
                 }
