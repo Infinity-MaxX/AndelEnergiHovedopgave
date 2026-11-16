@@ -12,6 +12,7 @@ namespace AndelEnergiHovedopgave.Services
         private string _connectionString = Secret.ConnectionString;
         private string getAll = "SELECT * FROM CustomerType";
         private string insert = "INSERT INTO CustomerType (Type) VALUES (@Type)";
+        private string insertWithId = "INSERT INTO CustomerType (Type,Id) VALUES (@Type,@Id)";
         private string getById = "SELECT * FROM CustomerType WHERE Id = @Id";
         private string getByType = "SELECT * FROM CustomerType WHERE Type = @Type";
         private string deleteQuery = "DELETE FROM CustomerType WHERE Id = @Id";
@@ -127,6 +128,7 @@ namespace AndelEnergiHovedopgave.Services
                     using (MySqlCommand command = new MySqlCommand(insert, connection)) 
                     {
                         command.Parameters.AddWithValue("@Type", customerType.Type);
+
                         connection.Open();
                         command.ExecuteNonQuery();
                     }
@@ -142,8 +144,33 @@ namespace AndelEnergiHovedopgave.Services
                 return customerType;
             }
         }
+        public CustomerType InsertWithID(CustomerType customerType)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    using (MySqlCommand command = new MySqlCommand(insertWithId, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", customerType.Id);
+                        command.Parameters.AddWithValue("@Type", customerType.Type);
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while inserting customer type: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while inserting customer type: {ex.Message}");
+                }
+                return customerType;
+            }
+        }
 
-        public CustomerType Delete(int id)
+        public void Delete(int id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -165,7 +192,6 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
                 }
-                return deletedCustomerType;
             }
         }
     }

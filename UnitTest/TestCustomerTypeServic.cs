@@ -49,11 +49,18 @@
             //Arrange
             ICustomerTypeService cts = new CustomerTypeService();
             List<CustomerType> customerTypes = cts.GetAll();
-            bool i = true;
+            CustomerType newCt = new CustomerType(5,"TestCustomerType");
+
             //Act
+            int countBeforeInsert = customerTypes.Count;
+            cts.InsertWithID(newCt);
+            CustomerType foundCt = cts.GetById(newCt.Id);
+            int countAfterInsert = cts.GetAll().Count;
+            cts.Delete(foundCt.Id);
 
             //Assert
-            Assert.IsTrue(i);
+            Assert.IsTrue(newCt.Id == foundCt.Id);
+            Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
         }
 
     }

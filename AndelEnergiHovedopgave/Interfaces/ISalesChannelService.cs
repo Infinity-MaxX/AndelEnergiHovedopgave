@@ -9,7 +9,10 @@ namespace AndelEnergiHovedopgave.Interfaces
     {
         public List<SalesChannel> GetAll();
         public SalesChannel Insert(SalesChannel salesChannel);
+        public SalesChannel InsertWithID(SalesChannel salesChannel);
         public SalesChannel GetById(int id);
+        public SalesChannel GetByChannel(string type);
+        public void Delete(int id);
 
 
     }
