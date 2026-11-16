@@ -13,7 +13,7 @@ namespace AndelEnergiHovedopgave.Services
         private string getAll = "SELECT * FROM CustomerType";
         private string insert = "INSERT INTO CustomerType (Type) VALUES (@Type)";
         private string getById = "SELECT * FROM CustomerType WHERE Id = @Id";
-      
+     
 
         public List<CustomerType> GetAll()
         {
