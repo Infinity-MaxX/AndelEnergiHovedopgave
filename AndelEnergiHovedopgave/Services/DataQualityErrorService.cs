@@ -6,7 +6,11 @@ namespace AndelEnergiHovedopgave.Services
 {
     public class DataQualityErrorService
     {
-        // Notes: 
+        // Notes: Accuracy is important to ensure that the data is correct and
+        // free from errors. This can be achieved through a STATISTICAL MODEL that
+        // checks for outliers and other anomalies in the data. If any errors are
+        // found,they should be LOGGED AND REPORTED to the appropriate parties for
+        // correction.
 
         // Notes: Completeness is important to ensure that all required data is
         // present. NULL values would need to be CHECKED FOR IN EACH COLUMN in the
