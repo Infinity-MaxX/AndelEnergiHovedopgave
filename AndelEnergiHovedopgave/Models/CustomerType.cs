@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace AndelEnergiHovedopgave.Models
 {
     public class CustomerType
     {
+        [JsonPropertyName("CustomerTypeId")]
         public int Id { get; set; }
+        [JsonPropertyName("CustomerType")]
         public string Type { get; set; }
 
         public CustomerType()
