@@ -19,6 +19,7 @@ namespace AndelEnergiHovedopgave.Services
         private string getById = @"SELECT * FROM ProductArea WHERE Id = @Id";
         private string getByType = @"SELECT * FROM ProductArea WHERE Type = @Type";
         private string delete = @"DELETE FROM ProductArea WHERE Id = @Id";
+        private string existsByType =@"SELECT COUNT(*) FROM ProductArea WHERE Type = @Type";
 
         public List<ProductType> GetAll()
         {
@@ -54,6 +55,11 @@ namespace AndelEnergiHovedopgave.Services
         }
         public ProductType Insert(ProductType productType)
         {
+            if (ProductTypeExists(productType))
+            {
+                return productType;
+            }
+
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
@@ -76,6 +82,10 @@ namespace AndelEnergiHovedopgave.Services
         }
         public ProductType InsertWithId(ProductType productType)
         {
+            if (ProductTypeExists(productType))
+            {
+                return productType;
+            }
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
@@ -185,6 +195,30 @@ namespace AndelEnergiHovedopgave.Services
                 catch (Exception ex)
                 {
                     throw new Exception($"An error occurred: {ex.Message}");
+                }
+            }
+        }
+
+        public bool ProductTypeExists(ProductType productType)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    MySqlCommand command =new MySqlCommand(existsByType, connection);
+
+                    command.Parameters.AddWithValue("@Type",productType.Type);
+
+                    connection.Open();
+
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+
+                    return count > 0;
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception(
+                        $"Database error: {ex.Message}");
                 }
             }
         }

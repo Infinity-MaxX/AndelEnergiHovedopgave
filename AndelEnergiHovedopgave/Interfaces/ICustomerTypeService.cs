@@ -13,5 +13,7 @@ namespace AndelEnergiHovedopgave.Interfaces
         public CustomerType GetById(int id);
         public CustomerType GetByType(string type);
         public void Delete(int id);
+        public bool CustomerTypeTypeExists(CustomerType customerType);
+
     }
 }

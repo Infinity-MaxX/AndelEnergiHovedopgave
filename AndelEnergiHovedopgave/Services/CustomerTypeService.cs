@@ -16,6 +16,7 @@ namespace AndelEnergiHovedopgave.Services
         private string getById = "SELECT * FROM CustomerType WHERE Id = @Id";
         private string getByType = "SELECT * FROM CustomerType WHERE Type = @Type";
         private string deleteQuery = "DELETE FROM CustomerType WHERE Id = @Id";
+        private string existsCustomerType = "SELECT COUNT(*) FROM CustomerType WHERE Type = @Type";
 
 
         public List<CustomerType> GetAll()
@@ -121,7 +122,11 @@ namespace AndelEnergiHovedopgave.Services
 
         public CustomerType Insert(CustomerType customerType)
         {
-            using(MySqlConnection connection = new MySqlConnection(_connectionString))
+            if(CustomerTypeTypeExists(customerType))
+            {
+                return customerType;
+            }
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try 
                 { 
@@ -146,6 +151,10 @@ namespace AndelEnergiHovedopgave.Services
         }
         public CustomerType InsertWithId(CustomerType customerType)
         {
+            if(CustomerTypeTypeExists(customerType))
+            {
+                return customerType;
+            }
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
@@ -191,6 +200,31 @@ namespace AndelEnergiHovedopgave.Services
                 catch (Exception ex)
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
+                }
+            }
+        }
+
+        public bool CustomerTypeTypeExists(CustomerType customerType)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try 
+                {
+                    using (MySqlCommand command= new MySqlCommand(existsCustomerType, connection))
+                    {
+                        command.Parameters.AddWithValue("@Type", customerType.Type);
+                        connection.Open();
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        return count > 0;
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while checking if customer type exists: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while checking if customer type exists: {ex.Message}");
                 }
             }
         }

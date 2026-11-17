@@ -13,5 +13,7 @@ namespace AndelEnergiHovedopgave.Interfaces
         public SalesChannel GetById(int id);
         public SalesChannel GetByChannel(string type);
         public void Delete(int id);
+        public bool SalesChannelTypeExists(SalesChannel salesChannel);
+
     }
 }
