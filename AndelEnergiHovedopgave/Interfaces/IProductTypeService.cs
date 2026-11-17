@@ -14,6 +14,5 @@ namespace AndelEnergiHovedopgave.Interfaces
         public ProductType GetById(int id);
         public ProductType GetByType(string type);
         public void Delete(int id);
-
     }
 }
