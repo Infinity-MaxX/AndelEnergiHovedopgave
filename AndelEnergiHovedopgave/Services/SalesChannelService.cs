@@ -20,7 +20,6 @@ namespace AndelEnergiHovedopgave.Services
         private string existsByType = @"SELECT COUNT(*) FROM SalesChannel WHERE Channel=@Channel";
 
 
-
         public List<SalesChannel> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionstring))
