@@ -17,6 +17,8 @@ namespace AndelEnergiHovedopgave.Services
         private string getByChannel = @"SELECT * FROM SalesChannel WHERE Channel=@Channel";
         private string getById = @"SELECT * FROM SalesChannel WHERE Id=@Id";
         private string delete = @"DELETE FROM SalesChannel WHERE Id=@Id";
+        private string existsByType = @"SELECT COUNT(*) FROM SalesChannel WHERE Channel=@Channel";
+
 
 
         public List<SalesChannel> GetAll()
@@ -117,7 +119,11 @@ namespace AndelEnergiHovedopgave.Services
 
         public SalesChannel Insert(SalesChannel salesChannel)
         {
-            using(MySqlConnection connection= new MySqlConnection(_connectionstring))
+            if(SalesChannelTypeExists(salesChannel))
+            {
+                return salesChannel;
+            }
+            using (MySqlConnection connection= new MySqlConnection(_connectionstring))
             {
                 try
                 {
@@ -142,6 +148,10 @@ namespace AndelEnergiHovedopgave.Services
 
         public SalesChannel InsertWithId(SalesChannel salesChannel)
         {
+            if(SalesChannelTypeExists(salesChannel))
+            {
+                return salesChannel;
+            }
             using (MySqlConnection connection = new MySqlConnection(_connectionstring))
             {
                 try
@@ -177,6 +187,31 @@ namespace AndelEnergiHovedopgave.Services
                         command.Parameters.AddWithValue("@Id", id);
                         connection.Open();
                         command.ExecuteNonQuery();
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred: {ex.Message}");
+                }
+            }
+        }
+
+        public bool SalesChannelTypeExists(SalesChannel salesChannel)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionstring))
+            {
+                try
+                {
+                    using (MySqlCommand command = new MySqlCommand(existsByType, connection))
+                    {
+                        command.Parameters.AddWithValue("@Channel", salesChannel.Channel);
+                        connection.Open();
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        return count > 0;
                     }
                 }
                 catch (MySqlException ex)

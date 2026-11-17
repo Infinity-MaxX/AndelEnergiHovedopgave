@@ -15,6 +15,9 @@ ImportService importService = new ImportService();
 MySqlConnection connection = new MySqlConnection(Secret.ConnectionString);
 connection.Open();
 
+//
+string path = "C:\\Users\\johan\\OneDrive\\Skrivebord\\HovedopgaveAndelEnergiMockData\\Product.txt";
+
 //________________Import af ProductType fra JSON fil____________________
 List<ProductType> productTypes =importService.ReadJasonFromFile<ProductType>(path);
 
