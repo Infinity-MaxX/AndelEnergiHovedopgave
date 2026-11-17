@@ -28,12 +28,12 @@
             //Arrange
             ICustomerTypeService cts = new CustomerTypeService();
             List<CustomerType> customerTypes = cts.GetAll();
-            CustomerType newCt = new CustomerType("TestCustomerType");
+            CustomerType newCt = new CustomerType("TestCustomerTypeInsert");
 
             //Act
             int countBeforeInsert = customerTypes.Count;
             cts.Insert(newCt);
-            CustomerType foundCt= cts.GetByType("TestCustomerType");
+            CustomerType foundCt= cts.GetByType("TestCustomerTypeInsert");
             int countAfterInsert = cts.GetAll().Count;
             cts.Delete(foundCt.Id);
 
@@ -49,7 +49,7 @@
             //Arrange
             ICustomerTypeService cts = new CustomerTypeService();
             List<CustomerType> customerTypes = cts.GetAll();
-            CustomerType newCt = new CustomerType(5,"TestCustomerType");
+            CustomerType newCt = new CustomerType(5,"TestCustomerTypeGetById");
 
             //Act
             int countBeforeInsert = customerTypes.Count;

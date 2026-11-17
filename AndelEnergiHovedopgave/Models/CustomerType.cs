@@ -26,5 +26,10 @@ namespace AndelEnergiHovedopgave.Models
             Id = id;
             Type = type;
         }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Type: {Type}";
+        }
     }
 }

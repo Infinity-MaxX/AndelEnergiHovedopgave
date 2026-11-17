@@ -10,7 +10,7 @@ namespace AndelEnergiHovedopgave.Models
     {
         [JsonPropertyName("SalesChannelId")]
         public int Id { get; set; }
-        [JsonPropertyName("SalesChanne")]
+        [JsonPropertyName("SalesChannel")]
         public string Channel { get; set; }
 
         public SalesChannel()
@@ -25,6 +25,11 @@ namespace AndelEnergiHovedopgave.Models
         {
             Id = id;
             Channel = channel;
+        }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Channel: {Channel}";
         }
     }
 }

@@ -12,7 +12,8 @@ namespace AndelEnergiHovedopgave.Services
             string jason=File.ReadAllText(filePath);
 
             List<T> importedObjects = JsonSerializer.Deserialize<List<T>>(jason);
-            
+
+
             return importedObjects;
 
         }
