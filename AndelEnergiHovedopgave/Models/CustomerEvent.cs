@@ -11,6 +11,8 @@ namespace AndelEnergiHovedopgave.Models
         public CustomerType CustomerType { get; set; }
         public ProductType ProductType { get; set; }
         public SalesChannel SalesChannel { get; set; }
+        public string EventReason { get; set; }
+        public int Count { get; set; }
 
         public CustomerEvent()
         {
