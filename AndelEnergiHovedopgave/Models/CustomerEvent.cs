@@ -15,7 +15,7 @@ namespace AndelEnergiHovedopgave.Models
         public CustomerType CustomerType { get; set; }
         
         [JsonPropertyName("ProductAreaId")]
-        public ProductType ProductType { get; set; }
+        public ProductArea ProductArea { get; set; }
         
         [JsonPropertyName("SalesChannelId")]
         public SalesChannel SalesChannel { get; set; }
@@ -30,25 +30,25 @@ namespace AndelEnergiHovedopgave.Models
         {
             
         }
-        public CustomerEvent(DateTime dateOfEvent, CustomerType customerType, ProductType productType, SalesChannel salesChannel)
+        public CustomerEvent(DateTime dateOfEvent, CustomerType customerType, ProductArea ProductArea, SalesChannel salesChannel)
         {
             DateOfEvent = dateOfEvent;
             CustomerType = customerType;
-            ProductType = productType;
+            ProductArea = ProductArea;
             SalesChannel = salesChannel;
         }
-        public CustomerEvent(int id, DateTime dateOfEvent, CustomerType customerType, ProductType productType, SalesChannel salesChannel)
+        public CustomerEvent(int id, DateTime dateOfEvent, CustomerType customerType, ProductArea ProductArea, SalesChannel salesChannel)
         {
             Id = id;
             DateOfEvent = dateOfEvent;
             CustomerType = customerType;
-            ProductType = productType;
+            ProductArea = ProductArea;
             SalesChannel = salesChannel;
         }
 
         public override string ToString()
         {
-            return $"Id: {Id}, DateOfEvent: {DateOfEvent}, CustomerType: {CustomerType.Type}, ProductType: {ProductType.Type}, SalesChannel: {SalesChannel.Channel}";
+            return $"Id: {Id}, DateOfEvent: {DateOfEvent}, CustomerType: {CustomerType.Type}, ProductArea: {ProductArea.Area}, SalesChannel: {SalesChannel.Channel}";
         }
 
     }

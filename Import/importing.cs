@@ -7,7 +7,7 @@ using AndelEnergiHovedopgave.Interfaces;
 
 //Import af services
 ICustomerTypeService customerTypeService = new CustomerTypeService();
-IProductTypeService productTypeService = new ProductTypeService();
+IProductAreaService ProductAreaService = new ProductAreaService();
 ISalesChannelService salesChannelService = new SalesChannelService();
 ImportService importService = new ImportService();
 
@@ -18,13 +18,13 @@ connection.Open();
 //
 string path = "C:\\Users\\johan\\OneDrive\\Skrivebord\\HovedopgaveAndelEnergiMockData\\Product.txt";
 
-//________________Import af ProductType fra JSON fil____________________
-List<ProductType> productTypes =importService.ReadJasonFromFile<ProductType>(path);
+//________________Import af ProductArea fra JSON fil____________________
+List<ProductArea> ProductAreas =importService.ReadJasonFromFile<ProductArea>(path);
 
-foreach(ProductType p in productTypes) 
+foreach(ProductArea p in ProductAreas) 
 {
     Console.WriteLine(p.ToString());
-    //productTypeService.InsertWithId(p);
+    ProductAreaService.InsertWithId(p);
 }
 
 //________________Import af CustomerType fra JSON fil____________________

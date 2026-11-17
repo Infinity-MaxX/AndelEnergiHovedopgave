@@ -5,31 +5,31 @@ using System.Text.Json.Serialization;
 
 namespace AndelEnergiHovedopgave.Models
 {
-    public class ProductType 
+    public class ProductArea 
     {
         [JsonPropertyName("ProductAreaId")]
         public int Id { get; set; }
         [JsonPropertyName("ProductArea")]
-        public string Type { get; set; }
+        public string Area { get; set; }
 
-        public ProductType()
+        public ProductArea()
         {
             
         }
-        public ProductType(string type)
+        public ProductArea(string area)
         {
-            Type = type;
+            Area = area;
         }
 
-        public ProductType(int id, string type)
+        public ProductArea(int id, string area)
         {
             Id = id;
-            Type = type;
+            Area = area;
         }
 
         public override string ToString()
         {
-            return $"Id: {Id}, Type: {Type}";
+            return $"Id: {Id}, Area: {Area}";
         }
     }
 }

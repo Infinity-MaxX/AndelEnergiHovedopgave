@@ -10,22 +10,22 @@ using System.Text;
 
 namespace AndelEnergiHovedopgave.Services
 {
-    public class ProductTypeService : IProductTypeService
+    public class ProductAreaService : IProductAreaService
     {
         private string _connectionString = Secret.ConnectionString;
         private string getAll = @"SELECT * FROM ProductArea";
-        private string insert = @"INSERT INTO ProductArea (Type) VALUES (@Type)";
-        private string insertWithId = @"INSERT INTO ProductArea (Id, Type) VALUES (@Id, @Type)";
+        private string insert = @"INSERT INTO ProductArea (Area) VALUES (@Area)";
+        private string insertWithId = @"INSERT INTO ProductArea (Id, Area) VALUES (@Id, @Area)";
         private string getById = @"SELECT * FROM ProductArea WHERE Id = @Id";
-        private string getByType = @"SELECT * FROM ProductArea WHERE Type = @Type";
+        private string getByArea = @"SELECT * FROM ProductArea WHERE Area = @Area";
         private string delete = @"DELETE FROM ProductArea WHERE Id = @Id";
-        private string existsByType =@"SELECT COUNT(*) FROM ProductArea WHERE Type = @Type";
+        private string existsByArea =@"SELECT COUNT(*) FROM ProductArea WHERE Area = @Area";
 
-        public List<ProductType> GetAll()
+        public List<ProductArea> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                List<ProductType> productTypes = new List<ProductType>();
+                List<ProductArea> productAreas = new List<ProductArea>();
                 try
                 {
                     MySqlCommand command = new MySqlCommand(getAll, connection);
@@ -35,9 +35,9 @@ namespace AndelEnergiHovedopgave.Services
                     while (reader.Read())
                     {
                         int id = reader.GetInt32(0);
-                        string type = reader.GetString(1);
-                        ProductType productType = new ProductType(id, type);
-                        productTypes.Add(productType);
+                        string Area = reader.GetString(1);
+                        ProductArea productArea = new ProductArea(id, Area);
+                        productAreas.Add(productArea);
                     }
                 }
                 catch (MySqlException ex)
@@ -48,16 +48,16 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred: {ex.Message}");
                 }
-                return productTypes;
+                return productAreas;
 
 
             }
         }
-        public ProductType Insert(ProductType productType)
+        public ProductArea Insert(ProductArea productArea)
         {
-            if (ProductTypeExists(productType))
+            if (ProductAreaExists(productArea))
             {
-                return productType;
+                return productArea;
             }
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -65,7 +65,7 @@ namespace AndelEnergiHovedopgave.Services
                 try
                 {
                     MySqlCommand command = new MySqlCommand(insert, connection);
-                    command.Parameters.AddWithValue("@Type", productType.Type);
+                    command.Parameters.AddWithValue("@Area", productArea.Area);
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
@@ -77,22 +77,22 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred: {ex.Message}");
                 }
-                return productType;
+                return productArea;
             }
         }
-        public ProductType InsertWithId(ProductType productType)
+        public ProductArea InsertWithId(ProductArea productArea)
         {
-            if (ProductTypeExists(productType))
+            if (ProductAreaExists(productArea))
             {
-                return productType;
+                return productArea;
             }
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {
                     MySqlCommand command = new MySqlCommand(insertWithId, connection);
-                    command.Parameters.AddWithValue("@Id",productType.Id);
-                    command.Parameters.AddWithValue("@Type", productType.Type);
+                    command.Parameters.AddWithValue("@Id",productArea.Id);
+                    command.Parameters.AddWithValue("@Area", productArea.Area);
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
@@ -105,14 +105,14 @@ namespace AndelEnergiHovedopgave.Services
                     throw new Exception($"An error occurred: {ex.Message}");
                 }
             }
-            return productType;
+            return productArea;
         }
 
-        public ProductType GetById(int id)
+        public ProductArea GetById(int id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                ProductType foundProductType = null;
+                ProductArea foundProductArea = null;
                 try
                 {
                     MySqlCommand command = new MySqlCommand(getById, connection);
@@ -125,8 +125,8 @@ namespace AndelEnergiHovedopgave.Services
                     if (reader.Read())
                     {
                         int foundId = reader.GetInt32(0);
-                        string foundtype = reader.GetString(1);
-                        foundProductType= new ProductType(foundId, foundtype);
+                        string foundArea = reader.GetString(1);
+                        foundProductArea= new ProductArea(foundId, foundArea);
                     }
                     connection.Close();
                 }
@@ -138,20 +138,20 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred: {ex.Message}");
                 }
-                return foundProductType;
+                return foundProductArea;
 
             }
         }
 
-        public ProductType GetByType(string type)
+        public ProductArea GetByArea(string Area)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                ProductType foundProductType = null;
+                ProductArea foundProductArea = null;
                 try
                 {
-                    MySqlCommand command = new MySqlCommand(getByType, connection);
-                    command.Parameters.AddWithValue("@Type", type);
+                    MySqlCommand command = new MySqlCommand(getByArea, connection);
+                    command.Parameters.AddWithValue("@Area", Area);
 
                     connection.Open();
 
@@ -160,8 +160,8 @@ namespace AndelEnergiHovedopgave.Services
                     if (reader.Read())
                     {
                         int foundId = reader.GetInt32(0);
-                        string foundtype = reader.GetString(1);
-                        foundProductType = new ProductType(foundId, foundtype);
+                        string foundArea = reader.GetString(1);
+                        foundProductArea = new ProductArea(foundId, foundArea);
                     }
                     connection.Close();
                 }
@@ -173,7 +173,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred: {ex.Message}");
                 }
-                return foundProductType;
+                return foundProductArea;
             }
         }
 
@@ -199,15 +199,15 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
-        public bool ProductTypeExists(ProductType productType)
+        public bool ProductAreaExists(ProductArea productArea)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {
-                    MySqlCommand command =new MySqlCommand(existsByType, connection);
+                    MySqlCommand command =new MySqlCommand(existsByArea, connection);
 
-                    command.Parameters.AddWithValue("@Type",productType.Type);
+                    command.Parameters.AddWithValue("@Area",productArea.Area);
 
                     connection.Open();
 
