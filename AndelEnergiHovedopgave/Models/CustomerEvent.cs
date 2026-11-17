@@ -32,5 +32,10 @@ namespace AndelEnergiHovedopgave.Models
             SalesChannel = salesChannel;
         }
 
+        public override string ToString()
+        {
+            return $"Id: {Id}, DateOfEvent: {DateOfEvent}, CustomerType: {CustomerType.Type}, ProductType: {ProductType.Type}, SalesChannel: {SalesChannel.Channel}";
+        }
+
     }
 }
