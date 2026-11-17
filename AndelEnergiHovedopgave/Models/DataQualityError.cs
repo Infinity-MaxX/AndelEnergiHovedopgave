@@ -32,9 +32,7 @@ namespace AndelEnergiHovedopgave.Models
 
         #region Constructor
         // base constructor
-        public DataQualityError()
-        {
-        }
+        public DataQualityError() { }
 
         // parameterized constructor
         public DataQualityError(int errorType, string errorSeverity, DateTime registrationDate)
