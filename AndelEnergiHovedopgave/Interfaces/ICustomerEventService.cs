@@ -11,10 +11,10 @@ namespace AndelEnergiHovedopgave.Interfaces
         public CustomerEvent Insert(CustomerEvent customerEvent);
         public CustomerEvent GetById(int id);
 
-        public CustomerEvent GetByCustomerType(string customerType);
-        public CustomerEvent GetByDate(DateTime month);
-        public CustomerEvent GetByReason(string reason);
-        public CustomerEvent GetBySalesChannel(string salesChannel);
+        public List<CustomerEvent> GetByCustomerType(string customerType);
+        public List<CustomerEvent> GetByDate(DateTime month);
+        public List<CustomerEvent> GetByReason(string reason);
+        public List<CustomerEvent> GetBySalesChannel(string salesChannel);
         public void Delete(int id);
         public bool CustomerEventExists(CustomerEvent customerEvent);
 
