@@ -7,22 +7,12 @@ namespace AndelEnergiHovedopgave.Models
     public class DataQualityError
     {
         #region Instance fields
-        private int _errorType;
-        private string _errorSeverity;
         private DateTime _registrationDate;
         #endregion
 
         #region Properties
-        public int ErrorType
-        {
-            get { return _errorType; }
-            set { _errorType = value; }
-        }
-        public string ErrorSeverity
-        {
-            get { return _errorSeverity; }
-            set { _errorSeverity = value; }
-        }
+        public int ErrorType { get; set; }
+        public string ErrorSeverity { get; set; }
         public DateTime RegistrationDate
         {
             get { return _registrationDate; }
@@ -37,8 +27,8 @@ namespace AndelEnergiHovedopgave.Models
         // parameterized constructor
         public DataQualityError(int errorType, string errorSeverity, DateTime registrationDate)
         {
-            _errorType = errorType;
-            _errorSeverity = errorSeverity;
+            ErrorType = errorType;
+            ErrorSeverity = errorSeverity;
             _registrationDate = registrationDate;
         }
         #endregion
