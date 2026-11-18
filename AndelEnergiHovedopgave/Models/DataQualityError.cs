@@ -12,7 +12,8 @@ namespace AndelEnergiHovedopgave.Models
 
         #region Properties
         public int Id { get; set; }
-        public int ErrorType { get; set; }
+        public int CustomerEventId { get; set; }
+        public string ErrorType { get; set; }
         public string ErrorSeverity { get; set; }
         public DateTime RegistrationDate
         {
@@ -26,8 +27,25 @@ namespace AndelEnergiHovedopgave.Models
         public DataQualityError() { }
 
         // parameterized constructor
-        public DataQualityError(int errorType, string errorSeverity, DateTime registrationDate)
+        public DataQualityError(string errorType, string errorSeverity, DateTime registrationDate)
         {
+            ErrorType = errorType;
+            ErrorSeverity = errorSeverity;
+            _registrationDate = registrationDate;
+        }
+
+        public DataQualityError(int customerEventId, string errorType, string errorSeverity, DateTime registrationDate)
+        {
+            CustomerEventId = customerEventId;
+            ErrorType = errorType;
+            ErrorSeverity = errorSeverity;
+            _registrationDate = registrationDate;
+        }
+
+        public DataQualityError(int id, int customerEventId, string errorType, string errorSeverity, DateTime registrationDate)
+        {
+            Id = id;
+            CustomerEventId = customerEventId;
             ErrorType = errorType;
             ErrorSeverity = errorSeverity;
             _registrationDate = registrationDate;

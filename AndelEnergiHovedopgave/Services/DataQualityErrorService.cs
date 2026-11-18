@@ -85,7 +85,7 @@ namespace AndelEnergiHovedopgave.Services
             throw new NotImplementedException();
         }
 
-        public DataQualityError GetByType(int errorType)
+        public DataQualityError GetByType(string errorType)
         {
             throw new NotImplementedException();
         }
