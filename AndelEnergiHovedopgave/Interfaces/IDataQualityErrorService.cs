@@ -11,7 +11,7 @@ namespace AndelEnergiHovedopgave.Interfaces
         public List<DataQualityError> GetAll();
         public List<DataQualityError> GetByDate(DateTime date);
         public DataQualityError GetById(int id);
-        public DataQualityError GetByType(string errorType);
+        public List<DataQualityError> GetByType(string errorType);
         public DataQualityError Insert(DataQualityError error);
     }
 }
