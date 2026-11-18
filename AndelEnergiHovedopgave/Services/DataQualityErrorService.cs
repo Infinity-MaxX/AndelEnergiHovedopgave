@@ -55,11 +55,11 @@ namespace AndelEnergiHovedopgave.Services
         #endregion
 
         #region SQL Queries
-        private string deleteQuery = "DELETE FROM DataQualityError WHERE Id = @Id";
-        private string getAll = "SELECT * FROM DataQualityError";
-        private string getByDate = "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
-        private string getById = "SELECT * FROM DataQualityError WHERE Id = @Id";
-        private string insert = "INSERT INTO DataQualityError(Id, ErrorType, ErrorSeverity, RegistrationDate)" +
+        private string deleteSQL = "DELETE FROM DataQualityError WHERE Id = @Id";
+        private string getAllSQL = "SELECT * FROM DataQualityError";
+        private string getByDateSQL = "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
+        private string getByIdSQL = "SELECT * FROM DataQualityError WHERE Id = @Id";
+        private string insertSQL = "INSERT INTO DataQualityError(Id, ErrorType, ErrorSeverity, RegistrationDate)" +
                                 "VALUES(@Id, @ErrorType, @ErrorSeverity, @RegistrationDate)";
         #endregion
 
@@ -70,7 +70,7 @@ namespace AndelEnergiHovedopgave.Services
             {
                 try
                 {
-                    MySqlCommand command = new MySqlCommand(deleteQuery, connection);
+                    MySqlCommand command = new MySqlCommand(deleteSQL, connection);
                     command.Parameters.AddWithValue("@Id", id);
                     connection.OpenAsync();
                     command.ExecuteNonQuery();
@@ -94,7 +94,7 @@ namespace AndelEnergiHovedopgave.Services
             {
                 try
                 {
-                    MySqlCommand command = new MySqlCommand(deleteQuery, connection);
+                    MySqlCommand command = new MySqlCommand(getAllSQL, connection);
                     connection.OpenAsync();
 
                     MySqlDataReader reader = command.ExecuteReader();
