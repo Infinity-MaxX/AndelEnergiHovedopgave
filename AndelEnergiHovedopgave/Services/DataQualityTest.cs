@@ -11,6 +11,11 @@ namespace AndelEnergiHovedopgave.Services
     /// </summary>
     public class DataQualityTest : IDataQualityTest
     {
+        #region Instance Field
+        private List<CustomerEvent> _customerEvents;
+        #endregion
+
+        #region Methods
         public List<CustomerEvent> DataFreshness(DataQualityError customerEvents)
         {
             throw new NotImplementedException();
@@ -20,5 +25,6 @@ namespace AndelEnergiHovedopgave.Services
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

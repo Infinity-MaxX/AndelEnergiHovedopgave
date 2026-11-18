@@ -11,6 +11,7 @@ namespace AndelEnergiHovedopgave.Models
         #endregion
 
         #region Properties
+        public int Id { get; set; }
         public int ErrorType { get; set; }
         public string ErrorSeverity { get; set; }
         public DateTime RegistrationDate
