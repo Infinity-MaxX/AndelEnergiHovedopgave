@@ -19,6 +19,8 @@ public class TestSalesChannel
 
         //Assert
         Assert.IsNotEmpty(salesChannels);
+        Assert.IsTrue(count > 0);
+
     }
 
     [TestMethod]

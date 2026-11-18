@@ -20,6 +20,7 @@
 
             //Assert
             Assert.IsNotEmpty(customerTypes);
+            Assert.IsTrue(count > 0);
         }
 
         [TestMethod]

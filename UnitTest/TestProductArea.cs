@@ -19,6 +19,8 @@ public class TestProductArea
 
         //Assert
         Assert.IsNotEmpty(productAreas);
+        Assert.IsTrue(count > 0);
+
     }
 
     [TestMethod]
