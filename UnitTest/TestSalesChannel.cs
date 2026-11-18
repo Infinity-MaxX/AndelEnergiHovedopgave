@@ -48,7 +48,7 @@ public class TestSalesChannel
         //Arrange
         ISalesChannelService cts = new SalesChannelService();
         List<SalesChannel> salesChannels = cts.GetAll();
-        SalesChannel newSc = new SalesChannel(5, "TestSalesChannelGetById");
+        SalesChannel newSc = new SalesChannel(55, "TestSalesChannelGetById");
 
         //Act
         int countBeforeInsert = salesChannels.Count;
