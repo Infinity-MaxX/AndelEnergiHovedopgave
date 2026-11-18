@@ -1,5 +1,6 @@
 ﻿using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
+using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -62,11 +63,26 @@ namespace AndelEnergiHovedopgave.Services
         #endregion
 
         #region Methods
-        public void Delete(DataQualityError error)
+        public void Delete(int id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(deleteQuery, connection);
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.OpenAsync();
+                    command.ExecuteNonQuery();
+                }
+                catch(MySqlException sqlEx)
+                {
+                    throw new Exception($"Database error occurred while deleting customer type: {sqlEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
+                }
+                finally { connection.CloseAsync(); }
             }
         }
 
