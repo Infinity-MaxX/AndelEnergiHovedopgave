@@ -7,9 +7,27 @@ namespace AndelEnergiHovedopgave.Models
 {
     public class CustomerEvent
     {
+        private DateTime _dateOfEvent;
+
         public int Id { get; set; }
         [JsonPropertyName("Month")]
-        public DateTime DateOfEvent { get; set; }
+
+        public DateTime DateOfEvent 
+        {
+            get {return _dateOfEvent; }
+            set 
+            { 
+                if(value.Day != 1) 
+                {
+                    throw new ArgumentException("DateOfEvent must be the first day of the month.");
+                }
+                else
+                {
+                    _dateOfEvent = value;
+                } 
+ 
+            }
+        }
 
         [JsonPropertyName("CustomerTypeId")]
         public CustomerType CustomerType { get; set; }
@@ -32,6 +50,7 @@ namespace AndelEnergiHovedopgave.Models
         }
         public CustomerEvent(DateTime dateOfEvent, CustomerType customerType, ProductArea ProductArea, SalesChannel salesChannel)
         {
+
             DateOfEvent = dateOfEvent;
             CustomerType = customerType;
             ProductArea = ProductArea;
