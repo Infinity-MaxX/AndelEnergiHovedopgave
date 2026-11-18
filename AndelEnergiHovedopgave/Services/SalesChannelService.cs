@@ -120,7 +120,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if(SalesChannelTypeExists(salesChannel))
             {
-                return salesChannel;
+                throw new Exception($"SalesChannel '{salesChannel.Channel}' already exists.");
             }
             using (MySqlConnection connection= new MySqlConnection(_connectionstring))
             {
@@ -149,7 +149,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if(SalesChannelTypeExists(salesChannel))
             {
-                return salesChannel;
+                throw new Exception($"SalesChannel '{salesChannel.Channel}' already exists.");
             }
             using (MySqlConnection connection = new MySqlConnection(_connectionstring))
             {

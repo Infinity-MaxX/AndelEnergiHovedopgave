@@ -124,7 +124,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if(CustomerTypeTypeExists(customerType))
             {
-                return customerType;
+                throw new Exception($"Customer type '{customerType.Type}' already exists.");
             }
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {

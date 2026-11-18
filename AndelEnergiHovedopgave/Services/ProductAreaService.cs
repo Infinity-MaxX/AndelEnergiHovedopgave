@@ -57,7 +57,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if (ProductAreaExists(productArea))
             {
-                return productArea;
+                throw new Exception($"Productarea '{productArea.Area}' already exists.");
             }
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -84,7 +84,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if (ProductAreaExists(productArea))
             {
-                return productArea;
+                throw new Exception($"Productarea '{productArea.Area}' already exists.");
             }
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
