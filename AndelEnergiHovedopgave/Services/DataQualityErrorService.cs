@@ -1,11 +1,17 @@
 ﻿using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AndelEnergiHovedopgave.Services
 {
+    /// <summary>
+    /// Provides operations for managing data quality errors.
+    /// </summary>
+    /// <remarks>Supports retrieving, creating, updating, and deleting recorded 
+    /// data quality errors.</remarks>
     public class DataQualityErrorService : IDataQualityErrorService
     {
         // Notes: Accuracy is important to ensure that the data is correct and
@@ -42,9 +48,26 @@ namespace AndelEnergiHovedopgave.Services
         // if the CustomerType is 'GA' XOR 'CH' as no other type is supported by
         // the system. If the CustomerType is neither or both, then it is invalid.
 
+        #region Connection String
+        private string _connectionString = Secret.ConnectionString;
+        #endregion
+
+        #region SQL Queries
+        private string deleteQuery = "DELETE FROM DataQualityError WHERE Id = @Id";
+        private string getAll = "SELECT * FROM DataQualityError";
+        private string getByDate = "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
+        private string getById = "SELECT * FROM DataQualityError WHERE Id = @Id";
+        private string insert = "INSERT INTO DataQualityError(Id, ErrorType, ErrorSeverity, RegistrationDate)" +
+                                "VALUES(@Id, @ErrorType, @ErrorSeverity, @RegistrationDate)";
+        #endregion
+
+        #region Methods
         public void Delete(DataQualityError error)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+
+            }
         }
 
         public List<DataQualityError> GetAll()
@@ -62,9 +85,15 @@ namespace AndelEnergiHovedopgave.Services
             throw new NotImplementedException();
         }
 
+        public DataQualityError GetByType(int errorType)
+        {
+            throw new NotImplementedException();
+        }
+
         public DataQualityError Insert(DataQualityError error)
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }
