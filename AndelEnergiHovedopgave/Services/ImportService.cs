@@ -10,6 +10,7 @@ namespace AndelEnergiHovedopgave.Services
         public List<T> ReadJasonFromFile<T>(string filePath)
         {
             string jason=File.ReadAllText(filePath);
+            Console.WriteLine(jason);
 
             List<T> importedObjects = JsonSerializer.Deserialize<List<T>>(jason);
 
