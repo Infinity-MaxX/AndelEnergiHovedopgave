@@ -1,10 +1,12 @@
-﻿using System;
+﻿using AndelEnergiHovedopgave.Interfaces;
+using AndelEnergiHovedopgave.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AndelEnergiHovedopgave.Services
 {
-    public class DataQualityErrorService
+    public class DataQualityErrorService : IDataQualityErrorService
     {
         // Notes: Accuracy is important to ensure that the data is correct and
         // free from errors. This can be achieved through a STATISTICAL MODEL that
@@ -39,5 +41,30 @@ namespace AndelEnergiHovedopgave.Services
         // Notes: Validity can be used to check for system conformity, fx check
         // if the CustomerType is 'GA' XOR 'CH' as no other type is supported by
         // the system. If the CustomerType is neither or both, then it is invalid.
+
+        public void Delete(DataQualityError error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<DataQualityError> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<DataQualityError> GetByDate(DateTime date)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DataQualityError GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DataQualityError Insert(DataQualityError error)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
