@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AndelEnergiHovedopgave.Models;
 
 namespace AndelEnergiHovedopgave.Interfaces
 {
-    public interface IEventType
+    public interface IEventTypeService
     {
         public List<EventType> GetAll();
         public EventType Insert(EventType eventType);
