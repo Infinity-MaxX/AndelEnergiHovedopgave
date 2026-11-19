@@ -18,7 +18,7 @@ namespace UnitTest
 
             // Act
             _service.Insert(_dataQualityError);
-            int countBeforeDelete = _allDataQualityErrors.Count();
+            int countBeforeDelete = _service.GetAll().Count;
 
             DataQualityError findId = _service.GetById(_dataQualityError.Id);
             _service.Delete(findId.Id);
