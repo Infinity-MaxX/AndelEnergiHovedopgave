@@ -50,12 +50,50 @@ namespace AndelEnergiHovedopgave.Services
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Timelessness test, checks the freshness of the data, keeping it up to
+        /// date.
+        /// </summary>
+        /// <param name="customerEvents"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public List<CustomerEvent> DataFreshness(DataQualityError customerEvents)
         {
             throw new NotImplementedException();
         }
+        
+        /// <summary>
+        /// Completeness test, checks whether there are any null values in the
+        /// updated dataset.
+        /// </summary>
+        /// <param name="customerEvents"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public List<CustomerEvent> NullValues(DataQualityError customerEvents)
+        {
+            throw new NotImplementedException();
+        }
 
+        /// <summary>
+        /// Accuracy test, checks against outliers by using a statistical model.
+        /// </summary>
+        /// <param name="customerEvents"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public List<CustomerEvent> Outlier(DataQualityError customerEvents)
+        {
+            throw new NotImplementedException();
+        }
+        
+        /// <summary>
+        /// Validity tests, checks if updated datasets conform to the system's
+        /// standards.
+        /// </summary>
+        /// <param name="customerEvents"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public List<CustomerEvent> Validity(DataQualityError customerEvents)
         {
             throw new NotImplementedException();
         }
