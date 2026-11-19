@@ -29,17 +29,6 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void TestGetAllIsNotNull()
-        {
-            // Arrange
-            IDataQualityErrorService _service = new DataQualityErrorService();
-            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
-
-            // Assert
-            Assert.IsNotNull(_allDataQualityErrors);
-        }
-
-        [TestMethod]
         public void TestGetAllIsNotEmpty()
         {
             // Arrange
@@ -55,6 +44,17 @@ namespace UnitTest
 
             // Clean
             _allDataQualityErrors.Remove(_error);
+        }
+
+        [TestMethod]
+        public void TestGetAllIsNotNull()
+        {
+            // Arrange
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
+
+            // Assert
+            Assert.IsNotNull(_allDataQualityErrors);
         }
 
         [TestMethod]
