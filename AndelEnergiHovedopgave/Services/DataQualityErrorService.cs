@@ -73,7 +73,7 @@ namespace AndelEnergiHovedopgave.Services
                         string errorType = reader.GetString(2);
                         string errorSeverity = reader.GetString(3);
                         DateTime registrationDate = reader.GetDateTime(4);
-                        DataQualityError error = new DataQualityError(errorType, errorSeverity, registrationDate);
+                        DataQualityError error = new DataQualityError(id, customerEventId, errorType, errorSeverity, registrationDate);
                         errors.Add(error);
                     }
                     reader.CloseAsync();
@@ -129,7 +129,37 @@ namespace AndelEnergiHovedopgave.Services
 
         public DataQualityError GetById(int id)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                DataQualityError error = null;
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(getByIdSQL, connection);
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.OpenAsync();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        int customerEventId = reader.GetInt32(1);
+                        string errorType = reader.GetString(2);
+                        string errorSeverity = reader.GetString(3);
+                        DateTime registrationDate = reader.GetDateTime(4);
+                        error = new DataQualityError(id, customerEventId, errorType, errorSeverity, registrationDate);
+                    }
+                    reader.CloseAsync();
+                }
+                catch (MySqlException sqlEx)
+                {
+                    throw new Exception($"Database error occurred while deleting customer type: {sqlEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
+                }
+                finally { connection.CloseAsync(); }
+                return error;
+            }
         }
 
         public List<DataQualityError> GetByType(string type)
