@@ -61,7 +61,11 @@ namespace UnitTest
         public void TestGetByDate()
         {
             // Arrange
-
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            List<DataQualityError> _allDates = _service.GetAll();
+            DataQualityError _dateOne = new DataQualityError(1, DateTime.Today, 2, 1, "RuntimeError");
+            DataQualityError _dateTwo = new DataQualityError(2, DateTime.Today, 3, 1, "RuntimeError");
+            DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
 
             // Act
 
