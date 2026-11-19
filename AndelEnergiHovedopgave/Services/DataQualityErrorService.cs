@@ -200,7 +200,31 @@ namespace AndelEnergiHovedopgave.Services
 
         public DataQualityError Insert(DataQualityError error)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(insertSQL, connection);
+                    command.Parameters.AddWithValue("@Id", error.Id);
+                    command.Parameters.AddWithValue("@CustomerEventId", error.CustomerEventId);
+                    command.Parameters.AddWithValue("@ErrorType", error.ErrorType);
+                    command.Parameters.AddWithValue("@ErrorSeverity", error.ErrorSeverity);
+                    command.Parameters.AddWithValue("@RegistrationDate", error.RegistrationDate);
+                    
+                    connection.OpenAsync();
+                    command.ExecuteNonQuery();
+                }
+                catch (MySqlException sqlEx)
+                {
+                    throw new Exception($"Database error occurred while deleting customer type: {sqlEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
+                }
+                finally { connection.CloseAsync(); }
+                return error;
+            }
         }
         #endregion
     }
