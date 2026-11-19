@@ -46,6 +46,7 @@ namespace AndelEnergiHovedopgave.Services
         // the system. If the CustomerType is neither or both, then it is invalid.
 
         #region Instance Field
+        private DataQualityError _qualityError;
         private List<CustomerEvent> _customerEvents;
         #endregion
 
