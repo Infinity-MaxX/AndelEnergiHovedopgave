@@ -47,7 +47,12 @@ namespace AndelEnergiHovedopgave.Services
         }
         public EventType Insert(EventType eventType)
         {
-            using(MySqlConnection connection= new MySqlConnection(_connectionString)) 
+            if(EventTypeExists(eventType))
+            {
+                throw new Exception($"Event type '{eventType.Type}' already exists.");
+            }
+
+            using (MySqlConnection connection= new MySqlConnection(_connectionString)) 
             {
                 try 
                 {

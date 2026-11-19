@@ -10,6 +10,7 @@ ICustomerTypeService customerTypeService = new CustomerTypeService();
 IProductAreaService ProductAreaService = new ProductAreaService();
 ISalesChannelService salesChannelService = new SalesChannelService();
 IEventReasonService eventReasonService = new EventReasonService();
+IEventTypeService eventTypeService = new EventTypeService();
 ImportService importService = new ImportService();
 
 //Connection til databsen åbnes
@@ -55,7 +56,11 @@ List<CustomerEvent> customerEvents = importService.ReadJasonFromFile<CustomerEve
 foreach (CustomerEvent ce in customerEvents)
 {
     Console.WriteLine(new EventReason(ce.OriginalEventReason).ToString());
-    //eventReasonService.Insert(new EventReason(r.Reason));
+    Console.WriteLine(new EventType(ce.OriginalEventType).ToString());
+
+    //eventTypeService.Insert(new EventType(ce.OriginalEventType));
+    //eventReasonService.Insert(new EventReason(ce.OriginalEventReason));
+    
 }
 
 
