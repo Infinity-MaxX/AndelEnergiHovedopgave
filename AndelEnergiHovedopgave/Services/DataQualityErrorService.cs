@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AndelEnergiHovedopgave.Services
 {
@@ -59,6 +60,7 @@ namespace AndelEnergiHovedopgave.Services
         private string getAllSQL = "SELECT * FROM DataQualityError";
         private string getByDateSQL = "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
         private string getByIdSQL = "SELECT * FROM DataQualityError WHERE Id = @Id";
+        private string getByTypeSQL = "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
         private string insertSQL = "INSERT INTO DataQualityError(Id, ErrorType, ErrorSeverity, RegistrationDate)" +
                                 "VALUES(@Id, @ErrorType, @ErrorSeverity, @RegistrationDate)";
         #endregion
@@ -125,7 +127,38 @@ namespace AndelEnergiHovedopgave.Services
 
         public List<DataQualityError> GetByDate(DateTime date)
         {
-            throw new NotImplementedException();
+            List<DataQualityError> errorsByDate = new List<DataQualityError>();
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(getByDateSQL, connection);
+                    command.Parameters.AddWithValue("@RegistrationDate", date);
+                    connection.OpenAsync();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        int customerEventId = reader.GetInt32(1);
+                        string errorType = reader.GetString(2);
+                        string errorSeverity = reader.GetString(3);
+                        DataQualityError error = new DataQualityError(id, customerEventId, errorType, errorSeverity, date);
+                        errorsByDate.Add(error);
+                    }
+                    reader.CloseAsync();
+                }
+                catch (MySqlException sqlEx)
+                {
+                    throw new Exception($"Database error occurred while deleting customer type: {sqlEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
+                }
+                finally { connection.CloseAsync(); }
+            }
+            return errorsByDate;
         }
 
         public DataQualityError GetById(int id)
@@ -133,9 +166,40 @@ namespace AndelEnergiHovedopgave.Services
             throw new NotImplementedException();
         }
 
-        public List<DataQualityError> GetByType(string errorType)
+        public List<DataQualityError> GetByType(string type)
         {
-            throw new NotImplementedException();
+            List<DataQualityError> errorsByType = new List<DataQualityError>();
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(getByTypeSQL, connection);
+                    command.Parameters.AddWithValue("@ErrorType", type);
+                    connection.OpenAsync();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        int customerEventId = reader.GetInt32(1);
+                        string errorSeverity = reader.GetString(3);
+                        DateTime registrationDate = reader.GetDateTime(4);
+                        DataQualityError error = new DataQualityError(id, customerEventId, type, errorSeverity, registrationDate);
+                        errorsByType.Add(error);
+                    }
+                    reader.CloseAsync();
+                }
+                catch (MySqlException sqlEx)
+                {
+                    throw new Exception($"Database error occurred while deleting customer type: {sqlEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
+                }
+                finally { connection.CloseAsync(); }
+            }
+            return errorsByType;
         }
 
         public DataQualityError Insert(DataQualityError error)
