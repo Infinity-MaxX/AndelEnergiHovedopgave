@@ -12,9 +12,6 @@ namespace AndelEnergiHovedopgave.Models
 
         #region Properties
         public int Id { get; set; }
-        public int CustomerEventId { get; set; }
-        public string ErrorType { get; set; }
-        public string ErrorSeverity { get; set; }
         public DateTime RegistrationDate
         {
             get { return _registrationDate; }
@@ -27,6 +24,9 @@ namespace AndelEnergiHovedopgave.Models
                 else { _registrationDate = value; }
             }
         }
+        public int CustomerEventId { get; set; }
+        public int ErrorSeverity { get; set; }
+        public string ErrorType { get; set; }
         #endregion
 
         #region Constructor
@@ -34,35 +34,37 @@ namespace AndelEnergiHovedopgave.Models
         public DataQualityError() { }
 
         // parameterized constructor
-        public DataQualityError(string errorType, string errorSeverity, DateTime registrationDate)
+        public DataQualityError(DateTime registrationDate, int errorSeverity, string errorType)
         {
-            ErrorType = errorType;
-            ErrorSeverity = errorSeverity;
             _registrationDate = registrationDate;
+            ErrorSeverity = errorSeverity;
+            ErrorType = errorType;
         }
 
-        public DataQualityError(int customerEventId, string errorType, string errorSeverity, DateTime registrationDate)
+        public DataQualityError(DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
         {
+            _registrationDate = registrationDate;
             CustomerEventId = customerEventId;
-            ErrorType = errorType;
             ErrorSeverity = errorSeverity;
-            _registrationDate = registrationDate;
+            ErrorType = errorType;
         }
 
-        public DataQualityError(int id, int customerEventId, string errorType, string errorSeverity, DateTime registrationDate)
+        public DataQualityError(int id, DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
         {
             Id = id;
-            CustomerEventId = customerEventId;
-            ErrorType = errorType;
-            ErrorSeverity = errorSeverity;
             _registrationDate = registrationDate;
+            CustomerEventId = customerEventId;
+            ErrorSeverity = errorSeverity;
+            ErrorType = errorType;
         }
         #endregion
 
         #region Methods
         public override string ToString()
         {
-            return $"Error Type: {ErrorType}\nSeverity: {ErrorSeverity}\nRegistration Date: {RegistrationDate}";
+            return $"ID: {Id}\nRegistration Date: {RegistrationDate}\n" +
+                $"CustomerEvent: {CustomerEventId}\nSeverity: {ErrorSeverity}\n" +
+                $"Error Type: {ErrorType}";
         }
         #endregion
     }

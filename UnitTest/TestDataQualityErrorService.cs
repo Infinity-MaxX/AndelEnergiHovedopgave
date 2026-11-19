@@ -6,11 +6,107 @@ namespace UnitTest
     using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 
     [TestClass]
-    public class TestDataQualityErrorService
+    public sealed class TestDataQualityErrorService
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestDelete()
         {
+            // Arrange
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
+            DataQualityError _dataQualityError = new DataQualityError(1, DateTime.Today, 2, 1, "RuntimeError");
+
+            // Act
+            _service.Insert(_dataQualityError);
+            int countBeforeDelete = _allDataQualityErrors.Count();
+
+            DataQualityError findId = _service.GetById(_dataQualityError.Id);
+            _service.Delete(findId.Id);
+            int countAfterDelete = _service.GetAll().Count;
+
+            // Assert
+            Assert.AreEqual(countBeforeDelete - 1, countAfterDelete);
+        }
+
+        [TestMethod]
+        public void TestGetAllIsNotNull()
+        {
+            // Arrange
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
+
+            // Assert
+            Assert.IsNotNull(_allDataQualityErrors);
+        }
+
+        [TestMethod]
+        public void TestGetAllIsNotEmpty()
+        {
+            // Arrange
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
+
+            // Act
+            DataQualityError _error = new DataQualityError(1, DateTime.Today, 2, 1, "RuntimeError");
+            _allDataQualityErrors.Add(_error);
+
+            // Assert
+            Assert.IsNotEmpty(_allDataQualityErrors);
+
+            // Clean
+            _allDataQualityErrors.Remove(_error);
+        }
+
+        [TestMethod]
+        public void TestGetByDate()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+
+        }
+
+        [TestMethod]
+        public void TestGetById()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+
+        }
+
+        [TestMethod]
+        public void TestGetByType()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+
+        }
+
+        [TestMethod]
+        public void TestInsert()
+        {
+            // Arrange
+
+
+            // Act
+
+
+            // Assert
+
         }
     }
 }
