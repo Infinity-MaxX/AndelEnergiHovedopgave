@@ -9,12 +9,12 @@ using System.Text;
 namespace AndelEnergiHovedopgave.Services
 {
     public class CustomerEventService : ICustomerEventService
-    {
+    {  
         private string _connectionString = Secret.ConnectionString;
-        private readonly ICustomerTypeService _customerTypeService;
-        private readonly ISalesChannelService _salesChannelService;
-        private readonly IProductAreaService _productAreaService;
-        private readonly IEventReasonService _eventReasonService;
+        private readonly ICustomerTypeService _customerTypeService = new CustomerTypeService();
+        private readonly ISalesChannelService _salesChannelService = new SalesChannelService();
+        private readonly IProductAreaService _productAreaService= new ProductAreaService();
+        private readonly IEventReasonService _eventReasonService = new EventReasonService();
 
 
         //Actions
@@ -89,7 +89,7 @@ namespace AndelEnergiHovedopgave.Services
                     connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
@@ -127,7 +127,7 @@ namespace AndelEnergiHovedopgave.Services
                     connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
@@ -205,7 +205,7 @@ namespace AndelEnergiHovedopgave.Services
                     connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
@@ -244,7 +244,7 @@ namespace AndelEnergiHovedopgave.Services
                     connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
@@ -291,6 +291,7 @@ namespace AndelEnergiHovedopgave.Services
                     command.Parameters.AddWithValue("@SalesChannelId", customerEvent.SalesChannelId);
                     command.Parameters.AddWithValue("@EventReasonId", customerEvent.EventReasonId);
                     command.Parameters.AddWithValue("@EventCount", customerEvent.Count);
+
                     command.ExecuteNonQuery();
                 }
                 catch (MySqlException ex)
@@ -304,7 +305,6 @@ namespace AndelEnergiHovedopgave.Services
             }
             return customerEvent;
         }
-
 
         public List<CustomerEvent> GetByProductArea(string productArea)
         {
@@ -320,7 +320,7 @@ namespace AndelEnergiHovedopgave.Services
 
                     MySqlDataReader reader = command.ExecuteReader();
 
-                    if (reader.Read()) 
+                    while (reader.Read()) 
                     {
                         int id = reader.GetInt32(0);
                         DateTime dateOfEvent = reader.GetDateTime(1);
