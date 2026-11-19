@@ -29,7 +29,7 @@ public class TestCustomerEventService
         //Arrange
         ICustomerEventService ces = new CustomerEventService();
         List<CustomerEvent> customerEvents = ces.GetAll();
-        CustomerEvent newCe = new CustomerEvent(1, DateTime.Now, 1, 1, 1, 1, 1);
+        CustomerEvent newCe = new CustomerEvent(200, new DateTime(2026,1,1), 1, 1, 1,1, 1, 1);
 
         //Act
         int countBeforeInsert = customerEvents.Count;
@@ -49,8 +49,12 @@ public class TestCustomerEventService
     {
         //Arrange
         ICustomerEventService ces = new CustomerEventService();
+        IEventReasonService eventReasonService = new EventReasonService();
+        IEventTypeService eventTypeService = new EventTypeService();
         List<CustomerEvent> customerEvents = ces.GetAll();
-        CustomerEvent newCe = new CustomerEvent(1, DateTime.Now, 1, 1, 1, 1, 1);
+        int eventTypeId = eventTypeService.GetByType("GA").Id;
+        int eventReasonId = eventReasonService.GetByReason("move in").Id;
+        CustomerEvent newCe = new CustomerEvent(201,new DateTime(2023, 1, 1),1,1,eventTypeId,1,eventReasonId,1);
 
         //Act
         int countBeforeInsert = customerEvents.Count;

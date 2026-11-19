@@ -1,5 +1,6 @@
 ﻿using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
+using Microsoft.Data.SqlClient.Internal;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace AndelEnergiHovedopgave.Services
 
         //Actions
         private string getAll = "SELECT * FROM CustomerEvents";
-        private string insert = "INSERT INTO CustomerEvents (DateOfEvent, CustomerTypeId, ProductAreaId, SalesChannelId, EventReasonId, EventCount) VALUES (@DateOfEvent, @CustomerTypeId, @ProductAreaId, @SalesChannelId, @EventReasonId, @EventCount)";
+        private string insert = "INSERT INTO CustomerEvents (DateOfEvent, ProductAreaId, CustomerTypeId, EventTypeId, SalesChannelId, EventReasonId, EventCount) VALUES (@DateOfEvent,  @ProductAreaId, @CustomerTypeId, @EventTypeId, @SalesChannelId, @EventReasonId, @EventCount)";
         private string delete = "DELETE FROM CustomerEvents  WHERE Id = @Id";
 
         //Search queries
@@ -26,9 +27,11 @@ namespace AndelEnergiHovedopgave.Services
         private string getByCustomerType = "SELECT * FROM CustomerEvents  WHERE CustomerTypeId = @CustomerTypeId";
         private string getByDate = "SELECT * FROM CustomerEvents  WHERE DateOfEvent = @DateOfEvent";
         private string getByReason = "SELECT * FROM CustomerEvents  WHERE EventReasonId = @EventReasonId";
+        private string getByEventType = "SELECT * FROM CustomerEvents  WHERE EventTypeId = @EventTypeId";
         private string getBySalesChannel = "SELECT * FROM CustomerEvents  WHERE SalesChannelId = @SalesChannelId";
-        private string existsCustomerEvents = "SELECT COUNT(*) FROM CustomerEvents  WHERE CustomerTypeId = @CustomerTypeId";
+        private string getByProductArea = "SELECT * FROM CustomerEvents  WHERE ProductAreaId = @ProductAreaId";
 
+        private string existsCustomerEvents = "SELECT COUNT(*) FROM CustomerEvents  WHERE DateOfEvent = @DateOfEvent AND ProductAreaId = @ProductAreaId AND CustomerTypeId = @CustomerTypeId AND EventTypeId = @EventTypeId AND SalesChannelId = @SalesChannelId AND EventReasonId = @EventReasonId";
 
 
         public List<CustomerEvent> GetAll()
@@ -47,13 +50,13 @@ namespace AndelEnergiHovedopgave.Services
                             {
                                 int id = reader.GetInt32(0);
                                 DateTime dateOfEvent = reader.GetDateTime(1);
-                                int customerTypeId = reader.GetInt32(2);
                                 int productAreaId = reader.GetInt32(3);
-                                int salesChannelId = reader.GetInt32(4);
-                                int eventReasonId = reader.GetInt32(5);
-                                int eventCount = reader.GetInt32(6);
+                                int customerTypeId = reader.GetInt32(2);
+                                int eventTypeId = reader.GetInt32(4);
+                                int salesChannelId = reader.GetInt32(5);
+                                int eventReasonId = reader.GetInt32(6);
                                 int count = reader.GetInt32(7);
-                                CustomerEvent customerEvent = new CustomerEvent(id,dateOfEvent,customerTypeId,productAreaId,salesChannelId, eventReasonId, count);
+                                CustomerEvent customerEvent = new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId,eventTypeId ,salesChannelId , eventReasonId, count);
                                 customerEvents.Add(customerEvent);
 
                             }
@@ -90,12 +93,13 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int customerTypeId = reader.GetInt32(2);
                             int productAreaId = reader.GetInt32(3);
-                            int salesChannelId = reader.GetInt32(4);
-                            int eventReasonId = reader.GetInt32(5);
-                            int count = reader.GetInt32(6);
-                            customerEvents.Add(new CustomerEvent(id, dateOfEvent, customerTypeId, productAreaId, salesChannelId, eventReasonId, count));
+                            int customerTypeId = reader.GetInt32(2);
+                            int eventTypeId = reader.GetInt32(4);
+                            int salesChannelId = reader.GetInt32(5);
+                            int eventReasonId = reader.GetInt32(6);
+                            int count = reader.GetInt32(7);
+                            customerEvents.Add(new CustomerEvent(id, dateOfEvent,productAreaId, customerTypeId,eventTypeId, salesChannelId, eventReasonId, count));
                         }
                     }
                 }
@@ -127,12 +131,13 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int customerTypeId = reader.GetInt32(2);
                             int productAreaId = reader.GetInt32(3);
-                            int salesChannelId = reader.GetInt32(4);
-                            int eventReasonId = reader.GetInt32(5);
-                            int count = reader.GetInt32(6);
-                            customerEvents.Add(new CustomerEvent(id, dateOfEvent, customerTypeId, productAreaId, salesChannelId, eventReasonId, count));
+                            int customerTypeId = reader.GetInt32(2);
+                            int eventTypeId = reader.GetInt32(4);
+                            int salesChannelId = reader.GetInt32(5);
+                            int eventReasonId = reader.GetInt32(6);
+                            int count = reader.GetInt32(7);
+                            customerEvents.Add(new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count));
                         }
                     }
                 }
@@ -165,12 +170,13 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int foundId = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int customerTypeId = reader.GetInt32(2);
                             int productAreaId = reader.GetInt32(3);
-                            int salesChannelId = reader.GetInt32(4);
-                            int eventReasonId = reader.GetInt32(5);
-                            int count = reader.GetInt32(6);
-                            foundCustomerEvent = new CustomerEvent(foundId, dateOfEvent, customerTypeId, productAreaId, salesChannelId, eventReasonId, count);
+                            int customerTypeId = reader.GetInt32(2);
+                            int eventTypeId = reader.GetInt32(4);
+                            int salesChannelId = reader.GetInt32(5);
+                            int eventReasonId = reader.GetInt32(6);
+                            int count = reader.GetInt32(7);
+                            foundCustomerEvent = new CustomerEvent(foundId, dateOfEvent,productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count);
                         }
                     }
                 }
@@ -203,12 +209,13 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int customerTypeId = reader.GetInt32(2);
                             int productAreaId = reader.GetInt32(3);
-                            int salesChannelId = reader.GetInt32(4);
-                            int eventReasonId = reader.GetInt32(5);
-                            int count = reader.GetInt32(6);
-                            customerEvents.Add(new CustomerEvent(id, dateOfEvent, customerTypeId, productAreaId, salesChannelId, eventReasonId, count));
+                            int customerTypeId = reader.GetInt32(2);
+                            int eventTypeId = reader.GetInt32(4);
+                            int salesChannelId = reader.GetInt32(5);
+                            int eventReasonId = reader.GetInt32(6);
+                            int count = reader.GetInt32(7);
+                            customerEvents.Add(new CustomerEvent(id, dateOfEvent,productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count));
                         }
                     }
                 }
@@ -241,12 +248,13 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int customerTypeId = reader.GetInt32(2);
                             int productAreaId = reader.GetInt32(3);
-                            int salesChannelId = reader.GetInt32(4);
-                            int eventReasonId = reader.GetInt32(5);
-                            int count = reader.GetInt32(6);
-                            customerEvents.Add(new CustomerEvent(id, dateOfEvent, customerTypeId, productAreaId, salesChannelId, eventReasonId, count));
+                            int customerTypeId = reader.GetInt32(2);
+                            int eventTypeId = reader.GetInt32(4);
+                            int salesChannelId = reader.GetInt32(5);
+                            int eventReasonId = reader.GetInt32(6);
+                            int count = reader.GetInt32(7);
+                            customerEvents.Add(new CustomerEvent(id, dateOfEvent,productAreaId ,customerTypeId,eventTypeId ,salesChannelId, eventReasonId, count));
                         }
                     }
                 }
@@ -266,7 +274,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if(CustomerEventExists(customerEvent))
             {
-                throw new Exception($"Customer event for customer type '{customerEvent.CustomerTypeId}' already exists.");
+                return customerEvent;
             }
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -277,11 +285,12 @@ namespace AndelEnergiHovedopgave.Services
                     MySqlCommand command = new MySqlCommand(insert, connection);
 
                     command.Parameters.AddWithValue("@DateOfEvent", customerEvent.DateOfEvent);
-                    command.Parameters.AddWithValue("@CustomerTypeId", customerEvent.CustomerTypeId);
                     command.Parameters.AddWithValue("@ProductAreaId", customerEvent.ProductAreaId);
+                    command.Parameters.AddWithValue("@CustomerTypeId", customerEvent.CustomerTypeId);
+                    command.Parameters.AddWithValue("@EventTypeId", customerEvent.EventTypeId);
                     command.Parameters.AddWithValue("@SalesChannelId", customerEvent.SalesChannelId);
                     command.Parameters.AddWithValue("@EventReasonId", customerEvent.EventReasonId);
-                    command.Parameters.AddWithValue("@Count", customerEvent.Count);
+                    command.Parameters.AddWithValue("@EventCount", customerEvent.Count);
                     command.ExecuteNonQuery();
                 }
                 catch (MySqlException ex)
@@ -295,6 +304,49 @@ namespace AndelEnergiHovedopgave.Services
             }
             return customerEvent;
         }
+
+
+        public List<CustomerEvent> GetByProductArea(string productArea)
+        {
+            using(MySqlConnection conection = new MySqlConnection(_connectionString))
+            {
+                List<CustomerEvent> customerEvents = new List<CustomerEvent>();
+                try 
+                {
+                    MySqlCommand command = new MySqlCommand(getByProductArea, conection);
+                    int foundProductAreaId = (_productAreaService.GetByArea(productArea)).Id;
+                    command.Parameters.AddWithValue("@ProductAreaId", foundProductAreaId);
+                    conection.Open();
+
+                    MySqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read()) 
+                    {
+                        int id = reader.GetInt32(0);
+                        DateTime dateOfEvent = reader.GetDateTime(1);
+                        int productAreaId = reader.GetInt32(3);
+                        int customerTypeId = reader.GetInt32(2);
+                        int eventTypeId = reader.GetInt32(4);
+                        int salesChannelId = reader.GetInt32(5);
+                        int eventReasonId = reader.GetInt32(6);
+                        int count = reader.GetInt32(7);
+                        customerEvents.Add(new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count));
+                    }
+
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while retrieving customer event by product area: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while retrieving customer event by product area: {ex.Message}");
+                }
+                return customerEvents;
+            }
+        }
+
+
         public void Delete(int id)
         { 
             using(MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -316,6 +368,7 @@ namespace AndelEnergiHovedopgave.Services
                 }
             }
         }
+
         public bool CustomerEventExists(CustomerEvent customerEvent)
         {
             using(MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -323,7 +376,12 @@ namespace AndelEnergiHovedopgave.Services
                 try
                 {
                     MySqlCommand command = new MySqlCommand(existsCustomerEvents, connection);
+                    command.Parameters.AddWithValue("@DateOfEvent", customerEvent.DateOfEvent);
+                    command.Parameters.AddWithValue("@ProductAreaId", customerEvent.ProductAreaId);
                     command.Parameters.AddWithValue("@CustomerTypeId", customerEvent.CustomerTypeId);
+                    command.Parameters.AddWithValue("@EventTypeId", customerEvent.EventTypeId);
+                    command.Parameters.AddWithValue("@SalesChannelId", customerEvent.SalesChannelId);
+                    command.Parameters.AddWithValue("@EventReasonId", customerEvent.EventReasonId);
                     connection.Open();
                     int count = Convert.ToInt32(command.ExecuteScalar());
                     return count > 0;
@@ -338,6 +396,5 @@ namespace AndelEnergiHovedopgave.Services
                 }
             }
         }
-
     }
 }

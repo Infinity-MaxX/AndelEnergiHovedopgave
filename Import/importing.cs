@@ -11,6 +11,7 @@ IProductAreaService ProductAreaService = new ProductAreaService();
 ISalesChannelService salesChannelService = new SalesChannelService();
 IEventReasonService eventReasonService = new EventReasonService();
 IEventTypeService eventTypeService = new EventTypeService();
+ICustomerEventService customerEventService = new CustomerEventService();
 ImportService importService = new ImportService();
 
 //Connection til databsen åbnes
@@ -49,18 +50,38 @@ connection.Open();
 //}
 
 
-//________________Import af EventReason fra JSON fil____________________
+////________________Import af EventReason fra JSON fil____________________
+//string path = "C:\\Users\\johan\\OneDrive\\Skrivebord\\HovedopgaveAndelEnergiMockData\\CustomerEvents.txt";
+//List<CustomerEvent> customerEvents = importService.ReadJasonFromFile<CustomerEvent>(path);
+
+//foreach (CustomerEvent ce in customerEvents)
+//{
+//    Console.WriteLine(new EventReason(ce.OriginalEventReason).ToString());
+
+//    eventReasonService.Insert(new EventReason(ce.OriginalEventReason));
+
+//}
+////________________Import af EventType fra JSON fil____________________
+//string path = "C:\\Users\\johan\\OneDrive\\Skrivebord\\HovedopgaveAndelEnergiMockData\\CustomerEvents.txt";
+//List<CustomerEvent> customerEvents = importService.ReadJasonFromFile<CustomerEvent>(path);
+
+//foreach (CustomerEvent ce in customerEvents)
+//{
+//    Console.WriteLine(new EventType(ce.OriginalEventType).ToString());
+
+//    eventTypeService.Insert(new EventType(ce.OriginalEventType));
+//}
+//________________Import af CustomerEvent fra JSON fil____________________
 string path = "C:\\Users\\johan\\OneDrive\\Skrivebord\\HovedopgaveAndelEnergiMockData\\CustomerEvents.txt";
 List<CustomerEvent> customerEvents = importService.ReadJasonFromFile<CustomerEvent>(path);
 
 foreach (CustomerEvent ce in customerEvents)
 {
-    Console.WriteLine(new EventReason(ce.OriginalEventReason).ToString());
-    Console.WriteLine(new EventType(ce.OriginalEventType).ToString());
-
-    //eventTypeService.Insert(new EventType(ce.OriginalEventType));
-    //eventReasonService.Insert(new EventReason(ce.OriginalEventReason));
-    
+    int eventTypeId = (eventTypeService.GetByType(ce.OriginalEventType)).Id;
+    int eventReasonId = (eventReasonService.GetByReason(ce.OriginalEventReason)).Id;
+    Console.WriteLine($"Event Type ID: {eventTypeId}, Event Reason ID: {eventReasonId}");
+    customerEventService.Insert(new CustomerEvent(ce.DateOfEvent, ce.ProductAreaId, ce.CustomerTypeId, eventTypeId, ce.SalesChannelId ?? 0, eventReasonId, ce.Count));
+    Console.WriteLine(ce.ToString());
 }
 
 

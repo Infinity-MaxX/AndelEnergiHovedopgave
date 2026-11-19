@@ -36,7 +36,7 @@ namespace AndelEnergiHovedopgave.Models
         public int ProductAreaId { get; set; }
         
         [JsonPropertyName("SalesChannelId")]
-        public int SalesChannelId { get; set; }
+        public int? SalesChannelId { get; set; }
         public int EventTypeId { get; set; }
 
         public int EventReasonId { get; set; }
@@ -57,41 +57,45 @@ namespace AndelEnergiHovedopgave.Models
             
         }
 
-        public CustomerEvent(DateTime dateOfEvent, int customerTypeId, int productAreaId, int salesChannelId,int eventReason ,int count)
+        public CustomerEvent(DateTime dateOfEvent, int productAreaId, int customerTypeId, int eventTypeId, int salesChannelId, int eventReason, int count)
         {
-
             DateOfEvent = dateOfEvent;
-            CustomerTypeId = customerTypeId;
             ProductAreaId = productAreaId;
+            CustomerTypeId = customerTypeId;
+            EventTypeId = eventTypeId;
             SalesChannelId = salesChannelId;
             EventReasonId = eventReason;
             Count = count;
         }
-        public CustomerEvent(DateTime dateOfEvent, int customerTypeId, int productAreaId, int salesChannelId,string originalEventType, string originalEventReason, int count)
-        {
-
-            DateOfEvent = dateOfEvent;
-            CustomerTypeId = customerTypeId;
-            ProductAreaId = productAreaId;
-            SalesChannelId = salesChannelId;
-            OriginalEventType = originalEventType;
-            OriginalEventReason = originalEventReason;
-            Count = count;
-        }
-        public CustomerEvent(int id, DateTime dateOfEvent, int customerTypeId, int productAreaId, int salesChannelId, int eventReason, int count)
+        public CustomerEvent(int id, DateTime dateOfEvent, int productAreaId, int customerTypeId, int eventTypeId, int salesChannelId, int eventReason, int count)
         {
             Id = id;
             DateOfEvent = dateOfEvent;
-            CustomerTypeId = customerTypeId;
             ProductAreaId = productAreaId;
+            CustomerTypeId = customerTypeId;
+            EventTypeId = eventTypeId;
             SalesChannelId = salesChannelId;
             EventReasonId = eventReason;
+            Count = count;
+        }
+        /// <summary>
+        /// Initializes a customer event with its date, classification, source details, and count.
+        /// </summary>The date of the event.The identifier of the customer type.The identifier of the product area.The identifier of the sales channel.The original event type.The original reason for the event.The number of events.
+        public CustomerEvent(DateTime dateOfEvent, int customerTypeId, int productAreaId, int salesChannelId, string originalEventType, string originalEventReason, int count)
+        {
+
+            DateOfEvent = dateOfEvent;
+            ProductAreaId = productAreaId;
+            CustomerTypeId = customerTypeId;
+            OriginalEventType = originalEventType;
+            SalesChannelId = salesChannelId;
+            OriginalEventReason = originalEventReason;
             Count = count;
         }
 
         public override string ToString()
         {
-            return $"Id: {Id}, DateOfEvent: {DateOfEvent}, CustomerTypeId: {CustomerTypeId}, ProductAreaId: {ProductAreaId}, SalesChannelId: {SalesChannelId            }";
+            return $"Id: {Id}, DateOfEvent: {DateOfEvent}, ProductAreaId: {ProductAreaId}, CustomerTypeId: {CustomerTypeId}, EventTypeId: {EventTypeId} ,SalesChannelId: {SalesChannelId}, Count: {Count}";
         }
 
     }

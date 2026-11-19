@@ -15,6 +15,7 @@ namespace AndelEnergiHovedopgave.Interfaces
         public List<CustomerEvent> GetByDate(DateTime month);
         public List<CustomerEvent> GetByReason(string reason);
         public List<CustomerEvent> GetBySalesChannel(string salesChannel);
+        public List<CustomerEvent> GetByProductArea(string productArea);
         public void Delete(int id);
         public bool CustomerEventExists(CustomerEvent customerEvent);
 

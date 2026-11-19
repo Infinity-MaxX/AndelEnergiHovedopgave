@@ -56,7 +56,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if(EventReasonExists(eventReason))
             {
-                throw new Exception($"Event reason '{eventReason.Reason}' already exists.");
+                return eventReason;
             }
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))

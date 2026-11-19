@@ -11,11 +11,11 @@ namespace AndelEnergiHovedopgave.Services
     public class EventTypeService : IEventTypeService
     {
         private string _connectionString = Secret.ConnectionString;
-        private string getAll="SELECT * FROM EventTypes";
-        private string insert = "INSERT INTO EventTypes (Type) VALUES (@Type)";
-        private string getById = "SELECT * FROM EventTypes WHERE Id = @Id";
-        private string getByType = "SELECT * FROM EventTypes WHERE Type = @Type";
-        private string delete = "DELETE FROM EventTypes WHERE Id = @Id";
+        private string getAll="SELECT * FROM EventType";
+        private string insert = "INSERT INTO EventType (Type) VALUES (@Type)";
+        private string getById = "SELECT * FROM EventType WHERE Id = @Id";
+        private string getByType = "SELECT * FROM EventType WHERE Type = @Type";
+        private string delete = "DELETE FROM EventType WHERE Id = @Id";
 
         public List<EventType> GetAll()
         {
@@ -49,7 +49,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             if(EventTypeExists(eventType))
             {
-                throw new Exception($"Event type '{eventType.Type}' already exists.");
+                return eventType;
             }
 
             using (MySqlConnection connection= new MySqlConnection(_connectionString)) 
