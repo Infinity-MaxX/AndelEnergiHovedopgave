@@ -63,4 +63,40 @@ public class TestEventReasonService
         Assert.IsTrue(foundevr.Id == foundevrid.Id);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
     }
+    [TestMethod]
+    public void GetByReason()
+    {
+        //Arrange
+        IEventReasonService er = new EventReasonService();
+        EventReason reason = new EventReason("Test");
+
+        //Act
+        er.Insert(reason);
+        EventReason foundReason = er.GetByReason(reason.Reason);
+        er.Delete(reason.Id);
+
+        //Assert
+        Assert.AreEqual(reason.Reason, foundReason.Reason);
+    }
+    [TestMethod]
+    public void Delete()
+    {
+        //Arrange
+        IEventReasonService er = new EventReasonService();
+        List<EventReason> reasons = er.GetAll();
+        EventReason reason = new EventReason("Test");
+
+        //Act
+        int countBeforeInsert = reasons.Count;
+        er.Insert(reason);
+
+        EventReason foundEr = er.GetByReason("Test");
+        er.Delete(foundEr.Id);
+
+        int countAfterInsert = er.GetAll().Count;
+
+        //Assert
+        Assert.IsTrue(reason.Reason == foundEr.Reason);
+        Assert.AreEqual(countBeforeInsert, countAfterInsert);
+    }
 }
