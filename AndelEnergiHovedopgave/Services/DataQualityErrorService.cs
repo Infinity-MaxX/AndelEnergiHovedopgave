@@ -27,8 +27,8 @@ namespace AndelEnergiHovedopgave.Services
         private string getByDateSQL = "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
         private string getByIdSQL = "SELECT * FROM DataQualityError WHERE Id = @Id";
         private string getByTypeSQL = "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
-        private string insertSQL = "INSERT INTO DataQualityError(Id, ErrorType, ErrorSeverity, RegistrationDate)" +
-                                "VALUES(@Id, @ErrorType, @ErrorSeverity, @RegistrationDate)";
+        private string insertSQL = "INSERT INTO DataQualityError(Id, RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
+                                "VALUES(@Id, @RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
         #endregion
 
         #region Methods
@@ -69,11 +69,11 @@ namespace AndelEnergiHovedopgave.Services
                     while (reader.Read())
                     {
                         int id = reader.GetInt32(0);
-                        int customerEventId = reader.GetInt32(1);
-                        string errorType = reader.GetString(2);
-                        string errorSeverity = reader.GetString(3);
-                        DateTime registrationDate = reader.GetDateTime(4);
-                        DataQualityError error = new DataQualityError(id, customerEventId, errorType, errorSeverity, registrationDate);
+                        DateTime registrationDate = reader.GetDateTime(1);
+                        int customerEventId = reader.GetInt32(2);
+                        int errorSeverity = reader.GetInt32(3);
+                        string errorType = reader.GetString(4);
+                        DataQualityError error = new DataQualityError(id, registrationDate, customerEventId, errorSeverity, errorType);
                         errors.Add(error);
                     }
                     reader.Close();
@@ -106,10 +106,10 @@ namespace AndelEnergiHovedopgave.Services
                     while (reader.Read())
                     {
                         int id = reader.GetInt32(0);
-                        int customerEventId = reader.GetInt32(1);
-                        string errorType = reader.GetString(2);
-                        string errorSeverity = reader.GetString(3);
-                        DataQualityError error = new DataQualityError(id, customerEventId, errorType, errorSeverity, date);
+                        int customerEventId = reader.GetInt32(2);
+                        int errorSeverity = reader.GetInt32(3);
+                        string errorType = reader.GetString(4);
+                        DataQualityError error = new DataQualityError(id, date, customerEventId, errorSeverity, errorType);
                         errorsByDate.Add(error);
                     }
                     reader.Close();
@@ -141,11 +141,11 @@ namespace AndelEnergiHovedopgave.Services
                     MySqlDataReader reader = command.ExecuteReader();
                     if (reader.Read())
                     {
-                        int customerEventId = reader.GetInt32(1);
-                        string errorType = reader.GetString(2);
-                        string errorSeverity = reader.GetString(3);
-                        DateTime registrationDate = reader.GetDateTime(4);
-                        error = new DataQualityError(id, customerEventId, errorType, errorSeverity, registrationDate);
+                        DateTime registrationDate = reader.GetDateTime(1);
+                        int customerEventId = reader.GetInt32(2);
+                        int errorSeverity = reader.GetInt32(3);
+                        string errorType = reader.GetString(4);
+                        error = new DataQualityError(id, registrationDate, customerEventId, errorSeverity, errorType);
                     }
                     reader.Close();
                 }
@@ -177,10 +177,10 @@ namespace AndelEnergiHovedopgave.Services
                     while (reader.Read())
                     {
                         int id = reader.GetInt32(0);
-                        int customerEventId = reader.GetInt32(1);
-                        string errorSeverity = reader.GetString(3);
-                        DateTime registrationDate = reader.GetDateTime(4);
-                        DataQualityError error = new DataQualityError(id, customerEventId, type, errorSeverity, registrationDate);
+                        DateTime registrationDate = reader.GetDateTime(1);
+                        int customerEventId = reader.GetInt32(2);
+                        int errorSeverity = reader.GetInt32(3);
+                        DataQualityError error = new DataQualityError(id, registrationDate, customerEventId, errorSeverity, type);
                         errorsByType.Add(error);
                     }
                     reader.Close();
@@ -206,10 +206,10 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     MySqlCommand command = new MySqlCommand(insertSQL, connection);
                     command.Parameters.AddWithValue("@Id", error.Id);
-                    command.Parameters.AddWithValue("@CustomerEventId", error.CustomerEventId);
-                    command.Parameters.AddWithValue("@ErrorType", error.ErrorType);
-                    command.Parameters.AddWithValue("@ErrorSeverity", error.ErrorSeverity);
                     command.Parameters.AddWithValue("@RegistrationDate", error.RegistrationDate);
+                    command.Parameters.AddWithValue("@CustomerEventId", error.CustomerEventId);
+                    command.Parameters.AddWithValue("@ErrorSeverity", error.ErrorSeverity);
+                    command.Parameters.AddWithValue("@ErrorType", error.ErrorType);
                     
                     connection.Open();
                     command.ExecuteNonQuery();
