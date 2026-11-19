@@ -27,8 +27,8 @@ namespace AndelEnergiHovedopgave.Services
         private string getByDateSQL = "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
         private string getByIdSQL = "SELECT * FROM DataQualityError WHERE Id = @Id";
         private string getByTypeSQL = "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
-        private string insertSQL = "INSERT INTO DataQualityError(Id, ErrorType, ErrorSeverity, RegistrationDate)" +
-                                "VALUES(@Id, @ErrorType, @ErrorSeverity, @RegistrationDate)";
+        private string insertSQL = "INSERT INTO DataQualityError(Id, RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
+                                "VALUES(@Id, @RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
         #endregion
 
         #region Methods
