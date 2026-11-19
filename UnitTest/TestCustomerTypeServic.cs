@@ -64,6 +64,41 @@
             Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
         }
 
+        [TestMethod]
+        public void GetByType() 
+        {
+            //Arrange
+            ICustomerTypeService ct = new CustomerTypeService();
+            CustomerType type = new CustomerType("Test");
+
+            //Act
+            ct.Insert(type);
+            CustomerType foundType = ct.GetByType(type.Type);
+
+            //Assert
+            Assert.AreEqual(type.Type, foundType.Type);
+        }
+        [TestMethod]
+        public void Delete()
+        {
+            //Arrange
+            ICustomerTypeService cts = new CustomerTypeService();
+            List<CustomerType> customerTypes = cts.GetAll();
+            CustomerType newCt = new CustomerType("TestCustomerTypeInsert");
+
+            //Act
+            int countBeforeInsert = customerTypes.Count;
+            cts.Insert(newCt);
+
+            CustomerType foundCt = cts.GetByType("TestCustomerTypeInsert");
+            cts.Delete(foundCt.Id);
+
+            int countAfterInsert = cts.GetAll().Count;
+            
+            //Assert
+            Assert.IsTrue(newCt.Type == foundCt.Type);
+            Assert.AreEqual(countBeforeInsert, countAfterInsert);
+        }
     }
 
 
