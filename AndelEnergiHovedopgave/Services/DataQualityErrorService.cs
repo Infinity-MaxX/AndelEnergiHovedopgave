@@ -40,7 +40,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     MySqlCommand command = new MySqlCommand(deleteSQL, connection);
                     command.Parameters.AddWithValue("@Id", id);
-                    connection.OpenAsync();
+                    connection.Open();
                     command.ExecuteNonQuery();
                 }
                 catch(MySqlException sqlEx)
@@ -51,7 +51,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
                 }
-                finally { connection.CloseAsync(); }
+                finally { connection.Close(); }
             }
         }
 
@@ -63,7 +63,7 @@ namespace AndelEnergiHovedopgave.Services
                 try
                 {
                     MySqlCommand command = new MySqlCommand(getAllSQL, connection);
-                    connection.OpenAsync();
+                    connection.Open();
 
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -76,7 +76,7 @@ namespace AndelEnergiHovedopgave.Services
                         DataQualityError error = new DataQualityError(id, customerEventId, errorType, errorSeverity, registrationDate);
                         errors.Add(error);
                     }
-                    reader.CloseAsync();
+                    reader.Close();
                 }
                 catch (MySqlException sqlEx)
                 {
@@ -86,7 +86,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
                 }
-                finally { connection.CloseAsync(); }
+                finally { connection.Close(); }
             }
             return errors;
         }
@@ -100,7 +100,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     MySqlCommand command = new MySqlCommand(getByDateSQL, connection);
                     command.Parameters.AddWithValue("@RegistrationDate", date);
-                    connection.OpenAsync();
+                    connection.Open();
 
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -112,7 +112,7 @@ namespace AndelEnergiHovedopgave.Services
                         DataQualityError error = new DataQualityError(id, customerEventId, errorType, errorSeverity, date);
                         errorsByDate.Add(error);
                     }
-                    reader.CloseAsync();
+                    reader.Close();
                 }
                 catch (MySqlException sqlEx)
                 {
@@ -122,7 +122,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
                 }
-                finally { connection.CloseAsync(); }
+                finally { connection.Close(); }
             }
             return errorsByDate;
         }
@@ -136,7 +136,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     MySqlCommand command = new MySqlCommand(getByIdSQL, connection);
                     command.Parameters.AddWithValue("@Id", id);
-                    connection.OpenAsync();
+                    connection.Open();
 
                     MySqlDataReader reader = command.ExecuteReader();
                     if (reader.Read())
@@ -147,7 +147,7 @@ namespace AndelEnergiHovedopgave.Services
                         DateTime registrationDate = reader.GetDateTime(4);
                         error = new DataQualityError(id, customerEventId, errorType, errorSeverity, registrationDate);
                     }
-                    reader.CloseAsync();
+                    reader.Close();
                 }
                 catch (MySqlException sqlEx)
                 {
@@ -157,7 +157,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
                 }
-                finally { connection.CloseAsync(); }
+                finally { connection.Close(); }
                 return error;
             }
         }
@@ -171,7 +171,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     MySqlCommand command = new MySqlCommand(getByTypeSQL, connection);
                     command.Parameters.AddWithValue("@ErrorType", type);
-                    connection.OpenAsync();
+                    connection.Open();
 
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -183,7 +183,7 @@ namespace AndelEnergiHovedopgave.Services
                         DataQualityError error = new DataQualityError(id, customerEventId, type, errorSeverity, registrationDate);
                         errorsByType.Add(error);
                     }
-                    reader.CloseAsync();
+                    reader.Close();
                 }
                 catch (MySqlException sqlEx)
                 {
@@ -193,7 +193,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
                 }
-                finally { connection.CloseAsync(); }
+                finally { connection.Close(); }
             }
             return errorsByType;
         }
@@ -211,7 +211,7 @@ namespace AndelEnergiHovedopgave.Services
                     command.Parameters.AddWithValue("@ErrorSeverity", error.ErrorSeverity);
                     command.Parameters.AddWithValue("@RegistrationDate", error.RegistrationDate);
                     
-                    connection.OpenAsync();
+                    connection.Open();
                     command.ExecuteNonQuery();
                 }
                 catch (MySqlException sqlEx)
@@ -222,7 +222,7 @@ namespace AndelEnergiHovedopgave.Services
                 {
                     throw new Exception($"An error occurred while deleting customer type: {ex.Message}");
                 }
-                finally { connection.CloseAsync(); }
+                finally { connection.Close(); }
                 return error;
             }
         }
