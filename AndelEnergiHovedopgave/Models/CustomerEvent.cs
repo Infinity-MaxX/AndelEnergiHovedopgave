@@ -37,14 +37,20 @@ namespace AndelEnergiHovedopgave.Models
         
         [JsonPropertyName("SalesChannelId")]
         public int SalesChannelId { get; set; }
+        public int EventTypeId { get; set; }
 
         public int EventReasonId { get; set; }
 
         [JsonPropertyName("Count")]
         public int Count { get; set; }
 
+
+        [JsonPropertyName("EventType")]
+        public string OriginalEventType { get; set; }
+
         [JsonPropertyName("EventReason")]
         public string OriginalEventReason { get; set; }
+
 
         public CustomerEvent()
         {
@@ -61,13 +67,14 @@ namespace AndelEnergiHovedopgave.Models
             EventReasonId = eventReason;
             Count = count;
         }
-        public CustomerEvent(DateTime dateOfEvent, int customerTypeId, int productAreaId, int salesChannelId, string originalEventReason, int count)
+        public CustomerEvent(DateTime dateOfEvent, int customerTypeId, int productAreaId, int salesChannelId,string originalEventType, string originalEventReason, int count)
         {
 
             DateOfEvent = dateOfEvent;
             CustomerTypeId = customerTypeId;
             ProductAreaId = productAreaId;
             SalesChannelId = salesChannelId;
+            OriginalEventType = originalEventType;
             OriginalEventReason = originalEventReason;
             Count = count;
         }

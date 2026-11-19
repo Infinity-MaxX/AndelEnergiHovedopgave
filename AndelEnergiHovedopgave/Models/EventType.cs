@@ -11,7 +11,7 @@ namespace AndelEnergiHovedopgave.Models
 
         public EventType()
         {
-            
+
         }
         public EventType(string type)
         {

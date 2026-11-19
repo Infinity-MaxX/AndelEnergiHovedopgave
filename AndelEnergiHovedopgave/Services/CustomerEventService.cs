@@ -264,7 +264,12 @@ namespace AndelEnergiHovedopgave.Services
 
         public CustomerEvent Insert(CustomerEvent customerEvent)
         {
-            using(MySqlConnection connection = new MySqlConnection(_connectionString))
+            if(CustomerEventExists(customerEvent))
+            {
+                throw new Exception($"Customer event for customer type '{customerEvent.CustomerTypeId}' already exists.");
+            }
+
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {
