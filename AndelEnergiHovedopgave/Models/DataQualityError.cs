@@ -18,7 +18,14 @@ namespace AndelEnergiHovedopgave.Models
         public DateTime RegistrationDate
         {
             get { return _registrationDate; }
-            set { _registrationDate = value; }
+            set
+            {
+                if (_registrationDate > DateTime.Today || _registrationDate < DateTime.Today)
+                {
+                    throw new ArgumentException("RegistrationDate cannot be set in the past or the future.");
+                }
+                else { _registrationDate = value; }
+            }
         }
         #endregion
 
