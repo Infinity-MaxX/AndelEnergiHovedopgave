@@ -16,6 +16,8 @@ namespace AndelEnergiHovedopgave.Services
         private string getById = "SELECT * FROM EventType WHERE Id = @Id";
         private string getByType = "SELECT * FROM EventType WHERE Type = @Type";
         private string delete = "DELETE FROM EventType WHERE Id = @Id";
+        private string existsEventType = "SELECT COUNT(*) FROM EventType WHERE Type = @Type";
+
 
         public List<EventType> GetAll()
         {
@@ -95,29 +97,6 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
-        public bool EventTypeExists(EventType eventType)
-        {
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
-            {
-                try
-                {
-                    MySqlCommand command = new MySqlCommand(getByType, connection);
-                    command.Parameters.AddWithValue("@Type", eventType.Type);
-                    connection.Open();
-                    int count = Convert.ToInt32(command.ExecuteScalar());
-                    return count > 0;
-                }
-                catch (MySqlException ex)
-                {
-                    throw new Exception($"Database error: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"An error occurred: {ex.Message}");
-                }
-            }
-        }
-
         public EventType GetById(int id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -175,6 +154,31 @@ namespace AndelEnergiHovedopgave.Services
                     throw new Exception($"An error occurred while retrieving event type by type: {ex.Message}");
                 }
                 return foundEventType;
+            }
+        }
+        public bool EventTypeExists(EventType eventType)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    using (MySqlCommand command = new MySqlCommand(existsEventType, connection))
+                    {
+                        command.Parameters.AddWithValue("@Type", eventType.Type);
+                        connection.Open();
+                        //It extracts the first object(the count value) and converts it into an int
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        return count > 0;
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while checking if customer type exists: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while checking if customer type exists: {ex.Message}");
+                }
             }
         }
 

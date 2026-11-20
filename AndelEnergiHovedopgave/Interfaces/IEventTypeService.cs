@@ -13,5 +13,6 @@ namespace AndelEnergiHovedopgave.Interfaces
         public EventType GetByType(string type);
         public void Delete(int id);
         public bool EventTypeExists(EventType eventType);
+
     }
 }
