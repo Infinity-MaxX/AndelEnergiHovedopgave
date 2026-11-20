@@ -66,7 +66,7 @@ namespace UnitTest
             DataQualityError _dateOne = new DataQualityError(1, new DateTime(2023, 1, 1), 2, 1, "RuntimeError");
             DataQualityError _dateTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 3, 1, "RuntimeError");
             DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
-            
+
             // Clean
             _service.Delete(_dateOne.Id);
             _service.Delete(_dateTwo.Id);
@@ -83,6 +83,7 @@ namespace UnitTest
             // Assert
             Assert.AreEqual(_foundByDate[0].RegistrationDate, _filtered[0].RegistrationDate);
             Assert.AreEqual(_foundByDate[1].RegistrationDate, _filtered[1].RegistrationDate);
+            // CollectionAssert.AreEqual(_foundByDate, _filtered);
         }
 
         [TestMethod]
