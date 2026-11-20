@@ -34,7 +34,7 @@ public class TestProductArea
         //Act
         int countBeforeInsert = productAreas.Count;
         pas.Insert(newPa);
-        ProductArea foundPa = pas.GetByArea("TestProductAreaInsert");
+        ProductArea foundPa = pas.GetByArea(newPa.Area);
         int countAfterInsert = pas.GetAll().Count;
         pas.Delete(foundPa.Id);
 
@@ -61,6 +61,59 @@ public class TestProductArea
         //Assert
         Assert.IsTrue(newPa.Id == foundPa.Id);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
+    }
+    [TestMethod]
+    public void Delete()
+    {
+        //Arrange
+        IProductAreaService pas = new ProductAreaService();
+        List<ProductArea> productAreas = pas.GetAll();
+        ProductArea newPa = new ProductArea(5, "TestDelete");
+
+        //Act
+        pas.InsertWithId(newPa);
+        int countBeforeInsert = productAreas.Count;
+        ProductArea foundPa = pas.GetById(newPa.Id);
+        pas.Delete(foundPa.Id);
+        int countAfterInsert = pas.GetAll().Count;
+       
+
+        //Assert
+        Assert.IsTrue(newPa.Id == foundPa.Id);
+        Assert.AreEqual(countBeforeInsert, countAfterInsert);
+    }
+
+    [TestMethod]
+    public void GetByArea() 
+    {
+        //Arrange
+        IProductAreaService pas = new ProductAreaService();
+        List<ProductArea> productAreas = pas.GetAll();
+        ProductArea newPa = new ProductArea(5,"TestGetByArea");
+
+        //Act
+        pas.InsertWithId(newPa);
+        ProductArea foundArea = pas.GetByArea(newPa.Area);
+
+        //Assert
+        Assert.AreEqual(newPa.Area,foundArea.Area);
+        Assert.AreEqual(newPa.Id,foundArea.Id);
+    }
+    [TestMethod]
+    public void ProductAreaExists()
+    {
+        //Arrange
+        IProductAreaService pas = new ProductAreaService();
+        List<ProductArea> productAreas = pas.GetAll();
+        ProductArea newPa = new ProductArea(5, "TestGetByArea");
+
+        //Act
+        pas.InsertWithId(newPa);
+        bool ProductExists = pas.ProductAreaExists(newPa);
+        pas.Delete(newPa.Id);
+
+        //Assert
+        Assert.IsTrue(ProductExists);
     }
 
 }
