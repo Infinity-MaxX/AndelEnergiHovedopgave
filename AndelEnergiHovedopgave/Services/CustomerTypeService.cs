@@ -19,6 +19,11 @@ namespace AndelEnergiHovedopgave.Services
         private string existsCustomerType = "SELECT COUNT(*) FROM CustomerType WHERE Type = @Type";
 
 
+        /// <summary>
+        /// Retrieves all customer types from the database.
+        /// </summary>
+        /// <returns>A list of all customer types.</returns>
+        /// <exception cref="Exception">A database or data retrieval error occurred.</exception>
         public List<CustomerType> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString)) 
@@ -53,6 +58,12 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a customer type by identifier.
+        /// </summary>
+        /// <param name="id">The customer type identifier.</param>
+        /// <returns>The customer type matching the specified identifier, or a default CustomerType when no match is found.</returns>
+        /// <exception cref="Exception">The database operation or retrieval fails.</exception>
         public CustomerType GetById(int id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString)) 
@@ -86,6 +97,13 @@ namespace AndelEnergiHovedopgave.Services
             }
             
         }
+
+        /// <summary>
+        /// Retrieves a customer type by its type name.
+        /// </summary>
+        /// <param name="type">The customer type name to retrieve.</param>
+        /// <returns>The matching CustomerType, or a new CustomerType instance if no match is found.</returns>
+        /// <exception cref="Exception">Thrown when a database or processing error occurs while retrieving the customer type.</exception>
         public CustomerType GetByType(string type)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -120,6 +138,12 @@ namespace AndelEnergiHovedopgave.Services
 
         }
 
+        /// <summary>
+        /// Inserts a customer type if it does not already exist.
+        /// </summary>
+        /// <param name="customerType">The customer type to insert.</param>
+        /// <returns>The inserted customer type, or the existing customer type.</returns>
+        /// <exception cref="Exception">Thrown when a database or general error occurs while inserting the customer type.</exception>
         public CustomerType Insert(CustomerType customerType)
         {
             if(CustomerTypeTypeExists(customerType))
@@ -149,6 +173,13 @@ namespace AndelEnergiHovedopgave.Services
                 return customerType;
             }
         }
+
+        /// <summary>
+        /// Inserts a customer type if it does not already exist.
+        /// </summary>
+        /// <param name="customerType">The customer type to insert.</param>
+        /// <returns>The inserted customer type, or the existing customer type.</returns>
+        /// <exception cref="Exception">A database or general error occurs while inserting the customer type.</exception>
         public CustomerType InsertWithId(CustomerType customerType)
         {
             if(CustomerTypeTypeExists(customerType))
@@ -179,6 +210,11 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
+        /// <summary>
+        /// Deletes the customer type identified by the specified ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the customer type to delete.</param>
+        /// <exception cref="Exception">A database or general error occurs while deleting the customer type.</exception>
         public void Delete(int id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -204,6 +240,12 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
+        /// <summary>
+        /// Determines whether a customer type already exists in the database, by getting the count of objects in the database.
+        /// </summary>
+        /// <param name="customerType">The customerType to check.</param>
+        /// <returns><see langword="true"/> if the customer type exists; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="Exception">A database or other error occurred while checking whether the customer type exists.</exception>
         public bool CustomerTypeTypeExists(CustomerType customerType)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -214,6 +256,7 @@ namespace AndelEnergiHovedopgave.Services
                     {
                         command.Parameters.AddWithValue("@Type", customerType.Type);
                         connection.Open();
+                        //It extracts the first object(the count value) and converts it into an int
                         int count = Convert.ToInt32(command.ExecuteScalar());
                         return count > 0;
                     }

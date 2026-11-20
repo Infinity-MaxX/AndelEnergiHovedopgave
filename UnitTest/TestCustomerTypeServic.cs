@@ -99,6 +99,22 @@
             Assert.IsTrue(newCt.Type == foundCt.Type);
             Assert.AreEqual(countBeforeInsert, countAfterInsert);
         }
+        [TestMethod]
+        public void EventReasonExists()
+        {
+            //Arrange
+            ICustomerTypeService cts = new CustomerTypeService();
+            List<CustomerType> customerTypes = cts.GetAll();
+            CustomerType newCt = new CustomerType(80,"TestCustomerTypeInsert");
+
+            //Act
+            cts.InsertWithId(newCt);
+            bool typelExists = cts.CustomerTypeTypeExists(newCt);
+            cts.Delete(newCt.Id);
+
+            //Assert
+            Assert.IsTrue(typelExists);
+        }
     }
 
 

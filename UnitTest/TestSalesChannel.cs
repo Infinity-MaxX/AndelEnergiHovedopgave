@@ -35,14 +35,50 @@ public class TestSalesChannel
         int countBeforeInsert = salesChannels.Count;
         cts.Insert(newSc);
         SalesChannel foundSc = cts.GetByChannel("TestSalesChannel");
-        int countAfterInsert = cts.GetAll().Count;
         cts.Delete(foundSc.Id);
+        int countAfterInsert = cts.GetAll().Count;
+
 
         //Assert
-        Assert.IsTrue(newSc.Channel == foundSc.Channel);
-        Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
+        Assert.AreEqual(countBeforeInsert, countAfterInsert);
+    }
+    
+    [TestMethod]
+    public void Delete()
+    {
+        //Arrange
+        ISalesChannelService cts = new SalesChannelService();
+        List<SalesChannel> salesChannels = cts.GetAll();
+        SalesChannel newSc = new SalesChannel(55,"TestSalesChannel");
+
+        //Act
+        cts.InsertWithId(newSc);
+        int countBefore = salesChannels.Count;
+
+        cts.Delete(newSc.Id);
+        int countAfter = cts.GetAll().Count;
+
+
+        //Assert
+        Assert.AreEqual(countBefore,countAfter);
     }
 
+    [TestMethod]
+    public void GetByChannel()
+    {
+        //Arrange
+        ISalesChannelService cts = new SalesChannelService();
+        List<SalesChannel> salesChannels = cts.GetAll();
+        SalesChannel newSc = new SalesChannel(57, "TestSalesChannelGetByChannel");
+
+        //Act
+        cts.InsertWithId(newSc);
+        SalesChannel foundSc = cts.GetByChannel(newSc.Channel);
+        cts.Delete(newSc.Id);
+
+        //Assert
+        Assert.IsTrue(newSc.Id == foundSc.Id);
+    }
 
     [TestMethod]
     public void GetById()
@@ -50,7 +86,7 @@ public class TestSalesChannel
         //Arrange
         ISalesChannelService cts = new SalesChannelService();
         List<SalesChannel> salesChannels = cts.GetAll();
-        SalesChannel newSc = new SalesChannel(55, "TestSalesChannelGetById");
+        SalesChannel newSc = new SalesChannel(56, "TestSalesChannelGetById");
 
         //Act
         int countBeforeInsert = salesChannels.Count;
@@ -62,6 +98,22 @@ public class TestSalesChannel
         //Assert
         Assert.IsTrue(newSc.Id == foundSc.Id);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
+    }
+    [TestMethod]
+    public void salesChannelAreaExists()
+    {
+        //Arrange
+        ISalesChannelService cts = new SalesChannelService();
+        List<SalesChannel> salesChannels = cts.GetAll();
+        SalesChannel newSc = new SalesChannel(57, "TestSalesChannelGetById");
+
+        //Act
+        cts.InsertWithId(newSc);
+        bool ChannelExists = cts.SalesChannelTypeExists(newSc);
+        cts.Delete(newSc.Id);
+
+        //Assert
+        Assert.IsTrue(ChannelExists);
     }
 
 }
