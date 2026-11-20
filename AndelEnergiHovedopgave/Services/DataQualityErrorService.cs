@@ -34,7 +34,8 @@ namespace AndelEnergiHovedopgave.Services
 
         #region Methods
         /// <summary>
-        /// Determines whether a data quality error already exists in the database.
+        /// Determines whether a data quality error already exists in the database. Used for testing purposes to prevent
+        /// duplicate entries that will throw errors down in UnitTesting.
         /// </summary>
         /// <param name="dataQualityError">The data quality error whose identifier is checked.</param>
         /// <returns>true if a matching data quality error exists; otherwise, false.</returns>
@@ -242,6 +243,10 @@ namespace AndelEnergiHovedopgave.Services
 
         public DataQualityError Insert(DataQualityError error)
         {
+            if (DataQualityErrorExists(error))
+            {
+                return error;
+            }
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try

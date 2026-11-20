@@ -67,11 +67,6 @@ namespace UnitTest
             DataQualityError _dateTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 3, 1, "RuntimeError");
             DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
 
-            // Clean
-            _service.Delete(_dateOne.Id);
-            _service.Delete(_dateTwo.Id);
-            _service.Delete(_dateThree.Id);
-
             // Act
             _service.Insert(_dateOne);
             _service.Insert(_dateTwo);
