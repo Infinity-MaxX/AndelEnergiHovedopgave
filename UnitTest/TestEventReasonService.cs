@@ -78,6 +78,7 @@ public class TestEventReasonService
         //Assert
         Assert.AreEqual(reason.Reason, foundReason.Reason);
     }
+
     [TestMethod]
     public void Delete()
     {
@@ -98,5 +99,22 @@ public class TestEventReasonService
         //Assert
         Assert.IsTrue(reason.Reason == foundEr.Reason);
         Assert.AreEqual(countBeforeInsert, countAfterInsert);
+    }
+    [TestMethod]
+    public void EventReasonExists()
+    {
+        //Arrange
+        IEventReasonService er = new EventReasonService();
+        List<EventReason> reasons = er.GetAll();
+        EventReason reason = new EventReason("TestExists");
+
+        //Act
+        er.Insert(reason);
+        EventReason eventReason = er.GetByReason(reason.Reason);
+        bool reasonlExists = er.EventReasonExists(eventReason);
+        er.Delete(reason.Id);
+
+        //Assert
+        Assert.IsTrue(reasonlExists);
     }
 }
