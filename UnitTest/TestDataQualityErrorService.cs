@@ -14,7 +14,7 @@ namespace UnitTest
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService();
             List<DataQualityError> _allDataQualityErrors = _service.GetAll();
-            DataQualityError _dataQualityError = new DataQualityError(1, DateTime.Today, 2, 1, "RuntimeError");
+            DataQualityError _dataQualityError = new DataQualityError(1, DateTime.Today, 5, 1, "RuntimeError");
 
             // Act
             _service.Insert(_dataQualityError);
@@ -36,7 +36,7 @@ namespace UnitTest
             List<DataQualityError> _allDataQualityErrors = _service.GetAll();
 
             // Act
-            DataQualityError _error = new DataQualityError(1, DateTime.Today, 2, 1, "RuntimeError");
+            DataQualityError _error = new DataQualityError(1, DateTime.Today, 10, 1, "RuntimeError");
             _allDataQualityErrors.Add(_error);
 
             // Assert
@@ -62,9 +62,9 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService();
-            DataQualityError _dateOne = new DataQualityError(1, new DateTime(2023, 1, 1), 2, 1, "RuntimeError");
-            DataQualityError _dateTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 3, 1, "RuntimeError");
-            DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
+            DataQualityError _dateOne = new DataQualityError(1, new DateTime(2023, 1, 1), 12, 1, "RuntimeError");
+            DataQualityError _dateTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 13, 1, "RuntimeError");
+            DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 14, 1, "RuntimeError");
 
             // Act
             _service.Insert(_dateOne);
@@ -83,20 +83,28 @@ namespace UnitTest
             // Assert
             Assert.AreEqual(_foundByDate[0].RegistrationDate, _filtered[0].RegistrationDate);
             Assert.AreEqual(_foundByDate[1].RegistrationDate, _filtered[1].RegistrationDate);
-            // CollectionAssert.AreEqual(_foundByDate, _filtered);
+            //CollectionAssert.AreEqual(_foundByDate, _filtered);
         }
 
         [TestMethod]
         public void TestGetById()
         {
             // Arrange
-
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            DataQualityError _errorOne = new DataQualityError(1, DateTime.Today, 12, 1, "RuntimeError");
+            DataQualityError _errorTwo = new DataQualityError(2, DateTime.Today, 13, 1, "RuntimeError");
 
             // Act
-
+            _service.Insert(_errorOne);
+            _service.Insert(_errorTwo);
+            DataQualityError _foundById = _service.GetById(1);
 
             // Assert
+            Assert.AreEqual(_errorOne.Id, _foundById.Id);
 
+            // Clean
+            _service.Delete(_errorOne.Id);
+            _service.Delete(_errorTwo.Id);
         }
 
         [TestMethod]
@@ -104,9 +112,9 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService();
-            DataQualityError _typeOne = new DataQualityError(1, new DateTime(2023, 1, 1), 2, 1, "IndexOutOfRangeError");
-            DataQualityError _typeTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 3, 1, "SyntaxError");
-            DataQualityError _typeThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "IndexOutOfRangeError");
+            DataQualityError _typeOne = new DataQualityError(1, new DateTime(2023, 1, 1), 12, 1, "IndexOutOfRangeError");
+            DataQualityError _typeTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 13, 1, "SyntaxError");
+            DataQualityError _typeThree = new DataQualityError(3, new DateTime(2023, 1, 1), 14, 1, "IndexOutOfRangeError");
 
             // Act
             _service.Insert(_typeOne);

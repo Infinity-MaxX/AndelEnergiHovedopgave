@@ -30,25 +30,10 @@ namespace AndelEnergiHovedopgave.Models
         #endregion
 
         #region Constructor
-        // base constructor
+        // default constructor
         public DataQualityError() { }
 
         // parameterized constructor
-        public DataQualityError(DateTime registrationDate, int errorSeverity, string errorType)
-        {
-            _registrationDate = registrationDate;
-            ErrorSeverity = errorSeverity;
-            ErrorType = errorType;
-        }
-
-        public DataQualityError(DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
-        {
-            _registrationDate = registrationDate;
-            CustomerEventId = customerEventId;
-            ErrorSeverity = errorSeverity;
-            ErrorType = errorType;
-        }
-
         public DataQualityError(int id, DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
         {
             Id = id;
