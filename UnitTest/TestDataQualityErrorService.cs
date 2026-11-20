@@ -62,7 +62,6 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService();
-            List<DataQualityError> _allDates = _service.GetAll();
             DataQualityError _dateOne = new DataQualityError(1, new DateTime(2023, 1, 1), 2, 1, "RuntimeError");
             DataQualityError _dateTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 3, 1, "RuntimeError");
             DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
@@ -73,7 +72,13 @@ namespace UnitTest
             _service.Insert(_dateThree);
 
             List<DataQualityError> _foundByDate = _service.GetByDate(new DateTime(2023, 1, 1));
+            List<DataQualityError> _allDates = _service.GetAll();
             List<DataQualityError> _filtered = _allDates.Where(d => d.RegistrationDate == new DateTime(2023, 1, 1)).ToList();
+
+            // Clean
+            _service.Delete(_dateOne.Id);
+            _service.Delete(_dateTwo.Id);
+            _service.Delete(_dateThree.Id);
 
             // Assert
             Assert.AreEqual(_foundByDate[0].RegistrationDate, _filtered[0].RegistrationDate);
@@ -98,13 +103,29 @@ namespace UnitTest
         public void TestGetByType()
         {
             // Arrange
-
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            DataQualityError _typeOne = new DataQualityError(1, new DateTime(2023, 1, 1), 2, 1, "IndexOutOfRangeError");
+            DataQualityError _typeTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 3, 1, "SyntaxError");
+            DataQualityError _typeThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "IndexOutOfRangeError");
 
             // Act
+            _service.Insert(_typeOne);
+            _service.Insert(_typeTwo);
+            _service.Insert(_typeThree);
 
+            List<DataQualityError> _foundByType = _service.GetByType("IndexOutOfRangeError");
+            List<DataQualityError> _allTypes = _service.GetAll();
+            List<DataQualityError> _filtered = _allTypes.Where(t => t.ErrorType == "IndexOutOfRangeError").ToList();
+
+            // Clean
+            _service.Delete(_typeOne.Id);
+            _service.Delete(_typeTwo.Id);
+            _service.Delete(_typeThree.Id);
 
             // Assert
-
+            Assert.AreEqual(_foundByType[0].ErrorType, _filtered[0].ErrorType);
+            Assert.AreEqual(_foundByType[1].ErrorType, _filtered[1].ErrorType);
+            //CollectionAssert.AreEqual(_foundByType, _filtered);
         }
 
         [TestMethod]
