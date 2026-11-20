@@ -107,9 +107,9 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService();
-            DataQualityError _typeOne = new DataQualityError(1, new DateTime(2023, 1, 1), 12, 1, "IndexOutOfRangeError");
-            DataQualityError _typeTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 13, 1, "SyntaxError");
-            DataQualityError _typeThree = new DataQualityError(3, new DateTime(2023, 1, 1), 14, 1, "IndexOutOfRangeError");
+            DataQualityError _typeOne = new DataQualityError(1, DateTime.Today, 12, 1, "IndexOutOfRangeError");
+            DataQualityError _typeTwo = new DataQualityError(2, DateTime.Today, 13, 1, "SyntaxError");
+            DataQualityError _typeThree = new DataQualityError(3, DateTime.Today, 14, 1, "IndexOutOfRangeError");
 
             // Act
             _service.Insert(_typeOne);
