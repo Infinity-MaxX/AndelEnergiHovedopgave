@@ -13,19 +13,15 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService();
-            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
             DataQualityError _dataQualityError = new DataQualityError(1, DateTime.Today, 5, 1, "RuntimeError");
 
             // Act
             _service.Insert(_dataQualityError);
-            int countBeforeDelete = _service.GetAll().Count;
-
             DataQualityError findId = _service.GetById(_dataQualityError.Id);
             _service.Delete(findId.Id);
-            int countAfterDelete = _service.GetAll().Count;
 
             // Assert
-            Assert.AreEqual(countBeforeDelete - 1, countAfterDelete);
+            Assert.IsNull(_service.GetById(_dataQualityError.Id));
         }
 
         [TestMethod]
@@ -83,7 +79,6 @@ namespace UnitTest
             // Assert
             Assert.AreEqual(_foundByDate[0].RegistrationDate, _filtered[0].RegistrationDate);
             Assert.AreEqual(_foundByDate[1].RegistrationDate, _filtered[1].RegistrationDate);
-            //CollectionAssert.AreEqual(_foundByDate, _filtered);
         }
 
         [TestMethod]
@@ -133,20 +128,23 @@ namespace UnitTest
             // Assert
             Assert.AreEqual(_foundByType[0].ErrorType, _filtered[0].ErrorType);
             Assert.AreEqual(_foundByType[1].ErrorType, _filtered[1].ErrorType);
-            //CollectionAssert.AreEqual(_foundByType, _filtered);
         }
 
         [TestMethod]
         public void TestInsert()
         {
             // Arrange
-
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            DataQualityError _error = new DataQualityError(1, DateTime.Today, 12, 1, "RuntimeError");
 
             // Act
-
+            _service.Insert(_error);
 
             // Assert
+            Assert.IsNotNull(_service.GetById(1));
 
+            // Clean
+            _service.Delete(_error.Id);
         }
     }
 }
