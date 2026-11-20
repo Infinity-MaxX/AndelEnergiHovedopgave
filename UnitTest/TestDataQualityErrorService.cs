@@ -61,13 +61,24 @@ namespace UnitTest
         public void TestGetByDate()
         {
             // Arrange
-
+            IDataQualityErrorService _service = new DataQualityErrorService();
+            List<DataQualityError> _allDates = _service.GetAll();
+            DataQualityError _dateOne = new DataQualityError(1, new DateTime(2023, 1, 1), 2, 1, "RuntimeError");
+            DataQualityError _dateTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 3, 1, "RuntimeError");
+            DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
 
             // Act
+            _service.Insert(_dateOne);
+            _service.Insert(_dateTwo);
+            _service.Insert(_dateThree);
 
+            List<DataQualityError> _foundByDate = _service.GetByDate(new DateTime(2023, 1, 1));
+            List<DataQualityError> _filtered = _allDates.Where(d => d.RegistrationDate == new DateTime(2023, 1, 1)).ToList();
 
             // Assert
-
+            Assert.AreEqual(_foundByDate[0].RegistrationDate, _filtered[0].RegistrationDate);
+            Assert.AreEqual(_foundByDate[1].RegistrationDate, _filtered[1].RegistrationDate);
+            // CollectionAssert.AreEqual(_foundByDate, _filtered);
         }
 
         [TestMethod]

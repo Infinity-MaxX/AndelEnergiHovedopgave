@@ -22,16 +22,59 @@ namespace AndelEnergiHovedopgave.Services
         #endregion
 
         #region SQL Queries
-        private string deleteSQL = "DELETE FROM DataQualityError WHERE Id = @Id";
-        private string getAllSQL = "SELECT * FROM DataQualityError";
-        private string getByDateSQL = "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
-        private string getByIdSQL = "SELECT * FROM DataQualityError WHERE Id = @Id";
-        private string getByTypeSQL = "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
-        private string insertSQL = "INSERT INTO DataQualityError(Id, RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
-                                "VALUES(@Id, @RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
+        private string dataQualityErrorExistsSQL = "SELECT COUNT(*) FROM DataQualityError WHERE Id = @Id";
+        private string deleteSQL    =   "DELETE FROM DataQualityError WHERE Id = @Id";
+        private string getAllSQL    =   "SELECT * FROM DataQualityError";
+        private string getByDateSQL =   "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
+        private string getByIdSQL   =   "SELECT * FROM DataQualityError WHERE Id = @Id";
+        private string getByTypeSQL =   "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
+        private string insertSQL    =   "INSERT INTO DataQualityError(Id, RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
+                                        "VALUES(@Id, @RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Determines whether a data quality error already exists in the database. Used for testing purposes to prevent
+        /// duplicate entries that will throw errors down in UnitTesting.
+        /// </summary>
+        /// <param name="dataQualityError">The data quality error whose identifier is checked.</param>
+        /// <returns>true if a matching data quality error exists; otherwise, false.</returns>
+        /// <exception cref="MySqlException">Thrown when a MySQL error occurs.</exception>
+        /// <exception cref="Exception">Thrown when an error occurs while checking for the data quality error.</exception>
+        public bool DataQualityErrorExists(DataQualityError dataQualityError)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
+                {
+                    MySqlCommand command = new MySqlCommand(dataQualityErrorExistsSQL, connection);
+                    command.Parameters.AddWithValue("@Id", dataQualityError.Id);
+                    connection.Open();
+
+                    // ExecuteScalar returns the first object. because we want
+                    // to get the count of rows, we convert it to an integer.
+                    // Johanne's solution
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count > 0;
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while checking if data quality error exists: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while checking if data quality error exists: {ex.Message}");
+                }
+                finally { connection.Close(); }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the customer type with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the customer type to delete.</param>
+        /// <exception cref="MySqlException">Thrown when a MySQL error occurs.</exception>
+        /// <exception cref="Exception">Thrown when an error occurs while deleting the customer type.</exception>
         public void Delete(int id)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -200,6 +243,10 @@ namespace AndelEnergiHovedopgave.Services
 
         public DataQualityError Insert(DataQualityError error)
         {
+            if (DataQualityErrorExists(error))
+            {
+                return error;
+            }
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
