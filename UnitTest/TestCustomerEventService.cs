@@ -62,6 +62,25 @@ public class TestCustomerEventService
         Assert.AreEqual(countBefore, countAfter);
     }
     [TestMethod]
+    public void GetById() 
+    {
+        //Arrange
+        ICustomerEventService ce = new CustomerEventService();
+        ICustomerTypeService ct = new CustomerTypeService();
+        CustomerType type = ct.GetById(1);
+        DateTime date = new DateTime(2005, 1, 1);
+        CustomerEvent newEvents = new CustomerEvent(date, 1, 1, 1, 1, 7, 102);
+
+        //Act
+        ce.Insert(newEvents);
+
+        CustomerEvent foundEvent = ce.GetByDate(date)[0];
+        int foundId = (ce.GetById(foundEvent.Id)).Id;
+
+        //Assert
+        Assert.AreEqual(foundEvent.Id, foundId);
+    }
+    [TestMethod]
     public void GetByCustomerType()
     {
         //Arrange
