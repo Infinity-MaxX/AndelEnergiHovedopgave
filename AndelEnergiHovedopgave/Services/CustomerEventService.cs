@@ -15,6 +15,7 @@ namespace AndelEnergiHovedopgave.Services
         private readonly ISalesChannelService _salesChannelService = new SalesChannelService();
         private readonly IProductAreaService _productAreaService= new ProductAreaService();
         private readonly IEventReasonService _eventReasonService = new EventReasonService();
+        private readonly IEventTypeService _eventTypeService = new EventTypeService();
 
 
         //Actions
@@ -115,6 +116,45 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
+        public List<CustomerEvent> GetBygetByEventType(string eventType)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                List<CustomerEvent> customerEvents = new List<CustomerEvent>();
+                try
+                {
+                    int foundEventTypeId = (_eventTypeService.GetByType(eventType)).Id;
+                    MySqlCommand command = new MySqlCommand(getByEventType, connection);
+                    command.Parameters.AddWithValue("@EventTypeId", foundEventTypeId);
+                    connection.Open();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            DateTime dateOfEvent = reader.GetDateTime(1);
+                            int productAreaId = reader.GetInt32(3);
+                            int customerTypeId = reader.GetInt32(2);
+                            int eventTypeId = reader.GetInt32(4);
+                            int salesChannelId = reader.GetInt32(5);
+                            int eventReasonId = reader.GetInt32(6);
+                            int count = reader.GetInt32(7);
+                            customerEvents.Add(new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count));
+                        }
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error occurred while retrieving customer event by type: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"An error occurred while retrieving customer event by type: {ex.Message}");
+                }
+                return customerEvents;
+            }
+        }
+        
         public List<CustomerEvent> GetByDate(DateTime month)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -200,8 +240,8 @@ namespace AndelEnergiHovedopgave.Services
                 try
                 {
                     int foundReasonId = (_eventReasonService.GetByReason(reason)).Id;
-                    MySqlCommand command = new MySqlCommand(getByCustomerType, connection);
-                    command.Parameters.AddWithValue("@CustomerTypeId", foundReasonId);
+                    MySqlCommand command = new MySqlCommand(getByReason, connection);
+                    command.Parameters.AddWithValue("@EventReasonId", foundReasonId);
                     connection.Open();
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
