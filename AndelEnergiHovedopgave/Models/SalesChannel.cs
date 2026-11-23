@@ -11,7 +11,7 @@ namespace AndelEnergiHovedopgave.Models
         [JsonPropertyName("SalesChannelId")]
         public int Id { get; set; }
         [JsonPropertyName("SalesChannel")]
-        public string Channel { get; set; }
+        public string? Channel { get; set; }
 
         public SalesChannel()
         {

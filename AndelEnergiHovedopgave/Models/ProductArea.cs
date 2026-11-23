@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -9,6 +10,7 @@ namespace AndelEnergiHovedopgave.Models
     {
         [JsonPropertyName("ProductAreaId")]
         public int Id { get; set; }
+        [NotNull]
         [JsonPropertyName("ProductArea")]
         public string Area { get; set; }
 
