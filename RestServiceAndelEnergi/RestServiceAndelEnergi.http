@@ -1,0 +1,6 @@
+@RestServiceAndelEnergi_HostAddress = http://localhost:5039
+
+GET {{RestServiceAndelEnergi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
