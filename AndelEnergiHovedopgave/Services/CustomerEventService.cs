@@ -11,7 +11,7 @@ namespace AndelEnergiHovedopgave.Services
     public class CustomerEventService : ICustomerEventService
     {  
         private string _connectionString = Secret.ConnectionString;
-        private readonly ICustomerTypeService _customerTypeService = new CustomerTypeService();
+        private readonly ICustomerTypeService _customerTypeService = new CustomerTypeService(Secret.TestConnectionString);
         private readonly ISalesChannelService _salesChannelService = new SalesChannelService();
         private readonly IProductAreaService _productAreaService= new ProductAreaService();
         private readonly IEventReasonService _eventReasonService = new EventReasonService();

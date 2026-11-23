@@ -1,5 +1,6 @@
 ﻿namespace UnitTest
 {
+    using AndelEnergiHovedopgave;
     using AndelEnergiHovedopgave.Interfaces;
     using AndelEnergiHovedopgave.Models;
     using AndelEnergiHovedopgave.Services;
@@ -12,7 +13,7 @@
         public void GetAll()
         {
             //Arrange
-            ICustomerTypeService cts = new CustomerTypeService();
+            ICustomerTypeService cts = new CustomerTypeService(Secret.TestConnectionString);
             List<CustomerType> customerTypes = cts.GetAll();
 
             //Act
@@ -27,7 +28,7 @@
         public void Insert()
         {
             //Arrange
-            ICustomerTypeService cts = new CustomerTypeService();
+            ICustomerTypeService cts = new CustomerTypeService(Secret.TestConnectionString);
             List<CustomerType> customerTypes = cts.GetAll();
             CustomerType newCt = new CustomerType("TestCustomerTypeInsert");
 
@@ -48,7 +49,7 @@
         public void GetById()
         {
             //Arrange
-            ICustomerTypeService cts = new CustomerTypeService();
+            ICustomerTypeService cts = new CustomerTypeService(Secret.TestConnectionString);
             List<CustomerType> customerTypes = cts.GetAll();
             CustomerType newCt = new CustomerType(5,"TestCustomerTypeGetById");
 
@@ -68,7 +69,7 @@
         public void GetByType() 
         {
             //Arrange
-            ICustomerTypeService ct = new CustomerTypeService();
+            ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
             CustomerType type = new CustomerType("Test");
 
             //Act
@@ -82,7 +83,7 @@
         public void Delete()
         {
             //Arrange
-            ICustomerTypeService cts = new CustomerTypeService();
+            ICustomerTypeService cts = new CustomerTypeService(Secret.TestConnectionString);
             List<CustomerType> customerTypes = cts.GetAll();
             CustomerType newCt = new CustomerType("TestCustomerTypeInsert");
 
@@ -103,7 +104,7 @@
         public void EventReasonExists()
         {
             //Arrange
-            ICustomerTypeService cts = new CustomerTypeService();
+            ICustomerTypeService cts = new CustomerTypeService(Secret.TestConnectionString);
             List<CustomerType> customerTypes = cts.GetAll();
             CustomerType newCt = new CustomerType(80,"TestCustomerTypeInsert");
 

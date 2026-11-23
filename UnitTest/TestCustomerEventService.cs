@@ -1,3 +1,4 @@
+using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
 using AndelEnergiHovedopgave.Services;
@@ -66,7 +67,7 @@ public class TestCustomerEventService
     {
         //Arrange
         ICustomerEventService ce = new CustomerEventService();
-        ICustomerTypeService ct = new CustomerTypeService();
+        ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
         CustomerType type = ct.GetById(1);
         DateTime date = new DateTime(2005, 1, 1);
         CustomerEvent newEvents = new CustomerEvent(date, 1, 1, 1, 1, 7, 102);
@@ -85,7 +86,7 @@ public class TestCustomerEventService
     {
         //Arrange
         ICustomerEventService ce = new CustomerEventService();
-        ICustomerTypeService ct = new CustomerTypeService();
+        ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         CustomerType type = ct.GetById(1);
         List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1, 7, 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1, 8, 103) };
