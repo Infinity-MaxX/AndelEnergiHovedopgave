@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="AndelEnergiHovedopgave/AndelEnergiHovedopgave.csproj" />
   <Project Path="Import/Import.csproj" Id="a49f7768-8972-43cd-985b-1e7a9089261f" />
+  <Project Path="RestServiceAndelEnergi/RestServiceAndelEnergi.csproj" Id="c8857220-7f1e-4a4a-b7dd-c91fbbef01b5" />
   <Project Path="UnitTest/UnitTest.csproj" Id="a89e2382-088b-42bd-9f3c-2d8c9fb326d4" />
 </Solution>
