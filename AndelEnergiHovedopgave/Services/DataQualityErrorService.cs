@@ -25,6 +25,7 @@ namespace AndelEnergiHovedopgave.Services
         private string dataQualityErrorExistsSQL = "SELECT COUNT(*) FROM DataQualityError WHERE Id = @Id";
         private string deleteSQL    =   "DELETE FROM DataQualityError WHERE Id = @Id";
         private string getAllSQL    =   "SELECT * FROM DataQualityError";
+        private string getAllDates =    "SELECT * FROM DataQualityError WHERE RegistrationDate >= @StartOfDay AND RegistrationDate < @NextDay";
         private string getByDateSQL =   "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
         private string getByIdSQL   =   "SELECT * FROM DataQualityError WHERE Id = @Id";
         private string getByTypeSQL =   "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
@@ -247,6 +248,9 @@ namespace AndelEnergiHovedopgave.Services
             {
                 return error;
             }
+
+            error.RegistrationDate = DateTime.Today;
+
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try

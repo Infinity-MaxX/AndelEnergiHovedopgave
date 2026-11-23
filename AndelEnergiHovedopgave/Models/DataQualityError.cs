@@ -12,18 +12,7 @@ namespace AndelEnergiHovedopgave.Models
 
         #region Properties
         public int Id { get; set; }
-        public DateTime RegistrationDate
-        {
-            get { return _registrationDate; }
-            set
-            {
-                if (_registrationDate > DateTime.Today || _registrationDate < DateTime.Today)
-                {
-                    throw new ArgumentException("RegistrationDate cannot be set in the past or the future.");
-                }
-                else { _registrationDate = value; }
-            }
-        }
+        public DateTime RegistrationDate { get; set; }
         public int CustomerEventId { get; set; }
         public int ErrorSeverity { get; set; }
         public string ErrorType { get; set; }
@@ -37,7 +26,7 @@ namespace AndelEnergiHovedopgave.Models
         public DataQualityError(int id, DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
         {
             Id = id;
-            _registrationDate = registrationDate;
+            RegistrationDate = registrationDate;
             CustomerEventId = customerEventId;
             ErrorSeverity = errorSeverity;
             ErrorType = errorType;
