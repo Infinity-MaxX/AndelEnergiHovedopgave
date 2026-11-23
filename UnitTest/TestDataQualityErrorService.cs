@@ -13,7 +13,7 @@ namespace UnitTest
         public void TestDelete()
         {
             // Arrange
-            IDataQualityErrorService _service = new DataQualityErrorService(Secret.ConnectionString);
+            IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
             DataQualityError _dataQualityError = new DataQualityError(1, DateTime.Today, 5, 1, "RuntimeError");
 
             // Act
@@ -29,7 +29,7 @@ namespace UnitTest
         public void TestGetAllIsNotEmpty()
         {
             // Arrange
-            IDataQualityErrorService _service = new DataQualityErrorService(Secret.ConnectionString);
+            IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
             List<DataQualityError> _allDataQualityErrors = _service.GetAll();
 
             // Act
@@ -47,7 +47,7 @@ namespace UnitTest
         public void TestGetAllIsNotNull()
         {
             // Arrange
-            IDataQualityErrorService _service = new DataQualityErrorService(Secret.ConnectionString);
+            IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
             List<DataQualityError> _allDataQualityErrors = _service.GetAll();
 
             // Assert
@@ -86,7 +86,7 @@ namespace UnitTest
         public void TestGetById()
         {
             // Arrange
-            IDataQualityErrorService _service = new DataQualityErrorService(Secret.ConnectionString);
+            IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
             DataQualityError _errorOne = new DataQualityError(1, DateTime.Today, 12, 1, "RuntimeError");
             DataQualityError _errorTwo = new DataQualityError(2, DateTime.Today, 13, 1, "RuntimeError");
 
@@ -107,7 +107,7 @@ namespace UnitTest
         public void TestGetByType()
         {
             // Arrange
-            IDataQualityErrorService _service = new DataQualityErrorService(Secret.ConnectionString);
+            IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
             DataQualityError _typeOne = new DataQualityError(1, DateTime.Today, 12, 1, "IndexOutOfRangeError");
             DataQualityError _typeTwo = new DataQualityError(2, DateTime.Today, 13, 1, "SyntaxError");
             DataQualityError _typeThree = new DataQualityError(3, DateTime.Today, 14, 1, "IndexOutOfRangeError");
@@ -135,7 +135,7 @@ namespace UnitTest
         public void TestInsert()
         {
             // Arrange
-            IDataQualityErrorService _service = new DataQualityErrorService(Secret.ConnectionString);
+            IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
             DataQualityError _error = new DataQualityError(1, DateTime.Today, 12, 1, "RuntimeError");
 
             // Act
