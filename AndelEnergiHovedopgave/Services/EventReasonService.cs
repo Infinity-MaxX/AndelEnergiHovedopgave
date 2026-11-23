@@ -11,13 +11,18 @@ namespace AndelEnergiHovedopgave.Services
 {
     public class EventReasonService : IEventReasonService
     {
-        private string _connectionString = Secret.ConnectionString;
+        private string _connectionString;
         private string getAll = "SELECT * FROM EventReason";
         private string insert = "INSERT INTO EventReason(Reason) VALUES(@Reason)";
         private string getById = "SELECT * FROM EventReason Where Id=@Id";
         private string getByReason = "SELECT * FROM EventReason Where Reason=@Reason";
         private string delete = "DELETE From EventReason WHERE Id=@Id";
         private string eventReasonExists = "SELECT COUNT(*)  FROM EventReason Where Reason=@Reason";
+
+        public EventReasonService(string connectionstring)
+        {
+            _connectionString = connectionstring ?? throw new ArgumentNullException(nameof(connectionstring));
+        }
 
         public List<EventReason> GetAll()
         {

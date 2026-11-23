@@ -154,7 +154,7 @@ public class TestCustomerEventService
     {
         //Arrange
         ICustomerEventService ce = new CustomerEventService();
-        IEventReasonService er = new EventReasonService();
+        IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         EventReason reason = er.GetByReason("move in");
         List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1,reason.Id , 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1,1, 1, reason.Id, 103) };
@@ -177,7 +177,7 @@ public class TestCustomerEventService
     {
         //Arrange
         ICustomerEventService ce = new CustomerEventService();
-        IEventReasonService er = new EventReasonService();
+        IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
         EventTypeService et = new EventTypeService();
 
         List<CustomerEvent> customerEvents = ce.GetAll();
