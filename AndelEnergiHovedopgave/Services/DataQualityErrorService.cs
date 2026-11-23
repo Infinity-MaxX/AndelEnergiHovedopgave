@@ -18,7 +18,7 @@ namespace AndelEnergiHovedopgave.Services
     public class DataQualityErrorService : IDataQualityErrorService
     {
         #region Connection String
-        private string _connectionString = Secret.ConnectionString;
+        private string _connectionString;
         #endregion
 
         #region SQL Queries
@@ -31,6 +31,14 @@ namespace AndelEnergiHovedopgave.Services
         private string getByTypeSQL =   "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
         private string insertSQL    =   "INSERT INTO DataQualityError(Id, RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
                                         "VALUES(@Id, @RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
+        #endregion
+
+        #region Constructor
+        public DataQualityErrorService(string connectionString)
+        {
+            _connectionString = connectionString 
+                ?? throw new ArgumentNullException(nameof(connectionString));
+        }
         #endregion
 
         #region Methods
