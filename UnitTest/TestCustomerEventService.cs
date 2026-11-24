@@ -1,3 +1,4 @@
+using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
 using AndelEnergiHovedopgave.Services;
@@ -11,7 +12,7 @@ public class TestCustomerEventService
     public void GetAll()
     {
         //Arrange
-        ICustomerEventService ces = new CustomerEventService();
+        ICustomerEventService ces = new CustomerEventService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ces.GetAll();
 
         //Act
@@ -26,7 +27,7 @@ public class TestCustomerEventService
     public void Insert()
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         CustomerEvent customerEvent = new CustomerEvent(new DateTime(2001,1,1),1,1,1,1,6,100);
 
@@ -46,7 +47,7 @@ public class TestCustomerEventService
     public void Delete()
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         CustomerEvent customerEvent = new CustomerEvent(new DateTime(2001, 1, 1), 1, 1, 1, 1, 6, 101);
 
@@ -65,8 +66,8 @@ public class TestCustomerEventService
     public void GetById() 
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
-        ICustomerTypeService ct = new CustomerTypeService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
+        ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
         CustomerType type = ct.GetById(1);
         DateTime date = new DateTime(2005, 1, 1);
         CustomerEvent newEvents = new CustomerEvent(date, 1, 1, 1, 1, 7, 102);
@@ -84,8 +85,8 @@ public class TestCustomerEventService
     public void GetByCustomerType()
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
-        ICustomerTypeService ct = new CustomerTypeService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
+        ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         CustomerType type = ct.GetById(1);
         List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1, 7, 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1, 8, 103) };
@@ -107,7 +108,7 @@ public class TestCustomerEventService
     public void GetByDate()
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         DateTime date = new DateTime(2001, 1, 1);
         List<CustomerEvent> newEvents = new List<CustomerEvent>{new CustomerEvent(date,1, 1, 1, 1, 7, 102),new CustomerEvent(date,1, 1, 1, 1, 8, 103)};
@@ -129,8 +130,8 @@ public class TestCustomerEventService
     public void GetByEventType()
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
-        IEventTypeService et = new EventTypeService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
+        IEventTypeService et = new EventTypeService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         EventType type = et.GetByType("Ga");
         List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 7, 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 8, 103) };
@@ -152,8 +153,8 @@ public class TestCustomerEventService
     public void GetByEventReason()
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
-        IEventReasonService er = new EventReasonService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
+        IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         EventReason reason = er.GetByReason("move in");
         List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1,reason.Id , 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1,1, 1, reason.Id, 103) };
@@ -175,9 +176,9 @@ public class TestCustomerEventService
     public void CustomerExistsExists()
     {
         //Arrange
-        ICustomerEventService ce = new CustomerEventService();
-        IEventReasonService er = new EventReasonService();
-        EventTypeService et = new EventTypeService();
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
+        IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
+        EventTypeService et = new EventTypeService(Secret.TestConnectionString);
 
         List<CustomerEvent> customerEvents = ce.GetAll();
         EventType type = et.GetByType("Ga");

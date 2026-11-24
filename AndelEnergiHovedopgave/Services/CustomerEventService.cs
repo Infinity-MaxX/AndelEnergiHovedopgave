@@ -10,12 +10,12 @@ namespace AndelEnergiHovedopgave.Services
 {
     public class CustomerEventService : ICustomerEventService
     {  
-        private string _connectionString = Secret.ConnectionString;
-        private readonly ICustomerTypeService _customerTypeService = new CustomerTypeService();
-        private readonly ISalesChannelService _salesChannelService = new SalesChannelService();
-        private readonly IProductAreaService _productAreaService= new ProductAreaService();
-        private readonly IEventReasonService _eventReasonService = new EventReasonService();
-        private readonly IEventTypeService _eventTypeService = new EventTypeService();
+        private string _connectionString;
+        private readonly ICustomerTypeService _customerTypeService;
+        private readonly ISalesChannelService _salesChannelService;
+        private readonly IProductAreaService _productAreaService;
+        private readonly IEventReasonService _eventReasonService;
+        private readonly IEventTypeService _eventTypeService;
 
 
         //Actions
@@ -31,10 +31,17 @@ namespace AndelEnergiHovedopgave.Services
         private string getByEventType = "SELECT * FROM CustomerEvents  WHERE EventTypeId = @EventTypeId";
         private string getBySalesChannel = "SELECT * FROM CustomerEvents  WHERE SalesChannelId = @SalesChannelId";
         private string getByProductArea = "SELECT * FROM CustomerEvents  WHERE ProductAreaId = @ProductAreaId";
-
         private string existsCustomerEvents = "SELECT COUNT(*) FROM CustomerEvents  WHERE DateOfEvent = @DateOfEvent AND ProductAreaId = @ProductAreaId AND CustomerTypeId = @CustomerTypeId AND EventTypeId = @EventTypeId AND SalesChannelId = @SalesChannelId AND EventReasonId = @EventReasonId";
 
-
+        public CustomerEventService(string connectionstring)
+        {
+            _connectionString = connectionstring ?? throw new ArgumentNullException(nameof(connectionstring));
+            _customerTypeService = new CustomerTypeService(_connectionString);
+            _salesChannelService = new SalesChannelService(_connectionString);
+            _productAreaService = new ProductAreaService(_connectionString);
+            _eventReasonService = new EventReasonService(_connectionString);
+            _eventTypeService = new EventTypeService(_connectionString);
+        }
         public List<CustomerEvent> GetAll()
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))

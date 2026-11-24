@@ -6,12 +6,12 @@ using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 
 //Import af services
-ICustomerTypeService customerTypeService = new CustomerTypeService();
-IProductAreaService ProductAreaService = new ProductAreaService();
-ISalesChannelService salesChannelService = new SalesChannelService();
-IEventReasonService eventReasonService = new EventReasonService();
-IEventTypeService eventTypeService = new EventTypeService();
-ICustomerEventService customerEventService = new CustomerEventService();
+ICustomerTypeService customerTypeService = new CustomerTypeService(Secret.ConnectionString);
+IProductAreaService ProductAreaService = new ProductAreaService(Secret.ConnectionString);
+ISalesChannelService salesChannelService = new SalesChannelService(Secret.ConnectionString);
+IEventReasonService eventReasonService = new EventReasonService(Secret.ConnectionString);
+IEventTypeService eventTypeService = new EventTypeService(Secret.ConnectionString);
+ICustomerEventService customerEventService = new CustomerEventService(Secret.ConnectionString);
 ImportService importService = new ImportService();
 
 //Connection til databsen åbnes

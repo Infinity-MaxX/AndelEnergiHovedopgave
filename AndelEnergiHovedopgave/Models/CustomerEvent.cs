@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -10,8 +11,9 @@ namespace AndelEnergiHovedopgave.Models
         private DateTime _dateOfEvent;
 
         public int Id { get; set; }
-        [JsonPropertyName("Month")]
 
+        [NotNull]
+        [JsonPropertyName("Month")]
         public DateTime DateOfEvent 
         {
             get {return _dateOfEvent; }
@@ -28,19 +30,21 @@ namespace AndelEnergiHovedopgave.Models
  
             }
         }
-
+        [NotNull]
         [JsonPropertyName("CustomerTypeId")]
         public int CustomerTypeId { get; set; }
-        
+
+        [NotNull]
         [JsonPropertyName("ProductAreaId")]
         public int ProductAreaId { get; set; }
-        
+
+        [NotNull]
         [JsonPropertyName("SalesChannelId")]
         public int? SalesChannelId { get; set; }
         public int EventTypeId { get; set; }
 
         public int EventReasonId { get; set; }
-
+        [NotNull]
         [JsonPropertyName("Count")]
         public int Count { get; set; }
 

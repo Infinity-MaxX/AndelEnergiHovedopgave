@@ -1,3 +1,4 @@
+using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
 using AndelEnergiHovedopgave.Services;
@@ -11,7 +12,7 @@ public class TestSalesChannel
     public void GetAll()
     {
         //Arrange
-        ISalesChannelService cts = new SalesChannelService();
+        ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
 
         //Act
@@ -27,7 +28,7 @@ public class TestSalesChannel
     public void Insert()
     {
         //Arrange
-        ISalesChannelService cts = new SalesChannelService();
+        ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
         SalesChannel newSc = new SalesChannel("TestSalesChannel");
 
@@ -35,19 +36,19 @@ public class TestSalesChannel
         int countBeforeInsert = salesChannels.Count;
         cts.Insert(newSc);
         SalesChannel foundSc = cts.GetByChannel("TestSalesChannel");
-        cts.Delete(foundSc.Id);
         int countAfterInsert = cts.GetAll().Count;
+        cts.Delete(foundSc.Id);
 
 
         //Assert
-        Assert.AreEqual(countBeforeInsert, countAfterInsert);
+        Assert.AreEqual(countBeforeInsert+1, countAfterInsert);
     }
     
     [TestMethod]
     public void Delete()
     {
         //Arrange
-        ISalesChannelService cts = new SalesChannelService();
+        ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
         SalesChannel newSc = new SalesChannel(55,"TestSalesChannel");
 
@@ -67,7 +68,7 @@ public class TestSalesChannel
     public void GetByChannel()
     {
         //Arrange
-        ISalesChannelService cts = new SalesChannelService();
+        ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
         SalesChannel newSc = new SalesChannel(57, "TestSalesChannelGetByChannel");
 
@@ -84,7 +85,7 @@ public class TestSalesChannel
     public void GetById()
     {
         //Arrange
-        ISalesChannelService cts = new SalesChannelService();
+        ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
         SalesChannel newSc = new SalesChannel(56, "TestSalesChannelGetById");
 
@@ -103,7 +104,7 @@ public class TestSalesChannel
     public void salesChannelAreaExists()
     {
         //Arrange
-        ISalesChannelService cts = new SalesChannelService();
+        ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
         SalesChannel newSc = new SalesChannel(57, "TestSalesChannelGetById");
 
