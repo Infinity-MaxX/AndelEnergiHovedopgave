@@ -11,7 +11,7 @@ namespace AndelEnergiHovedopgave.Models
         public int Id { get; set; }
 
         [JsonPropertyName("Reason")]
-        public string Reason { get; set; }
+        public string? Reason { get; set; }
 
         public EventReason()
         {
