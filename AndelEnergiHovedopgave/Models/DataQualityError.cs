@@ -23,6 +23,14 @@ namespace AndelEnergiHovedopgave.Models
         public DataQualityError() { }
 
         // parameterized constructor
+        public DataQualityError(DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
+        {
+            RegistrationDate = registrationDate;
+            CustomerEventId = customerEventId;
+            ErrorSeverity = errorSeverity;
+            ErrorType = errorType;
+        }
+
         public DataQualityError(int id, DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
         {
             Id = id;
