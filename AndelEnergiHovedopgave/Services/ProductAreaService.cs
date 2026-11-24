@@ -12,7 +12,7 @@ namespace AndelEnergiHovedopgave.Services
 {
     public class ProductAreaService : IProductAreaService
     {
-        private string _connectionString = Secret.ConnectionString;
+        private string _connectionString;
         private string getAll = @"SELECT * FROM ProductArea";
         private string insert = @"INSERT INTO ProductArea (Area) VALUES (@Area)";
         private string insertWithId = @"INSERT INTO ProductArea (Id, Area) VALUES (@Id, @Area)";
@@ -20,6 +20,11 @@ namespace AndelEnergiHovedopgave.Services
         private string getByArea = @"SELECT * FROM ProductArea WHERE Area = @Area";
         private string delete = @"DELETE FROM ProductArea WHERE Id = @Id";
         private string existsByArea =@"SELECT COUNT(*) FROM ProductArea WHERE Area = @Area";
+
+        public ProductAreaService(string connectionstring)
+        {
+            _connectionString = connectionstring ?? throw new ArgumentNullException(nameof(connectionstring));
+        }
 
         public List<ProductArea> GetAll()
         {
