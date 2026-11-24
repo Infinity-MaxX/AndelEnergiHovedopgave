@@ -15,7 +15,7 @@ namespace AndelEnergiHovedopgave.Services
         private readonly ISalesChannelService _salesChannelService = new SalesChannelService();
         private readonly IProductAreaService _productAreaService= new ProductAreaService();
         private readonly IEventReasonService _eventReasonService = new EventReasonService(Secret.TestConnectionString);
-        private readonly IEventTypeService _eventTypeService = new EventTypeService();
+        private readonly IEventTypeService _eventTypeService = new EventTypeService(Secret.TestConnectionString);
 
 
         //Actions

@@ -131,7 +131,7 @@ public class TestCustomerEventService
     {
         //Arrange
         ICustomerEventService ce = new CustomerEventService();
-        IEventTypeService et = new EventTypeService();
+        IEventTypeService et = new EventTypeService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         EventType type = et.GetByType("Ga");
         List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 7, 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 8, 103) };
@@ -178,7 +178,7 @@ public class TestCustomerEventService
         //Arrange
         ICustomerEventService ce = new CustomerEventService();
         IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
-        EventTypeService et = new EventTypeService();
+        EventTypeService et = new EventTypeService(Secret.TestConnectionString);
 
         List<CustomerEvent> customerEvents = ce.GetAll();
         EventType type = et.GetByType("Ga");

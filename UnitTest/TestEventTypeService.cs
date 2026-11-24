@@ -1,3 +1,4 @@
+using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
 using AndelEnergiHovedopgave.Services;
@@ -11,7 +12,7 @@ public class TestEventTypeService
     public void GetAll()
     {
         //Arrange
-        IEventTypeService ets = new EventTypeService();
+        IEventTypeService ets = new EventTypeService(Secret.TestConnectionString);
         List<EventType> EventTypes = ets.GetAll();
 
         //Act
@@ -26,7 +27,7 @@ public class TestEventTypeService
     public void Insert()
     {
         //Arrange
-        IEventTypeService ets = new EventTypeService();
+        IEventTypeService ets = new EventTypeService(Secret.TestConnectionString);
         List<EventType> EventTypes = ets.GetAll();
         EventType newEt = new EventType("TestEventTypeInsert");
 
@@ -48,7 +49,7 @@ public class TestEventTypeService
     public void GetById()
     {
         //Arrange
-        IEventTypeService ct = new EventTypeService();
+        IEventTypeService ct = new EventTypeService(Secret.TestConnectionString);
         EventType type = new EventType("Test");
 
         //Act
@@ -66,7 +67,7 @@ public class TestEventTypeService
     public void GetByType()
     {
         //Arrange
-        IEventTypeService ct = new EventTypeService();
+        IEventTypeService ct = new EventTypeService(Secret.TestConnectionString);
         EventType type = new EventType("Test");
 
         //Act
@@ -80,7 +81,7 @@ public class TestEventTypeService
     public void Delete()
     {
         //Arrange
-        IEventTypeService ets = new EventTypeService();
+        IEventTypeService ets = new EventTypeService(Secret.TestConnectionString);
         List<EventType> EventTypes = ets.GetAll();
         EventType newCt = new EventType("TestEventTypeInsert");
 
@@ -101,7 +102,7 @@ public class TestEventTypeService
     public void EventReasonExists()
     {
         //Arrange
-        IEventTypeService ets = new EventTypeService();
+        IEventTypeService ets = new EventTypeService(Secret.TestConnectionString);
         List<EventType> EventTypes = ets.GetAll();
         EventType newCt = new EventType("TestEventTypeInsert");
 
