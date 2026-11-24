@@ -12,7 +12,7 @@ namespace AndelEnergiHovedopgave.Services
     {  
         private string _connectionString = Secret.ConnectionString;
         private readonly ICustomerTypeService _customerTypeService = new CustomerTypeService(Secret.TestConnectionString);
-        private readonly ISalesChannelService _salesChannelService = new SalesChannelService();
+        private readonly ISalesChannelService _salesChannelService = new SalesChannelService(Secret.TestConnectionString);
         private readonly IProductAreaService _productAreaService= new ProductAreaService(Secret.TestConnectionString);
         private readonly IEventReasonService _eventReasonService = new EventReasonService(Secret.TestConnectionString);
         private readonly IEventTypeService _eventTypeService = new EventTypeService(Secret.TestConnectionString);
