@@ -35,12 +35,14 @@ namespace UnitTest
             // Act
             DataQualityError _error = new DataQualityError(1, DateTime.Today, 10, 1, "RuntimeError");
             _allDataQualityErrors.Add(_error);
+            _service.Insert(_error);
 
             // Assert
             Assert.IsNotEmpty(_allDataQualityErrors);
 
             // Clean
             _allDataQualityErrors.Remove(_error);
+            _service.Delete(_error.Id);
         }
 
         [TestMethod]
