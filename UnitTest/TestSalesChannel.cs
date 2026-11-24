@@ -36,12 +36,12 @@ public class TestSalesChannel
         int countBeforeInsert = salesChannels.Count;
         cts.Insert(newSc);
         SalesChannel foundSc = cts.GetByChannel("TestSalesChannel");
-        cts.Delete(foundSc.Id);
         int countAfterInsert = cts.GetAll().Count;
+        cts.Delete(foundSc.Id);
 
 
         //Assert
-        Assert.AreEqual(countBeforeInsert, countAfterInsert);
+        Assert.AreEqual(countBeforeInsert+1, countAfterInsert);
     }
     
     [TestMethod]
