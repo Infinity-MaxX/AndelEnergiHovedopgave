@@ -1,3 +1,4 @@
+using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
 using AndelEnergiHovedopgave.Services;
@@ -12,7 +13,7 @@ public class TestEventReasonService
     public void GetAll()
     {
         //Arrange
-        IEventReasonService evs = new EventReasonService();
+        IEventReasonService evs = new EventReasonService(Secret.TestConnectionString);
         List<EventReason> eventReasons = evs.GetAll();
 
         //Act
@@ -27,7 +28,7 @@ public class TestEventReasonService
     public void Insert()
     {
         //Arrange
-        IEventReasonService evs = new EventReasonService();
+        IEventReasonService evs = new EventReasonService(Secret.TestConnectionString);
         List<EventReason> eventReasons = evs.GetAll();
         EventReason newEr = new EventReason("TestEventReasonInsert");
 
@@ -47,7 +48,7 @@ public class TestEventReasonService
     public void GetById()
     {
         //Arrange
-        IEventReasonService evs = new EventReasonService();
+        IEventReasonService evs = new EventReasonService(Secret.TestConnectionString);
         List<EventReason> eventReasons = evs.GetAll();
         EventReason newEr = new EventReason("TestEventReasonGetById");
 
@@ -67,7 +68,7 @@ public class TestEventReasonService
     public void GetByReason()
     {
         //Arrange
-        IEventReasonService er = new EventReasonService();
+        IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
         EventReason reason = new EventReason("Test");
 
         //Act
@@ -83,7 +84,7 @@ public class TestEventReasonService
     public void Delete()
     {
         //Arrange
-        IEventReasonService er = new EventReasonService();
+        IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
         List<EventReason> reasons = er.GetAll();
         EventReason reason = new EventReason("Test");
 
@@ -104,7 +105,7 @@ public class TestEventReasonService
     public void EventReasonExists()
     {
         //Arrange
-        IEventReasonService er = new EventReasonService();
+        IEventReasonService er = new EventReasonService(Secret.TestConnectionString);
         List<EventReason> reasons = er.GetAll();
         EventReason reason = new EventReason("TestExists");
 

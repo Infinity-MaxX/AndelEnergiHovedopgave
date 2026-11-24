@@ -10,7 +10,7 @@ namespace AndelEnergiHovedopgave.Services
 {
     public class SalesChannelService : ISalesChannelService
     {
-        private string _connectionstring = Secret.ConnectionString;
+        private string _connectionString;
         private string getAll = @"SELECT * FROM SalesChannel";
         private string insert = @"INSERT INTO SalesChannel(Channel) VALUES(@Channel)";
         private string insertWithId = @"INSERT INTO SalesChannel(Id, Channel) VALUES(@Id, @Channel)";
@@ -18,11 +18,14 @@ namespace AndelEnergiHovedopgave.Services
         private string getById = @"SELECT * FROM SalesChannel WHERE Id=@Id";
         private string delete = @"DELETE FROM SalesChannel WHERE Id=@Id";
         private string existsByType = @"SELECT COUNT(*) FROM SalesChannel WHERE Channel=@Channel";
-
+        public SalesChannelService(string connectionstring)
+        {
+            _connectionString = connectionstring ?? throw new ArgumentNullException(nameof(connectionstring));
+        }
 
         public List<SalesChannel> GetAll()
         {
-            using (MySqlConnection connection = new MySqlConnection(_connectionstring))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 List<SalesChannel> salesChannels = new List<SalesChannel>();
                 try 
@@ -54,7 +57,7 @@ namespace AndelEnergiHovedopgave.Services
 
         public SalesChannel GetByChannel(string type)
         {
-            using (MySqlConnection connection = new MySqlConnection(_connectionstring))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 SalesChannel foundSalesChannel = new SalesChannel();
                 try
@@ -86,7 +89,7 @@ namespace AndelEnergiHovedopgave.Services
 
         public SalesChannel GetById(int id)
         {
-            using(MySqlConnection connection = new MySqlConnection(_connectionstring))
+            using(MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 SalesChannel foundSalesChannel = new SalesChannel();
                 try
@@ -122,7 +125,7 @@ namespace AndelEnergiHovedopgave.Services
             {
                 return salesChannel;
             }
-            using (MySqlConnection connection= new MySqlConnection(_connectionstring))
+            using (MySqlConnection connection= new MySqlConnection(_connectionString))
             {
                 try
                 {
@@ -151,7 +154,7 @@ namespace AndelEnergiHovedopgave.Services
             {
                 return salesChannel;
             }
-            using (MySqlConnection connection = new MySqlConnection(_connectionstring))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {
@@ -177,7 +180,7 @@ namespace AndelEnergiHovedopgave.Services
 
         public void Delete(int id)
         {
-            using (MySqlConnection connection = new MySqlConnection(_connectionstring))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {
@@ -201,7 +204,7 @@ namespace AndelEnergiHovedopgave.Services
 
         public bool SalesChannelTypeExists(SalesChannel salesChannel)
         {
-            using (MySqlConnection connection = new MySqlConnection(_connectionstring))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {

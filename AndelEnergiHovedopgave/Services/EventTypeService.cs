@@ -10,7 +10,7 @@ namespace AndelEnergiHovedopgave.Services
 {
     public class EventTypeService : IEventTypeService
     {
-        private string _connectionString = Secret.ConnectionString;
+        private string _connectionString;
         private string getAll="SELECT * FROM EventType";
         private string insert = "INSERT INTO EventType (Type) VALUES (@Type)";
         private string getById = "SELECT * FROM EventType WHERE Id = @Id";
@@ -18,6 +18,10 @@ namespace AndelEnergiHovedopgave.Services
         private string delete = "DELETE FROM EventType WHERE Id = @Id";
         private string existsEventType = "SELECT COUNT(*) FROM EventType WHERE Type = @Type";
 
+        public EventTypeService(string connectionstring)
+        {
+            _connectionString = connectionstring ?? throw new ArgumentNullException(nameof(connectionstring));
+        }
 
         public List<EventType> GetAll()
         {

@@ -1,5 +1,6 @@
 ﻿using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
+using Microsoft.IdentityModel.Tokens;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace AndelEnergiHovedopgave.Services
 {
     public class CustomerTypeService : ICustomerTypeService
     {
-        private string _connectionString = Secret.ConnectionString;
+        private string _connectionString;
         private string getAll = "SELECT * FROM CustomerType";
         private string insert = "INSERT INTO CustomerType (Type) VALUES (@Type)";
         private string insertWithId = "INSERT INTO CustomerType (Type,Id) VALUES (@Type,@Id)";
@@ -18,6 +19,10 @@ namespace AndelEnergiHovedopgave.Services
         private string deleteQuery = "DELETE FROM CustomerType WHERE Id = @Id";
         private string existsCustomerType = "SELECT COUNT(*) FROM CustomerType WHERE Type = @Type";
 
+        public CustomerTypeService(string connectionstring)
+        {
+            _connectionString = connectionstring ?? throw new ArgumentNullException(nameof(connectionstring));
+        }
 
         /// <summary>
         /// Retrieves all customer types from the database.

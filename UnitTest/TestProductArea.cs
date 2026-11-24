@@ -1,3 +1,4 @@
+using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
 using AndelEnergiHovedopgave.Services;
@@ -11,7 +12,7 @@ public class TestProductArea
     public void GetAll()
     {
         //Arrange
-        IProductAreaService pas = new ProductAreaService();
+        IProductAreaService pas = new ProductAreaService(Secret.TestConnectionString);
         List<ProductArea> productAreas = pas.GetAll();
 
         //Act
@@ -27,7 +28,7 @@ public class TestProductArea
     public void Insert()
     {
         //Arrange
-        IProductAreaService pas = new ProductAreaService();
+        IProductAreaService pas = new ProductAreaService(Secret.TestConnectionString);
         List<ProductArea> productAreas = pas.GetAll();
         ProductArea newPa = new ProductArea("TestProductAreaInsert");
 
@@ -47,7 +48,7 @@ public class TestProductArea
     public void GetById()
     {
         //Arrange
-        IProductAreaService pas = new ProductAreaService();
+        IProductAreaService pas = new ProductAreaService(Secret.TestConnectionString);
         List<ProductArea> productAreas = pas.GetAll();
         ProductArea newPa = new ProductArea(5, "TestProductAreaGetById");
 
@@ -66,7 +67,7 @@ public class TestProductArea
     public void Delete()
     {
         //Arrange
-        IProductAreaService pas = new ProductAreaService();
+        IProductAreaService pas = new ProductAreaService(Secret.TestConnectionString);
         List<ProductArea> productAreas = pas.GetAll();
         ProductArea newPa = new ProductArea(5, "TestDelete");
 
@@ -87,7 +88,7 @@ public class TestProductArea
     public void GetByArea() 
     {
         //Arrange
-        IProductAreaService pas = new ProductAreaService();
+        IProductAreaService pas = new ProductAreaService(Secret.TestConnectionString);
         List<ProductArea> productAreas = pas.GetAll();
         ProductArea newPa = new ProductArea(5,"TestGetByArea");
 
@@ -103,7 +104,7 @@ public class TestProductArea
     public void ProductAreaExists()
     {
         //Arrange
-        IProductAreaService pas = new ProductAreaService();
+        IProductAreaService pas = new ProductAreaService(Secret.TestConnectionString);
         List<ProductArea> productAreas = pas.GetAll();
         ProductArea newPa = new ProductArea(5, "TestGetByArea");
 
