@@ -148,7 +148,7 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
-        public ProductArea GetByArea(string Area)
+        public ProductArea GetByArea(string area)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -156,7 +156,7 @@ namespace AndelEnergiHovedopgave.Services
                 try
                 {
                     MySqlCommand command = new MySqlCommand(getByArea, connection);
-                    command.Parameters.AddWithValue("@Area", Area);
+                    command.Parameters.AddWithValue("@Area", area);
 
                     connection.Open();
 

@@ -52,7 +52,7 @@ namespace AndelEnergiHovedopgave.Models
         [JsonPropertyName("EventType")]
         public string OriginalEventType { get; set; }
 
-        [JsonPropertyName("EventReason")]
+        [JsonPropertyName(" EventReason")]
         public string OriginalEventReason { get; set; }
 
 

@@ -14,7 +14,7 @@ namespace AndelEnergiHovedopgave.Interfaces
         public ProductArea GetById(int id);
         public ProductArea GetByArea(string area);
         public void Delete(int id);
-        public bool ProductAreaExists(ProductArea ProductArea); 
+        public bool ProductAreaExists(ProductArea productArea); 
 
 
     }
