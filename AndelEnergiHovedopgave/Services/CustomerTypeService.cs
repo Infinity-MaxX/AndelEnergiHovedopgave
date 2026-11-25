@@ -165,6 +165,8 @@ namespace AndelEnergiHovedopgave.Services
 
                         connection.Open();
                         command.ExecuteNonQuery();
+                        customerType.Id = Convert.ToInt32(command.LastInsertedId);
+
                     }
                 }
                 catch (MySqlException ex)

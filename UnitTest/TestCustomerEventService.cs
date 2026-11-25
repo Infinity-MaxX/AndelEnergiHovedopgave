@@ -85,19 +85,22 @@ public class TestCustomerEventService
         //Arrange
         ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
+        CustomerType testCT = new CustomerType( "testType");
+        CustomerType insertedCT = ct.Insert(testCT);
         List<CustomerEvent> customerEvents = ce.GetAll();
         CustomerType customerType = ct.GetByType("Private");
-        CustomerEvent newEvent =  new CustomerEvent(new DateTime(2002, 1, 1), 1, customerType.Id, 1, 1, 1, 102);
-        CustomerEvent newEvent2 = new CustomerEvent(new DateTime(2002, 1, 1), 1, customerType.Id, 1, 1, 2, 103);
+        CustomerEvent newEvent =  new CustomerEvent(new DateTime(2002, 1, 1), 1, insertedCT.Id, 1, 1, 1, 102);
+        CustomerEvent newEvent2 = new CustomerEvent(new DateTime(2002, 1, 1), 1,insertedCT.Id, 1, 1, 2, 103);
 
-        //Act
+        //ACT
         ce.Insert(newEvent);
         ce.Insert(newEvent2);
 
         List<CustomerEvent> foundEvents = ce.GetByCustomerType(customerType.Type);
 
-        ce.Delete(foundEvents[0].Id);
-        ce.Delete(foundEvents[1].Id);
+        ce.Delete(newEvent.Id);
+        ce.Delete(newEvent2.Id);
+        ct.Delete(insertedCT.Id);
 
         //Assert
         Assert.AreEqual(foundEvents[0].CustomerTypeId, customerType.Id);

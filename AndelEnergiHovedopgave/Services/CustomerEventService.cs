@@ -5,6 +5,7 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AndelEnergiHovedopgave.Services
 {
@@ -58,8 +59,8 @@ namespace AndelEnergiHovedopgave.Services
                             {
                                 int id = reader.GetInt32(0);
                                 DateTime dateOfEvent = reader.GetDateTime(1);
-                                int productAreaId = reader.GetInt32(3);
-                                int customerTypeId = reader.GetInt32(2);
+                                int productAreaId = reader.GetInt32(2);
+                                int customerTypeId = reader.GetInt32(3);
                                 int eventTypeId = reader.GetInt32(4);
                                 int salesChannelId = reader.GetInt32(5);
                                 int eventReasonId = reader.GetInt32(6);
@@ -101,8 +102,8 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int productAreaId = reader.GetInt32(3);
-                            int customerTypeId = reader.GetInt32(2);
+                            int productAreaId = reader.GetInt32(2);
+                            int customerTypeId = reader.GetInt32(3);
                             int eventTypeId = reader.GetInt32(4);
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
@@ -140,8 +141,8 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int productAreaId = reader.GetInt32(3);
-                            int customerTypeId = reader.GetInt32(2);
+                            int productAreaId = reader.GetInt32(2);
+                            int customerTypeId = reader.GetInt32(3);
                             int eventTypeId = reader.GetInt32(4);
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
@@ -178,8 +179,8 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int productAreaId = reader.GetInt32(3);
-                            int customerTypeId = reader.GetInt32(2);
+                            int productAreaId = reader.GetInt32(2);
+                            int customerTypeId = reader.GetInt32(3);
                             int eventTypeId = reader.GetInt32(4);
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
@@ -217,8 +218,8 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int foundId = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int productAreaId = reader.GetInt32(3);
-                            int customerTypeId = reader.GetInt32(2);
+                            int productAreaId = reader.GetInt32(2);
+                            int customerTypeId = reader.GetInt32(3);
                             int eventTypeId = reader.GetInt32(4);
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
@@ -256,8 +257,8 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int productAreaId = reader.GetInt32(3);
-                            int customerTypeId = reader.GetInt32(2);
+                            int productAreaId = reader.GetInt32(2);
+                            int customerTypeId = reader.GetInt32(3);
                             int eventTypeId = reader.GetInt32(4);
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
@@ -295,8 +296,8 @@ namespace AndelEnergiHovedopgave.Services
                         {
                             int id = reader.GetInt32(0);
                             DateTime dateOfEvent = reader.GetDateTime(1);
-                            int productAreaId = reader.GetInt32(3);
-                            int customerTypeId = reader.GetInt32(2);
+                            int productAreaId = reader.GetInt32(2);
+                            int customerTypeId = reader.GetInt32(3);
                             int eventTypeId = reader.GetInt32(4);
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
@@ -340,6 +341,8 @@ namespace AndelEnergiHovedopgave.Services
                     command.Parameters.AddWithValue("@EventCount", customerEvent.Count);
 
                     command.ExecuteNonQuery();
+                    customerEvent.Id = Convert.ToInt32(command.LastInsertedId);
+
                 }
                 catch (MySqlException ex)
                 {
@@ -371,8 +374,8 @@ namespace AndelEnergiHovedopgave.Services
                     {
                         int id = reader.GetInt32(0);
                         DateTime dateOfEvent = reader.GetDateTime(1);
-                        int productAreaId = reader.GetInt32(3);
-                        int customerTypeId = reader.GetInt32(2);
+                        int productAreaId = reader.GetInt32(2);
+                        int customerTypeId = reader.GetInt32(3);
                         int eventTypeId = reader.GetInt32(4);
                         int salesChannelId = reader.GetInt32(5);
                         int eventReasonId = reader.GetInt32(6);

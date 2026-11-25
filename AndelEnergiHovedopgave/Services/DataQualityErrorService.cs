@@ -33,8 +33,8 @@ namespace AndelEnergiHovedopgave.Services
         private string getByDateSQL =   "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
         private string getByIdSQL   =   "SELECT * FROM DataQualityError WHERE Id = @Id";
         private string getByTypeSQL =   "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
-        private string insertSQL    =   "INSERT INTO DataQualityError(Id, RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
-                                        "VALUES(@Id, @RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
+        private string insertSQL    =   "INSERT INTO DataQualityError(RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
+                                        "VALUES(@RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
         #endregion
 
         #region Constructor
@@ -259,26 +259,28 @@ namespace AndelEnergiHovedopgave.Services
 
         public DataQualityError Insert(DataQualityError error)
         {
+            error.RegistrationDate = DateTime.Today;
+
             if (DataQualityErrorExists(error))
             {
                 return error;
             }
-
-            error.RegistrationDate = DateTime.Today;
-
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {
                     MySqlCommand command = new MySqlCommand(insertSQL, connection);
-                    command.Parameters.AddWithValue("@Id", error.Id);
                     command.Parameters.AddWithValue("@RegistrationDate", error.RegistrationDate);
                     command.Parameters.AddWithValue("@CustomerEventId", error.CustomerEventId);
                     command.Parameters.AddWithValue("@ErrorSeverity", error.ErrorSeverity);
                     command.Parameters.AddWithValue("@ErrorType", error.ErrorType);
-                    
+
                     connection.Open();
                     command.ExecuteNonQuery();
+
+                    //Sætter id til at være det sisdste autogenererede id
+                    error.Id = Convert.ToInt32(command.LastInsertedId);
+                    
                 }
                 catch (MySqlException sqlEx)
                 {
