@@ -25,7 +25,7 @@ namespace AndelEnergiHovedopgave.Services
         private string dataQualityErrorExistsSQL =  "SELECT COUNT(*) FROM DataQualityError " +
                                                     "WHERE RegistrationDate = @RegistrationDate " +
                                                     "AND CustomerEventId = @CustomerEventId " +
-                                                    "AND SeverityId = @ErrorSeverity " +
+                                                    "AND SeverityId = @SeverityId " +
                                                     "AND ErrorType = @ErrorType";
         private string deleteSQL    =   "DELETE FROM DataQualityError WHERE Id = @Id";
         private string getAllSQL    =   "SELECT * FROM DataQualityError";
@@ -33,8 +33,8 @@ namespace AndelEnergiHovedopgave.Services
         private string getByDateSQL =   "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
         private string getByIdSQL   =   "SELECT * FROM DataQualityError WHERE Id = @Id";
         private string getByTypeSQL =   "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
-        private string insertSQL    =   "INSERT INTO DataQualityError(Id, RegistrationDate, CustomerEventId, SeverityId, ErrorType)" +
-                                        "VALUES(@Id, @RegistrationDate, @CustomerEventId, @ErrorSeverity, @ErrorType)";
+        private string insertSQL    =   "INSERT INTO DataQualityError(RegistrationDate, CustomerEventId, SeverityId, ErrorType) " +
+                                        "VALUES(@RegistrationDate, @CustomerEventId, @SeverityId, @ErrorType)";
         #endregion
 
         #region Constructor
@@ -63,7 +63,7 @@ namespace AndelEnergiHovedopgave.Services
                     MySqlCommand command = new MySqlCommand(dataQualityErrorExistsSQL, connection);
                     command.Parameters.AddWithValue("@RegistrationDate", dataQualityError.RegistrationDate);
                     command.Parameters.AddWithValue("@CustomerEventId", dataQualityError.CustomerEventId);
-                    command.Parameters.AddWithValue("@ErrorSeverity", dataQualityError.ErrorSeverity);
+                    command.Parameters.AddWithValue("@SeverityId", dataQualityError.SeverityId);
                     command.Parameters.AddWithValue("@ErrorType", dataQualityError.ErrorType);
                     connection.Open();
 
@@ -200,11 +200,12 @@ namespace AndelEnergiHovedopgave.Services
                     MySqlDataReader reader = command.ExecuteReader();
                     if (reader.Read())
                     {
+                        int errorId = reader.GetInt32(0);
                         DateTime registrationDate = reader.GetDateTime(1);
                         int customerEventId = reader.GetInt32(2);
                         int errorSeverity = reader.GetInt32(3);
                         string errorType = reader.GetString(4);
-                        error = new DataQualityError(id, registrationDate, customerEventId, errorSeverity, errorType);
+                        error = new DataQualityError(errorId, registrationDate, customerEventId, errorSeverity, errorType);
                     }
                     reader.Close();
                 }
@@ -259,26 +260,27 @@ namespace AndelEnergiHovedopgave.Services
 
         public DataQualityError Insert(DataQualityError error)
         {
+            error.RegistrationDate = DateTime.Today;
+
             if (DataQualityErrorExists(error))
             {
                 return error;
             }
-
-            error.RegistrationDate = DateTime.Today;
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 try
                 {
                     MySqlCommand command = new MySqlCommand(insertSQL, connection);
-                    command.Parameters.AddWithValue("@Id", error.Id);
                     command.Parameters.AddWithValue("@RegistrationDate", error.RegistrationDate);
                     command.Parameters.AddWithValue("@CustomerEventId", error.CustomerEventId);
-                    command.Parameters.AddWithValue("@ErrorSeverity", error.ErrorSeverity);
+                    command.Parameters.AddWithValue("@SeverityId", error.SeverityId);
                     command.Parameters.AddWithValue("@ErrorType", error.ErrorType);
                     
                     connection.Open();
                     command.ExecuteNonQuery();
+
+                    error.Id = (int)command.LastInsertedId;
                 }
                 catch (MySqlException sqlEx)
                 {
