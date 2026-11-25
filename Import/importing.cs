@@ -73,17 +73,17 @@ connection.Open();
 //}
 //Console.WriteLine("Done importing");
 //________________Import af CustomerEvent fra JSON fil____________________
-string path = "C:\\Users\\johan\\OneDrive\\Skrivebord\\HovedopgaveAndelEnergiMockData\\CustomerEvents.txt";
-List<CustomerEvent> customerEvents = importService.ReadJasonFromFile<CustomerEvent>(path);
+//string path = "C:\\Users\\johan\\OneDrive\\Skrivebord\\HovedopgaveAndelEnergiMockData\\CustomerEvents.txt";
+//List<CustomerEvent> customerEvents = importService.ReadJasonFromFile<CustomerEvent>(path);
 
-foreach (CustomerEvent ce in customerEvents)
-{
-    int eventTypeId = (eventTypeService.GetByType(ce.OriginalEventType)).Id;
-    int eventReasonId = (eventReasonService.GetByReason(ce.OriginalEventReason)).Id;
-    Console.WriteLine($"Event Type ID: {eventTypeId}, Event Reason ID: {eventReasonId}");
-    customerEventService.Insert(new CustomerEvent(ce.DateOfEvent, ce.ProductAreaId, ce.CustomerTypeId, eventTypeId, ce.SalesChannelId ?? 0, eventReasonId, ce.Count));
-    Console.WriteLine(ce.ToString());
-}
-Console.WriteLine("Done importing");
+//foreach (CustomerEvent ce in customerEvents)
+//{
+//    int eventTypeId = (eventTypeService.GetByType(ce.OriginalEventType)).Id;
+//    int eventReasonId = (eventReasonService.GetByReason(ce.OriginalEventReason)).Id;
+//    Console.WriteLine($"Event Type ID: {eventTypeId}, Event Reason ID: {eventReasonId}");
+//    customerEventService.Insert(new CustomerEvent(ce.DateOfEvent, ce.ProductAreaId, ce.CustomerTypeId, eventTypeId, ce.SalesChannelId ?? 0, eventReasonId, ce.Count));
+//    Console.WriteLine(ce.ToString());
+//}
+//Console.WriteLine("Done importing");
 
 
