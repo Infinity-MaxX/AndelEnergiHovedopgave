@@ -22,7 +22,11 @@ namespace AndelEnergiHovedopgave.Services
         #endregion
 
         #region SQL Queries
-        private string dataQualityErrorExistsSQL = "SELECT COUNT(*) FROM DataQualityError WHERE Id = @Id";
+        private string dataQualityErrorExistsSQL =  "SELECT COUNT(*) FROM DataQualityError " +
+                                                    "WHERE RegistrationDate = @RegistrationDate " +
+                                                    "AND CustomerEventId = @CustomerEventId " +
+                                                    "AND SeverityId = @ErrorSeverity " +
+                                                    "AND ErrorType = @ErrorType";
         private string deleteSQL    =   "DELETE FROM DataQualityError WHERE Id = @Id";
         private string getAllSQL    =   "SELECT * FROM DataQualityError";
         private string getAllDates =    "SELECT * FROM DataQualityError WHERE RegistrationDate >= @StartOfDay AND RegistrationDate < @NextDay";
@@ -57,7 +61,10 @@ namespace AndelEnergiHovedopgave.Services
                 try
                 {
                     MySqlCommand command = new MySqlCommand(dataQualityErrorExistsSQL, connection);
-                    command.Parameters.AddWithValue("@Id", dataQualityError.Id);
+                    command.Parameters.AddWithValue("@RegistrationDate", dataQualityError.RegistrationDate);
+                    command.Parameters.AddWithValue("@CustomerEventId", dataQualityError.CustomerEventId);
+                    command.Parameters.AddWithValue("@ErrorSeverity", dataQualityError.ErrorSeverity);
+                    command.Parameters.AddWithValue("@ErrorType", dataQualityError.ErrorType);
                     connection.Open();
 
                     // ExecuteScalar returns the first object. because we want
@@ -183,7 +190,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                DataQualityError error = null;
+                DataQualityError error = new DataQualityError();
                 try
                 {
                     MySqlCommand command = new MySqlCommand(getByIdSQL, connection);

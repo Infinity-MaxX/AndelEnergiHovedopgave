@@ -14,15 +14,19 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
-            DataQualityError _dataQualityError = new DataQualityError(1, DateTime.Today, 5, 1, "RuntimeError");
+            List<DataQualityError> allDataQualityErrors = _service.GetAll();
+            DataQualityError _dataQualityError = new DataQualityError(DateTime.Today, 4, 1, "RuntimeError");
 
             // Act
             _service.Insert(_dataQualityError);
+            int countBefore = allDataQualityErrors.Count();
+
             DataQualityError findId = _service.GetById(_dataQualityError.Id);
             _service.Delete(findId.Id);
+            int countAfter = _service.GetAll().Count();
 
             // Assert
-            Assert.IsNull(_service.GetById(_dataQualityError.Id));
+            Assert.AreEqual(countAfter, countBefore);
         }
 
         [TestMethod]
@@ -33,7 +37,7 @@ namespace UnitTest
             List<DataQualityError> _allDataQualityErrors = _service.GetAll();
 
             // Act
-            DataQualityError _error = new DataQualityError(1, DateTime.Today, 10, 1, "RuntimeError");
+            DataQualityError _error = new DataQualityError(DateTime.Today, 1, 1, "RuntimeError");
             _allDataQualityErrors.Add(_error);
             _service.Insert(_error);
 
@@ -61,9 +65,9 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
-            DataQualityError _dateOne = new DataQualityError(1, new DateTime(2023, 1, 1), 12, 1, "RuntimeError");
-            DataQualityError _dateTwo = new DataQualityError(2, new DateTime(2023, 1, 2), 13, 1, "RuntimeError");
-            DataQualityError _dateThree = new DataQualityError(3, new DateTime(2023, 1, 1), 14, 1, "RuntimeError");
+            DataQualityError _dateOne = new DataQualityError(new DateTime(2023, 1, 1), 2, 1, "RuntimeError");
+            DataQualityError _dateTwo = new DataQualityError(new DateTime(2023, 1, 2), 3, 1, "RuntimeError");
+            DataQualityError _dateThree = new DataQualityError(new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
 
             // Act
             _service.Insert(_dateOne);
@@ -89,8 +93,8 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
-            DataQualityError _errorOne = new DataQualityError(1, DateTime.Today, 12, 1, "RuntimeError");
-            DataQualityError _errorTwo = new DataQualityError(2, DateTime.Today, 13, 1, "RuntimeError");
+            DataQualityError _errorOne = new DataQualityError(DateTime.Today, 2, 1, "RuntimeError");
+            DataQualityError _errorTwo = new DataQualityError(DateTime.Today, 3, 1, "RuntimeError");
 
             // Act
             _service.Insert(_errorOne);
@@ -110,9 +114,9 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
-            DataQualityError _typeOne = new DataQualityError(1, DateTime.Today, 12, 1, "IndexOutOfRangeError");
-            DataQualityError _typeTwo = new DataQualityError(2, DateTime.Today, 13, 1, "SyntaxError");
-            DataQualityError _typeThree = new DataQualityError(3, DateTime.Today, 14, 1, "IndexOutOfRangeError");
+            DataQualityError _typeOne = new DataQualityError(DateTime.Today, 2, 1, "IndexOutOfRangeError");
+            DataQualityError _typeTwo = new DataQualityError(DateTime.Today, 3, 1, "SyntaxError");
+            DataQualityError _typeThree = new DataQualityError(DateTime.Today, 4, 1, "IndexOutOfRangeError");
 
             // Act
             _service.Insert(_typeOne);
@@ -138,13 +142,13 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
-            DataQualityError _error = new DataQualityError(1, DateTime.Today, 12, 1, "RuntimeError");
+            DataQualityError _error = new DataQualityError(DateTime.Today, 2, 1, "RuntimeError");
 
             // Act
             _service.Insert(_error);
 
             // Assert
-            Assert.IsNotNull(_service.GetById(1));
+            Assert.IsNotNull(_service.GetById(_error.Id));
 
             // Clean
             _service.Delete(_error.Id);
