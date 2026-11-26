@@ -3,27 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RestServiceAndelEnergi.Controllers
 {
-    public class RestDataQualityError : Controller
+    public class DataQualityErrorController : Controller
     {
-        // GET: RestDataQualityError
+        // GET: DataQualityErrorController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: RestDataQualityError/Details/5
+        // GET: DataQualityErrorController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: RestDataQualityError/Create
+        // GET: DataQualityErrorController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: RestDataQualityError/Create
+        // POST: DataQualityErrorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -38,13 +38,13 @@ namespace RestServiceAndelEnergi.Controllers
             }
         }
 
-        // GET: RestDataQualityError/Edit/5
+        // GET: DataQualityErrorController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: RestDataQualityError/Edit/5
+        // POST: DataQualityErrorController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -59,13 +59,13 @@ namespace RestServiceAndelEnergi.Controllers
             }
         }
 
-        // GET: RestDataQualityError/Delete/5
+        // GET: DataQualityErrorController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: RestDataQualityError/Delete/5
+        // POST: DataQualityErrorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
