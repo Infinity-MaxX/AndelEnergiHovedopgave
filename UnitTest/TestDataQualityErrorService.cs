@@ -31,7 +31,7 @@ namespace UnitTest
 
             // Assert
             Assert.AreEqual(countAfter, countBefore);
-            //Assert.IsNull(insertedError);
+            Assert.IsNull(insertedError);
 
         }
 
