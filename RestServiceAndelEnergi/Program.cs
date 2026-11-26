@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<ICustomerEventService,CustomerEventService >();
+builder.Services.AddSingleton<ICustomerEventService, CustomerEventService>();
 builder.Services.AddSingleton<IDataQualityErrorService, DataQualityErrorService>();
 
 var app = builder.Build();

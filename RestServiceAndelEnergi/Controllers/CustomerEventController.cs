@@ -122,22 +122,22 @@ namespace RestServiceAndelEnergi.Controllers
         // opens the Create page and returns the view of posted content
         // if validation fails, it returns the view with the submitted
         // model so the user can correct the errors
-        public ActionResult ViewPost()
+        public ActionResult Create()
         {
             return View();
         }
 
         // needs to notify if the specified parameters are violated when inserting
         // needs to notify if the object was accepted
-        public ActionResult<CustomerEvent> Create(CustomerEvent customerEvent)
-        {
-            // custom validation check
-            if (!IsValid(customerEvent)) return BadRequest();
+        //public ActionResult<CustomerEvent> Create(CustomerEvent customerEvent)
+        //{
+        //    // custom validation check
+        //    if (!IsValid(customerEvent)) return BadRequest();
 
-            var insertedObject = _db.Insert(customerEvent);
-            string uri = Url.RouteUrl(RouteData.Values) + "/" + insertedObject;
-            return Created(uri, insertedObject);
-        }
+        //    var insertedObject = _db.Insert(customerEvent);
+        //    string uri = Url.RouteUrl(RouteData.Values) + "/" + insertedObject;
+        //    return Created(uri, insertedObject);
+        //}
 
         // POST: CustomerEventController/Create
         [HttpPost]
