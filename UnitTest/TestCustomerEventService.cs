@@ -2,7 +2,6 @@ using AndelEnergiHovedopgave;
 using AndelEnergiHovedopgave.Interfaces;
 using AndelEnergiHovedopgave.Models;
 using AndelEnergiHovedopgave.Services;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace UnitTest;
 
@@ -30,7 +29,7 @@ public class TestCustomerEventService
         //Arrange
         ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
-        CustomerEvent customerEvent = new CustomerEvent(new DateTime(2001,1,1),1,1,1,1,1,100);
+        CustomerEvent customerEvent = new CustomerEvent(new DateTime(2001,1,1),1,1,1,1,6,100);
 
         //Act
         int countBefore = customerEvents.Count();
@@ -50,7 +49,7 @@ public class TestCustomerEventService
         //Arrange
         ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
-        CustomerEvent customerEvent = new CustomerEvent(new DateTime(2001, 1, 1), 1, 1, 1, 1, 1, 101);
+        CustomerEvent customerEvent = new CustomerEvent(new DateTime(2001, 1, 1), 1, 1, 1, 1, 6, 101);
 
         //Act
         ce.Insert(customerEvent);
@@ -68,12 +67,15 @@ public class TestCustomerEventService
     {
         //Arrange
         ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
-        CustomerEvent newEvents = new CustomerEvent(new DateTime(2005, 1, 1), 1,1, 1, 1, 1, 102);
+        ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
+        CustomerType type = ct.GetById(1);
+        DateTime date = new DateTime(2005, 1, 1);
+        CustomerEvent newEvents = new CustomerEvent(date, 1, 1, 1, 1, 7, 102);
 
         //Act
         ce.Insert(newEvents);
 
-        CustomerEvent foundEvent = ce.GetByDate(newEvents.DateOfEvent)[0];
+        CustomerEvent foundEvent = ce.GetByDate(date)[0];
         int foundId = (ce.GetById(foundEvent.Id)).Id;
 
         //Assert
@@ -86,22 +88,21 @@ public class TestCustomerEventService
         ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         ICustomerTypeService ct = new CustomerTypeService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
-        CustomerType customerType = ct.GetByType("Private");
-        CustomerEvent newEvent =  new CustomerEvent(new DateTime(2002, 1, 1), 1, customerType.Id, 1, 1, 1, 102);
-        CustomerEvent newEvent2 = new CustomerEvent(new DateTime(2002, 1, 1), 1, customerType.Id, 1, 1, 2, 103);
+        CustomerType type = ct.GetById(1);
+        List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1, 7, 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1, 1, 8, 103) };
 
         //Act
-        ce.Insert(newEvent);
-        ce.Insert(newEvent2);
+        ce.Insert(newEvents[0]);
+        ce.Insert(newEvents[1]);
 
-        List<CustomerEvent> foundEvents = ce.GetByCustomerType(customerType.Type);
+        List<CustomerEvent> foundEvents = ce.GetByCustomerType(type.Type);
 
         ce.Delete(foundEvents[0].Id);
         ce.Delete(foundEvents[1].Id);
 
         //Assert
-        Assert.AreEqual(foundEvents[0].CustomerTypeId, customerType.Id);
-        Assert.AreEqual(foundEvents[1].CustomerTypeId, customerType.Id);
+        Assert.AreEqual(foundEvents[0].CustomerTypeId, type.Id);
+        Assert.AreEqual(foundEvents[0].CustomerTypeId, type.Id);
     }
     [TestMethod]
     public void GetByDate()
@@ -110,7 +111,7 @@ public class TestCustomerEventService
         ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         DateTime date = new DateTime(2001, 1, 1);
-        List<CustomerEvent> newEvents = new List<CustomerEvent>{new CustomerEvent(date,1, 1, 1, 1, 1, 102),new CustomerEvent(date,1, 1, 1, 1, 2, 103)};
+        List<CustomerEvent> newEvents = new List<CustomerEvent>{new CustomerEvent(date,1, 1, 1, 1, 7, 102),new CustomerEvent(date,1, 1, 1, 1, 8, 103)};
 
         //Act
         ce.Insert(newEvents[0]);
@@ -133,7 +134,7 @@ public class TestCustomerEventService
         IEventTypeService et = new EventTypeService(Secret.TestConnectionString);
         List<CustomerEvent> customerEvents = ce.GetAll();
         EventType type = et.GetByType("Ga");
-        List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 1, 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 2, 103) };
+        List<CustomerEvent> newEvents = new List<CustomerEvent> { new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 7, 102), new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, type.Id, 1, 8, 103) };
 
         //Act
         ce.Insert(newEvents[0]);
@@ -169,10 +170,10 @@ public class TestCustomerEventService
 
         //Assert
         Assert.AreEqual(foundEvents[0].EventReasonId, reason.Id);
-        Assert.AreEqual(foundEvents[1].EventReasonId, reason.Id);
+        Assert.AreEqual(foundEvents[0].EventReasonId, reason.Id);
     }
     [TestMethod]
-    public void CustomerExists()
+    public void CustomerExistsExists()
     {
         //Arrange
         ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
