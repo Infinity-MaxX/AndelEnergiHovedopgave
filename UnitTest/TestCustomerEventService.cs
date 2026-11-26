@@ -155,7 +155,7 @@ public class TestCustomerEventService
         ce.Insert(newEvent);
         ce.Insert(newEvent2);
 
-        List<CustomerEvent> foundEvents = ce.GetBygetByEventType(eventType.Type);
+        List<CustomerEvent> foundEvents = ce.GetByEventType(eventType.Type);
 
         ce.Delete(newEvent.Id);
         ce.Delete(newEvent2.Id);

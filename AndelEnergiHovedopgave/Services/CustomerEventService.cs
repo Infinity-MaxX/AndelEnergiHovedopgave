@@ -124,7 +124,7 @@ namespace AndelEnergiHovedopgave.Services
             }
         }
 
-        public List<CustomerEvent> GetBygetByEventType(string eventType)
+        public List<CustomerEvent> GetByEventType(string eventType)
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
