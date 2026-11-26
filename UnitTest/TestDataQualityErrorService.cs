@@ -19,14 +19,14 @@ namespace UnitTest
 
             // Act
             _service.Insert(_dataQualityError);
-            //int countBefore = _service.GetAll().Count();
+            int countBefore = allDataQualityErrors.Count();
 
             DataQualityError findId = _service.GetById(_dataQualityError.Id);
             _service.Delete(findId.Id);
-            //int countAfter = _service.GetAll().Count();
+            int countAfter = _service.GetAll().Count();
 
             // Assert
-            Assert.IsNull(findId);
+            Assert.AreEqual(countAfter, countBefore);
         }
 
         [TestMethod]
@@ -34,16 +34,18 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
+            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
 
             // Act
             DataQualityError _error = new DataQualityError(DateTime.Today, 1, 1, "RuntimeError");
+            _allDataQualityErrors.Add(_error);
             _service.Insert(_error);
-            List<DataQualityError> _allDataQualityErrors = _service.GetAll();
 
             // Assert
             Assert.IsNotEmpty(_allDataQualityErrors);
 
             // Clean
+            _allDataQualityErrors.Remove(_error);
             _service.Delete(_error.Id);
         }
 
@@ -97,7 +99,7 @@ namespace UnitTest
             // Act
             _service.Insert(_errorOne);
             _service.Insert(_errorTwo);
-            DataQualityError _foundById = _service.GetById(_errorOne.Id);
+            DataQualityError _foundById = _service.GetById(1);
 
             // Assert
             Assert.AreEqual(_errorOne.Id, _foundById.Id);

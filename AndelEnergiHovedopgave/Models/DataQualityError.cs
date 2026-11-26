@@ -6,11 +6,15 @@ namespace AndelEnergiHovedopgave.Models
 {
     public class DataQualityError
     {
+        #region Instance fields
+        private DateTime _registrationDate;
+        #endregion
+
         #region Properties
         public int Id { get; set; }
         public DateTime RegistrationDate { get; set; }
         public int CustomerEventId { get; set; }
-        public int SeverityId { get; set; }
+        public int ErrorSeverity { get; set; }
         public string ErrorType { get; set; }
         #endregion
 
@@ -19,20 +23,20 @@ namespace AndelEnergiHovedopgave.Models
         public DataQualityError() { }
 
         // parameterized constructor
-        public DataQualityError(DateTime registrationDate, int customerEventId, int severityId, string errorType)
+        public DataQualityError(DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
         {
             RegistrationDate = registrationDate;
             CustomerEventId = customerEventId;
-            SeverityId = severityId;
+            ErrorSeverity = errorSeverity;
             ErrorType = errorType;
         }
 
-        public DataQualityError(int id, DateTime registrationDate, int customerEventId, int severityId, string errorType)
+        public DataQualityError(int id, DateTime registrationDate, int customerEventId, int errorSeverity, string errorType)
         {
             Id = id;
             RegistrationDate = registrationDate;
             CustomerEventId = customerEventId;
-            SeverityId = severityId;
+            ErrorSeverity = errorSeverity;
             ErrorType = errorType;
         }
         #endregion
@@ -40,8 +44,8 @@ namespace AndelEnergiHovedopgave.Models
         #region Methods
         public override string ToString()
         {
-            return $"ID: {Id}\n\nRegistration Date: {RegistrationDate}\n\n" +
-                $"CustomerEvent: {CustomerEventId}\n\nSeverity: {SeverityId}\n\n" +
+            return $"ID: {Id}\nRegistration Date: {RegistrationDate}\n" +
+                $"CustomerEvent: {CustomerEventId}\nSeverity: {ErrorSeverity}\n" +
                 $"Error Type: {ErrorType}";
         }
         #endregion
