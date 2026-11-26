@@ -4,7 +4,7 @@ using AndelEnergiHovedopgave.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Apply the connection strings
-var connectionStringName = builder.Environment.IsDevelopment() ? "TestDatabase" : "RegularDatabase";
+var connectionStringName = builder.Environment.IsDevelopment() ? "TestDatabase" : "Database";
 
 var connectionString = builder.Configuration.GetConnectionString(connectionStringName)
     ?? throw new InvalidOperationException($"Connection string '{connectionStringName}' is not configured.");
