@@ -66,6 +66,8 @@ namespace AndelEnergiHovedopgave.Services
                     command.Parameters.AddWithValue("@Type", eventType.Type);
                     connection.Open();
                     command.ExecuteNonQuery();
+
+                    eventType.Id = Convert.ToInt32(command.LastInsertedId);
                 }
                 catch (MySqlException ex)
                 {

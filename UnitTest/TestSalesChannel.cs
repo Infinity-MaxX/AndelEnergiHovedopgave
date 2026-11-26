@@ -34,10 +34,10 @@ public class TestSalesChannel
 
         //Act
         int countBeforeInsert = salesChannels.Count;
-        cts.Insert(newSc);
-        SalesChannel foundSc = cts.GetByChannel("TestSalesChannel");
+        SalesChannel insertedChannel = cts.Insert(newSc);
+
         int countAfterInsert = cts.GetAll().Count;
-        cts.Delete(foundSc.Id);
+        cts.Delete(insertedChannel.Id);
 
 
         //Assert
@@ -70,15 +70,17 @@ public class TestSalesChannel
         //Arrange
         ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
-        SalesChannel newSc = new SalesChannel(57, "TestSalesChannelGetByChannel");
+        SalesChannel newSc = new SalesChannel("TestSalesChannelGetByChannel");
 
         //Act
-        cts.InsertWithId(newSc);
+        SalesChannel insertedChannel = cts.Insert(newSc);
         SalesChannel foundSc = cts.GetByChannel(newSc.Channel);
-        cts.Delete(newSc.Id);
+
+        cts.Delete(insertedChannel.Id);
 
         //Assert
-        Assert.IsTrue(newSc.Id == foundSc.Id);
+        Assert.AreEqual(insertedChannel.Id,foundSc.Id);
+        Assert.AreEqual(insertedChannel.Channel,foundSc.Channel);
     }
 
     [TestMethod]
@@ -87,14 +89,16 @@ public class TestSalesChannel
         //Arrange
         ISalesChannelService cts = new SalesChannelService(Secret.TestConnectionString);
         List<SalesChannel> salesChannels = cts.GetAll();
-        SalesChannel newSc = new SalesChannel(56, "TestSalesChannelGetById");
+        SalesChannel newSc = new SalesChannel("TestSalesChannelGetById");
 
         //Act
         int countBeforeInsert = salesChannels.Count;
-        cts.InsertWithId(newSc);
-        SalesChannel foundSc = cts.GetById(newSc.Id);
+
+        SalesChannel insertedChannel = cts.Insert(newSc);
+        SalesChannel foundSc = cts.GetById(insertedChannel.Id);
+
         int countAfterInsert = cts.GetAll().Count;
-        cts.Delete(foundSc.Id);
+        cts.Delete(insertedChannel.Id);
 
         //Assert
         Assert.IsTrue(newSc.Id == foundSc.Id);

@@ -34,13 +34,13 @@ public class TestEventReasonService
 
         //Act
         int countBeforeInsert = eventReasons.Count;
-        evs.Insert(newEr);
-        EventReason foundevr = evs.GetByReason("TestEventReasonInsert");
+        EventReason insertedReason = evs.Insert(newEr);
+
         int countAfterInsert = evs.GetAll().Count;
-        evs.Delete(foundevr.Id);
+        evs.Delete(insertedReason.Id);
 
         //Assert
-        Assert.IsTrue(newEr.Reason == foundevr.Reason);
+        Assert.IsTrue(newEr.Reason == insertedReason.Reason);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
     }
 
@@ -54,14 +54,15 @@ public class TestEventReasonService
 
         //Act
         int countBeforeInsert = eventReasons.Count;
-        evs.Insert(newEr);
-        EventReason foundevr = evs.GetByReason(newEr.Reason);
-        EventReason foundevrid = evs.GetById(foundevr.Id);
+        EventReason insertedReason = evs.Insert(newEr);
+
+        EventReason foundevrid = evs.GetById(insertedReason.Id);
+
         int countAfterInsert = evs.GetAll().Count;
-        evs.Delete(foundevr.Id);
+        evs.Delete(insertedReason.Id);
 
         //Assert
-        Assert.IsTrue(foundevr.Id == foundevrid.Id);
+        Assert.IsTrue(insertedReason.Id == foundevrid.Id);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
     }
     [TestMethod]
@@ -72,12 +73,13 @@ public class TestEventReasonService
         EventReason reason = new EventReason("Test");
 
         //Act
-        er.Insert(reason);
-        EventReason foundReason = er.GetByReason(reason.Reason);
-        er.Delete(reason.Id);
+        EventReason insertedReason = er.Insert(reason);
+        EventReason foundReason = er.GetByReason(insertedReason.Reason);
+
+        er.Delete(insertedReason.Id);
 
         //Assert
-        Assert.AreEqual(reason.Reason, foundReason.Reason);
+        Assert.AreEqual(insertedReason.Reason, foundReason.Reason);
     }
 
     [TestMethod]
@@ -90,15 +92,14 @@ public class TestEventReasonService
 
         //Act
         int countBeforeInsert = reasons.Count;
-        er.Insert(reason);
+        EventReason insertedReason = er.Insert(reason);
 
-        EventReason foundEr = er.GetByReason("Test");
-        er.Delete(foundEr.Id);
+        er.Delete(insertedReason.Id);
 
         int countAfterInsert = er.GetAll().Count;
 
         //Assert
-        Assert.IsTrue(reason.Reason == foundEr.Reason);
+        Assert.IsTrue(reason.Reason == insertedReason.Reason);
         Assert.AreEqual(countBeforeInsert, countAfterInsert);
     }
     [TestMethod]

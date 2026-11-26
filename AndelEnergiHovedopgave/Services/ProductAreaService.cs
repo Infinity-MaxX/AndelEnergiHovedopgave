@@ -73,6 +73,7 @@ namespace AndelEnergiHovedopgave.Services
                     command.Parameters.AddWithValue("@Area", productArea.Area);
                     connection.Open();
                     command.ExecuteNonQuery();
+                    productArea.Id = Convert.ToInt32(command.LastInsertedId);
                 }
                 catch (MySqlException ex)
                 {

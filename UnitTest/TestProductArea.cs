@@ -34,13 +34,14 @@ public class TestProductArea
 
         //Act
         int countBeforeInsert = productAreas.Count;
-        pas.Insert(newPa);
-        ProductArea foundPa = pas.GetByArea(newPa.Area);
+        ProductArea insertedArea = pas.Insert(newPa);
+
         int countAfterInsert = pas.GetAll().Count;
-        pas.Delete(foundPa.Id);
+
+        pas.Delete(insertedArea.Id);
 
         //Assert
-        Assert.IsTrue(newPa.Area == foundPa.Area);
+        Assert.IsTrue(newPa.Area == insertedArea.Area);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
     }
 
@@ -54,10 +55,12 @@ public class TestProductArea
 
         //Act
         int countBeforeInsert = productAreas.Count;
-        pas.InsertWithId(newPa);
+
+        ProductArea insertedArea = pas.InsertWithId(newPa);
         ProductArea foundPa = pas.GetById(newPa.Id);
+
         int countAfterInsert = pas.GetAll().Count;
-        pas.Delete(foundPa.Id);
+        pas.Delete(newPa.Id);
 
         //Assert
         Assert.IsTrue(newPa.Id == foundPa.Id);
@@ -72,15 +75,16 @@ public class TestProductArea
         ProductArea newPa = new ProductArea(5, "TestDelete");
 
         //Act
-        pas.InsertWithId(newPa);
+        ProductArea insertedArea = pas.InsertWithId(newPa);
+
         int countBeforeInsert = productAreas.Count;
-        ProductArea foundPa = pas.GetById(newPa.Id);
-        pas.Delete(foundPa.Id);
+
+        pas.Delete(insertedArea.Id);
         int countAfterInsert = pas.GetAll().Count;
        
 
         //Assert
-        Assert.IsTrue(newPa.Id == foundPa.Id);
+        Assert.IsTrue(newPa.Id == insertedArea.Id);
         Assert.AreEqual(countBeforeInsert, countAfterInsert);
     }
 
@@ -90,15 +94,15 @@ public class TestProductArea
         //Arrange
         IProductAreaService pas = new ProductAreaService(Secret.TestConnectionString);
         List<ProductArea> productAreas = pas.GetAll();
-        ProductArea newPa = new ProductArea(5,"TestGetByArea");
+        ProductArea newPa = new ProductArea("TestGetByArea");
 
         //Act
-        pas.InsertWithId(newPa);
+        ProductArea insertedArea = pas.Insert(newPa);
         ProductArea foundArea = pas.GetByArea(newPa.Area);
 
         //Assert
         Assert.AreEqual(newPa.Area,foundArea.Area);
-        Assert.AreEqual(newPa.Id,foundArea.Id);
+        Assert.AreEqual(insertedArea.Id,foundArea.Id);
     }
     [TestMethod]
     public void ProductAreaExists()

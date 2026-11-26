@@ -34,13 +34,13 @@
 
             //Act
             int countBeforeInsert = customerTypes.Count;
-            cts.Insert(newCt);
-            CustomerType foundCt= cts.GetByType("TestCustomerTypeInsert");
+            CustomerType insertedType = cts.Insert(newCt);
             int countAfterInsert = cts.GetAll().Count;
-            cts.Delete(foundCt.Id);
+
+            cts.Delete(insertedType.Id);
 
             //Assert
-            Assert.IsTrue(newCt.Type == foundCt.Type);
+            Assert.IsTrue(newCt.Type == insertedType.Type);
             Assert.AreEqual((countBeforeInsert+1), countAfterInsert);
         }
 
@@ -56,7 +56,9 @@
             //Act
             int countBeforeInsert = customerTypes.Count;
             cts.InsertWithId(newCt);
+
             CustomerType foundCt = cts.GetById(newCt.Id);
+
             int countAfterInsert = cts.GetAll().Count;
             cts.Delete(foundCt.Id);
 
@@ -89,15 +91,14 @@
 
             //Act
             int countBeforeInsert = customerTypes.Count;
-            cts.Insert(newCt);
+            CustomerType insertedTrype = cts.Insert(newCt);
 
-            CustomerType foundCt = cts.GetByType("TestCustomerTypeInsert");
-            cts.Delete(foundCt.Id);
+            cts.Delete(insertedTrype.Id);
 
             int countAfterInsert = cts.GetAll().Count;
             
             //Assert
-            Assert.IsTrue(newCt.Type == foundCt.Type);
+            Assert.IsTrue(newCt.Type == insertedTrype.Type);
             Assert.AreEqual(countBeforeInsert, countAfterInsert);
         }
         [TestMethod]

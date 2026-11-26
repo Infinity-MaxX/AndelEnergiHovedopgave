@@ -134,6 +134,7 @@ namespace AndelEnergiHovedopgave.Services
                         command.Parameters.AddWithValue("@Channel", salesChannel.Channel);
                         connection.Open();
                         command.ExecuteNonQuery();
+                        salesChannel.Id = Convert.ToInt32(command.LastInsertedId);
                     }
                 }
                 catch (MySqlException ex)

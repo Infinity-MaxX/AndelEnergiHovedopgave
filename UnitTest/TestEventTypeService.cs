@@ -33,14 +33,14 @@ public class TestEventTypeService
 
         //Act
         int countBeforeInsert = EventTypes.Count;
-        ets.Insert(newEt);
+        EventType insertedType = ets.Insert(newEt);
 
-        EventType foundEt = ets.GetByType("TestEventTypeInsert");
         int countAfterInsert = ets.GetAll().Count;
-        ets.Delete(foundEt.Id);
+
+        ets.Delete(insertedType.Id);
 
         //Assert
-        Assert.IsTrue(newEt.Type == foundEt.Type);
+        Assert.IsTrue(newEt.Type == insertedType.Type);
         Assert.AreEqual((countBeforeInsert + 1), countAfterInsert);
     }
 
@@ -53,14 +53,13 @@ public class TestEventTypeService
         EventType type = new EventType("Test");
 
         //Act
-        ct.Insert(type);
-        EventType foundEventType = ct.GetByType(type.Type);
-        EventType foundEvent = (ct.GetById(foundEventType.Id));
+        EventType insertedType = ct.Insert(type);
+        EventType foundEvent = (ct.GetById(insertedType.Id));
         
-        ct.Delete(foundEventType.Id);
+        ct.Delete(insertedType.Id);
 
         //Assert
-        Assert.AreEqual(foundEventType.Id, foundEvent.Id);
+        Assert.AreEqual(insertedType.Id, foundEvent.Id);
     }
 
     [TestMethod]
@@ -71,11 +70,13 @@ public class TestEventTypeService
         EventType type = new EventType("Test");
 
         //Act
-        ct.Insert(type);
+        EventType insertedType = ct.Insert(type);
         EventType foundType = ct.GetByType(type.Type);
 
+        ct.Delete(insertedType.Id);
+
         //Assert
-        Assert.AreEqual(type.Type, foundType.Type);
+        Assert.AreEqual(insertedType.Type, foundType.Type);
     }
     [TestMethod]
     public void Delete()
@@ -87,17 +88,17 @@ public class TestEventTypeService
 
         //Act
         int countBeforeInsert = EventTypes.Count;
-        ets.Insert(newCt);
+        EventType insertedType = ets.Insert(newCt);
 
-        EventType foundCt = ets.GetByType("TestEventTypeInsert");
-        ets.Delete(foundCt.Id);
+        ets.Delete(insertedType.Id);
 
         int countAfterInsert = ets.GetAll().Count;
 
         //Assert
-        Assert.IsTrue(newCt.Type == foundCt.Type);
+        Assert.IsTrue(newCt.Type == insertedType.Type);
         Assert.AreEqual(countBeforeInsert, countAfterInsert);
     }
+
     [TestMethod]
     public void EventReasonExists()
     {
