@@ -29,7 +29,6 @@ namespace AndelEnergiHovedopgave.Services
                                                     "AND ErrorType = @ErrorType";
         private string deleteSQL    =   "DELETE FROM DataQualityError WHERE Id = @Id";
         private string getAllSQL    =   "SELECT * FROM DataQualityError";
-        private string getAllDates =    "SELECT * FROM DataQualityError WHERE RegistrationDate >= @StartOfDay AND RegistrationDate < @NextDay";
         private string getByDateSQL =   "SELECT * FROM DataQualityError WHERE RegistrationDate = @RegistrationDate";
         private string getByIdSQL   =   "SELECT * FROM DataQualityError WHERE Id = @Id";
         private string getByTypeSQL =   "SELECT * FROM DataQualityError WHERE ErrorType = @ErrorType";
