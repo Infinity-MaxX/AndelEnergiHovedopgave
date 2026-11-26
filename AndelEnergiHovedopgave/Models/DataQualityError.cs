@@ -6,10 +6,6 @@ namespace AndelEnergiHovedopgave.Models
 {
     public class DataQualityError
     {
-        #region Instance fields
-        private DateTime _registrationDate;
-        #endregion
-
         #region Properties
         public int Id { get; set; }
         public DateTime RegistrationDate { get; set; }

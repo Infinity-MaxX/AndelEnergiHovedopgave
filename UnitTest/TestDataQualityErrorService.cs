@@ -15,14 +15,14 @@ namespace UnitTest
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
             ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
+
             CustomerEvent customerEvent = ce.GetById(1);
             List<DataQualityError> allDataQualityErrors = _service.GetAll();
-            DataQualityError _dataQualityError = new DataQualityError(DateTime.Today, customerEvent.Id , 1, "RuntimeError");
-
+            DataQualityError _dataQualityError = new DataQualityError(DateTime.Today, customerEvent.Id, 1, "RuntimeError");
             
             // Act
-            //Du 'opsamler' objektet som er oprettet, med det autogenererede Id
-            DataQualityError insertedError= _service.Insert(_dataQualityError);
+            // Du 'opsamler' objektet som er oprettet, med det autogenererede Id
+            DataQualityError insertedError = _service.Insert(_dataQualityError);
             int countBefore = allDataQualityErrors.Count();
 
             //DataQualityError findId = _service.GetById(_dataQualityError.Id);
@@ -31,6 +31,8 @@ namespace UnitTest
 
             // Assert
             Assert.AreEqual(countAfter, countBefore);
+            //Assert.IsNull(insertedError);
+
         }
 
         [TestMethod]
