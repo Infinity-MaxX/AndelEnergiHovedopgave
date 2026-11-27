@@ -98,17 +98,17 @@ namespace UnitTest
         {
             // Arrange
             IDataQualityErrorService _service = new DataQualityErrorService(Secret.TestConnectionString);
-            DataQualityError _errorOne = new DataQualityError(DateTime.Today, 2, 1, "RuntimeError");
-            DataQualityError _errorTwo = new DataQualityError(DateTime.Today, 3, 1, "RuntimeError");
+            DataQualityError _errorOne = new DataQualityError(DateTime.Today, 2, 2, "RuntimeError");
+            DataQualityError _errorTwo = new DataQualityError(DateTime.Today, 3, 1, "IndexOutOfRangeError");
 
             // Act
             // needs to be attached to a variable for proper cleanup
             DataQualityError insertedErrorOne = _service.Insert(_errorOne);
             DataQualityError insertedErrorTwo = _service.Insert(_errorTwo);
-            DataQualityError _foundById = _service.GetById(1);
+            int _foundById = (_service.GetById(insertedErrorOne.Id)).Id;
 
             // Assert
-            Assert.AreEqual(_errorOne.Id, _foundById.Id);
+            Assert.AreEqual(insertedErrorOne.Id, _foundById);
 
             // Clean
             _service.Delete(insertedErrorOne.Id);
