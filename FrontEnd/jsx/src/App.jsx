@@ -1,9 +1,15 @@
 import './App.css'
+import './components/DataQualityDashboard'
+import DataQualityDashboard from './components/DataQualityDashboard';
+import QualityErrorRow from './components/QualityErrorRow';
+import RegistratedQualityError from './components/RegistratedQualityError';
 
-//Create a react function component
 const App = () => {
-  const message ='HelloWorld'
-return <div><h1>Hello world!</h1></div>;
+    return (
+      DataQualityDashboard(),
+      QualityErrorRow(),
+      RegistratedQualityError()
+  );
 };
 
 export default App
