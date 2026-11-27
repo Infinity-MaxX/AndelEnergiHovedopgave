@@ -50,6 +50,8 @@ namespace RestServiceAndelEnergi.Controllers
         #endregion
 
         #region CRUD methods
+        // No Put or Delete functionality needed for REST services. CustomerEvent is a
+        // statistical thing. this is a business rule.
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -69,12 +71,6 @@ namespace RestServiceAndelEnergi.Controllers
             if (content == null) return NotFound();
             else return Ok(content);
         }
-
-        // A generic to filter by different parametres
-        //public ActionResult<IEnumerable<CustomerEvent>> GetBy<T>(ref T filter)
-        //{
-        //    var content = _db.
-        //}
 
         [HttpGet("customertype/{customerType}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -121,16 +117,6 @@ namespace RestServiceAndelEnergi.Controllers
             return CheckContent(() => _db.GetBySalesChannel(salesChannel));
         }
 
-        // GET: CustomerEventController/Create
-        // Create is changed to ViewPost
-        // opens the Create page and returns the view of posted content
-        // if validation fails, it returns the view with the submitted
-        // model so the user can correct the errors
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
         // needs to notify if the specified parameters are violated when inserting
         // needs to notify if the object was accepted
         [HttpPost]
@@ -146,52 +132,20 @@ namespace RestServiceAndelEnergi.Controllers
             return Created(uri, insertedObject);
         }
 
+        // GET: CustomerEventController/Create
+        // Create is changed to ViewPost
+        // opens the Create page and returns the view of posted content
+        // if validation fails, it returns the view with the submitted
+        // model so the user can correct the errors
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
+
         // POST: CustomerEventController/Create
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: CustomerEventController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: CustomerEventController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: CustomerEventController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        // POST: CustomerEventController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
         //{
         //    try
         //    {
