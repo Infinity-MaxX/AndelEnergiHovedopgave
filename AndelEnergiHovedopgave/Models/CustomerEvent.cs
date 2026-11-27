@@ -8,28 +8,29 @@ namespace AndelEnergiHovedopgave.Models
 {
     public class CustomerEvent
     {
-        private DateTime _dateOfEvent;
+        //private DateTime _dateOfEvent;
 
         public int Id { get; set; }
 
         [NotNull]
         [JsonPropertyName("Month")]
-        public DateTime DateOfEvent 
-        {
-            get {return _dateOfEvent; }
-            set 
-            { 
-                if(value.Day != 1) 
-                {
-                    throw new ArgumentException("DateOfEvent must be the first day of the month.");
-                }
-                else
-                {
-                    _dateOfEvent = value;
-                } 
+        public DateTime DateOfEvent { get; set; }
+        //public DateTime DateOfEvent 
+        //{
+        //    get {return _dateOfEvent; }
+        //    set 
+        //    { 
+        //        if(value.Day != 1) 
+        //        {
+        //            throw new ArgumentException("DateOfEvent must be the first day of the month.");
+        //        }
+        //        else
+        //        {
+        //            _dateOfEvent = value;
+        //        } 
  
-            }
-        }
+        //    }
+        //}
         [NotNull]
         [JsonPropertyName("CustomerTypeId")]
         public int CustomerTypeId { get; set; }

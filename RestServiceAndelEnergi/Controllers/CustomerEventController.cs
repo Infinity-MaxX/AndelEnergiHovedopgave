@@ -39,7 +39,8 @@ namespace RestServiceAndelEnergi.Controllers
 
         private bool IsValid(CustomerEvent customerEvent)
         {
-            if (customerEvent.DateOfEvent != DateTime.Today) return false;
+            // always have date be at the start of the month. this is a business rule.
+            if (customerEvent.DateOfEvent.Day != 1) return false;
             if (customerEvent.CustomerTypeId == 0) return false;
             if (customerEvent.ProductAreaId == 0) return false;
             if (customerEvent.SalesChannelId == 0) return false;
@@ -132,15 +133,18 @@ namespace RestServiceAndelEnergi.Controllers
 
         // needs to notify if the specified parameters are violated when inserting
         // needs to notify if the object was accepted
-        //public ActionResult<CustomerEvent> Create(CustomerEvent customerEvent)
-        //{
-        //    // custom validation check
-        //    if (!IsValid(customerEvent)) return BadRequest();
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<CustomerEvent> Create([FromBody] CustomerEvent customerEvent)
+        {
+            // custom validation check
+            if (!IsValid(customerEvent)) return BadRequest();
 
-        //    var insertedObject = _db.Insert(customerEvent);
-        //    string uri = Url.RouteUrl(RouteData.Values) + "/" + insertedObject;
-        //    return Created(uri, insertedObject);
-        //}
+            var insertedObject = _db.Insert(customerEvent);
+            string uri = Url.RouteUrl(RouteData.Values) + "/" + insertedObject;
+            return Created(uri, insertedObject);
+        }
 
         // POST: CustomerEventController/Create
         //[HttpPost]
