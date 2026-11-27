@@ -65,8 +65,10 @@ namespace AndelEnergiHovedopgave.Services
                                 int salesChannelId = reader.GetInt32(5);
                                 int eventReasonId = reader.GetInt32(6);
                                 int count = reader.GetInt32(7);
-                                CustomerEvent customerEvent = new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId,eventTypeId ,salesChannelId , eventReasonId, count);
-                                customerEvents.Add(customerEvent);
+                                CustomerEvent foundEvent = new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count);
+                                foundEvent.OriginalEventReason = _eventReasonService.GetById(eventReasonId).Reason;
+                                foundEvent.OriginalEventType = _eventTypeService.GetById(eventTypeId).Type;
+                                customerEvents.Add(foundEvent);
 
                             }
                         }
@@ -108,7 +110,7 @@ namespace AndelEnergiHovedopgave.Services
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
                             int count = reader.GetInt32(7);
-                            customerEvents.Add(new CustomerEvent(id, dateOfEvent,productAreaId, customerTypeId,eventTypeId, salesChannelId, eventReasonId, count));
+                            customerEvents.Add(new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId,eventTypeId, salesChannelId, eventReasonId, count));
                         }
                     }
                 }
@@ -225,6 +227,8 @@ namespace AndelEnergiHovedopgave.Services
                             int eventReasonId = reader.GetInt32(6);
                             int count = reader.GetInt32(7);
                             foundCustomerEvent = new CustomerEvent(foundId, dateOfEvent,productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count);
+                            foundCustomerEvent.OriginalEventReason = _eventReasonService.GetById(eventReasonId).Reason;
+                            foundCustomerEvent.OriginalEventType = _eventTypeService.GetById(eventTypeId).Type;
                         }
                     }
                 }
@@ -263,7 +267,11 @@ namespace AndelEnergiHovedopgave.Services
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
                             int count = reader.GetInt32(7);
-                            customerEvents.Add(new CustomerEvent(id, dateOfEvent,productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count));
+                            CustomerEvent foundEvent= new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count);
+                            foundEvent.OriginalEventReason = _eventReasonService.GetById(eventReasonId).Reason;
+                            foundEvent.OriginalEventType = _eventTypeService.GetById(eventTypeId).Type;
+                            customerEvents.Add(foundEvent);
+
                         }
                     }
                 }
@@ -302,7 +310,10 @@ namespace AndelEnergiHovedopgave.Services
                             int salesChannelId = reader.GetInt32(5);
                             int eventReasonId = reader.GetInt32(6);
                             int count = reader.GetInt32(7);
-                            customerEvents.Add(new CustomerEvent(id, dateOfEvent,productAreaId ,customerTypeId,eventTypeId ,salesChannelId, eventReasonId, count));
+                            CustomerEvent foundEvent = new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count);
+                            foundEvent.OriginalEventReason = _eventReasonService.GetById(eventReasonId).Reason;
+                            foundEvent.OriginalEventType = _eventTypeService.GetById(eventTypeId).Type;
+                            customerEvents.Add(foundEvent);
                         }
                     }
                 }
@@ -380,7 +391,10 @@ namespace AndelEnergiHovedopgave.Services
                         int salesChannelId = reader.GetInt32(5);
                         int eventReasonId = reader.GetInt32(6);
                         int count = reader.GetInt32(7);
-                        customerEvents.Add(new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count));
+                        CustomerEvent foundEvent = new CustomerEvent(id, dateOfEvent, productAreaId, customerTypeId, eventTypeId, salesChannelId, eventReasonId, count);
+                        foundEvent.OriginalEventReason = _eventReasonService.GetById(eventReasonId).Reason;
+                        foundEvent.OriginalEventType = _eventTypeService.GetById(eventTypeId).Type;
+                        customerEvents.Add(foundEvent);
                     }
 
                 }

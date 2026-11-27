@@ -77,13 +77,12 @@ public class TestCustomerEventService
         CustomerEvent newEvents = new CustomerEvent(date, 1, 1, 1, 1, type.Id, 102);
 
         //Act
-        ce.Insert(newEvents);
+        CustomerEvent insertedEvent= ce.Insert(newEvents);
 
-        CustomerEvent foundEvent = ce.GetByDate(date)[0];
-        int foundId = (ce.GetById(foundEvent.Id)).Id;
+        int foundId = (ce.GetById(insertedEvent.Id)).Id;
 
         //Assert
-        Assert.AreEqual(foundEvent.Id, foundId);
+        Assert.AreEqual(insertedEvent.Id, foundId);
     }
     [TestMethod]
     public void GetByCustomerType()
