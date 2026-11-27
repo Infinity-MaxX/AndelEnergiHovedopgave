@@ -34,7 +34,7 @@ namespace RestServiceAndelEnergi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<IEnumerable<CustomerEvent>> GetAll()
+        public ActionResult<IEnumerable<CustomerEvent>> GetAllCustomerEvents()
         {
             var content = _db.GetAll();
             if (content.Count == 0) return NoContent();

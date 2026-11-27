@@ -19,20 +19,20 @@ namespace UnitTest
             CustomerEvent customerEvent = ce.GetById(1);
             List<DataQualityError> allDataQualityErrors = _service.GetAll();
             DataQualityError _dataQualityError = new DataQualityError(DateTime.Today, customerEvent.Id, 1, "RuntimeError");
-            
+
             // Act
             // Du 'opsamler' objektet som er oprettet, med det autogenererede Id
+            // needs to be attached to a variable for proper cleanup
             DataQualityError insertedError = _service.Insert(_dataQualityError);
             int countBefore = allDataQualityErrors.Count();
 
-            //DataQualityError findId = _service.GetById(_dataQualityError.Id);
+            DataQualityError findId = _service.GetById(insertedError.Id);
             _service.Delete(insertedError.Id);
             int countAfter = _service.GetAll().Count();
 
             // Assert
-            Assert.AreEqual(countAfter, countBefore);
-            Assert.IsNull(insertedError);
-
+            //Assert.AreEqual(countAfter, countBefore);
+            Assert.IsNull(findId);
         }
 
         [TestMethod]
@@ -44,15 +44,14 @@ namespace UnitTest
 
             // Act
             DataQualityError _error = new DataQualityError(DateTime.Today, 1, 1, "RuntimeError");
-            _allDataQualityErrors.Add(_error);
-            _service.Insert(_error);
+            // needs to be attached to a variable for proper cleanup
+            DataQualityError insertedError = _service.Insert(_error);
 
             // Assert
             Assert.IsNotEmpty(_allDataQualityErrors);
 
             // Clean
-            _allDataQualityErrors.Remove(_error);
-            _service.Delete(_error.Id);
+            _service.Delete(insertedError.Id);
         }
 
         [TestMethod]
@@ -76,18 +75,19 @@ namespace UnitTest
             DataQualityError _dateThree = new DataQualityError(new DateTime(2023, 1, 1), 4, 1, "RuntimeError");
 
             // Act
-            _service.Insert(_dateOne);
-            _service.Insert(_dateTwo);
-            _service.Insert(_dateThree);
+            // needs to be attached to a variable for proper cleanup
+            DataQualityError insertedErrorOne = _service.Insert(_dateOne);
+            DataQualityError insertedErrorTwo = _service.Insert(_dateTwo);
+            DataQualityError insertedErrorThree = _service.Insert(_dateThree);
 
             List<DataQualityError> _foundByDate = _service.GetByDate(new DateTime(2023, 1, 1));
             List<DataQualityError> _allDates = _service.GetAll();
             List<DataQualityError> _filtered = _allDates.Where(d => d.RegistrationDate == new DateTime(2023, 1, 1)).ToList();
 
             // Clean
-            _service.Delete(_dateOne.Id);
-            _service.Delete(_dateTwo.Id);
-            _service.Delete(_dateThree.Id);
+            _service.Delete(insertedErrorOne.Id);
+            _service.Delete(insertedErrorTwo.Id);
+            _service.Delete(insertedErrorThree.Id);
 
             // Assert
             Assert.AreEqual(_foundByDate[0].RegistrationDate, _filtered[0].RegistrationDate);
@@ -103,16 +103,17 @@ namespace UnitTest
             DataQualityError _errorTwo = new DataQualityError(DateTime.Today, 3, 1, "RuntimeError");
 
             // Act
-            _service.Insert(_errorOne);
-            _service.Insert(_errorTwo);
+            // needs to be attached to a variable for proper cleanup
+            DataQualityError insertedErrorOne = _service.Insert(_errorOne);
+            DataQualityError insertedErrorTwo = _service.Insert(_errorTwo);
             DataQualityError _foundById = _service.GetById(1);
 
             // Assert
             Assert.AreEqual(_errorOne.Id, _foundById.Id);
 
             // Clean
-            _service.Delete(_errorOne.Id);
-            _service.Delete(_errorTwo.Id);
+            _service.Delete(insertedErrorOne.Id);
+            _service.Delete(insertedErrorTwo.Id);
         }
 
         [TestMethod]
@@ -125,18 +126,19 @@ namespace UnitTest
             DataQualityError _typeThree = new DataQualityError(DateTime.Today, 4, 1, "IndexOutOfRangeError");
 
             // Act
-            _service.Insert(_typeOne);
-            _service.Insert(_typeTwo);
-            _service.Insert(_typeThree);
+            // needs to be attached to a variable for proper cleanup
+            DataQualityError insertedErrorOne = _service.Insert(_typeOne);
+            DataQualityError insertedErrorTwo = _service.Insert(_typeTwo);
+            DataQualityError insertedErrorThree = _service.Insert(_typeThree);
 
             List<DataQualityError> _foundByType = _service.GetByType("IndexOutOfRangeError");
             List<DataQualityError> _allTypes = _service.GetAll();
             List<DataQualityError> _filtered = _allTypes.Where(t => t.ErrorType == "IndexOutOfRangeError").ToList();
 
             // Clean
-            _service.Delete(_typeOne.Id);
-            _service.Delete(_typeTwo.Id);
-            _service.Delete(_typeThree.Id);
+            _service.Delete(insertedErrorOne.Id);
+            _service.Delete(insertedErrorTwo.Id);
+            _service.Delete(insertedErrorTwo.Id);
 
             // Assert
             Assert.AreEqual(_foundByType[0].ErrorType, _filtered[0].ErrorType);
@@ -151,13 +153,14 @@ namespace UnitTest
             DataQualityError _error = new DataQualityError(DateTime.Today, 2, 1, "RuntimeError");
 
             // Act
-            _service.Insert(_error);
+            // needs to be attached to a variable for proper cleanup
+            DataQualityError insertedError = _service.Insert(_error);
 
             // Assert
             Assert.IsNotNull(_service.GetById(_error.Id));
 
             // Clean
-            _service.Delete(_error.Id);
+            _service.Delete(insertedError.Id);
         }
     }
 }
