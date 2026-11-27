@@ -194,6 +194,35 @@ public class TestCustomerEventService
         Assert.AreEqual(foundEvents[1].EventReasonId, reason.Id);
     }
     [TestMethod]
+    public void GetBySalesChannel()
+    {
+        //Arrange
+        ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
+        ISalesChannelService sc = new SalesChannelService(Secret.TestConnectionString);
+
+        List<CustomerEvent> customerEvents = ce.GetAll();
+
+        SalesChannel channel = new SalesChannel("TestChannel");
+        SalesChannel insertedC = sc.Insert(channel);
+
+        CustomerEvent newEvent = new CustomerEvent(new DateTime(2002, 1, 1), 1, 1, 1,insertedC.Id ,1,  102);
+        CustomerEvent newEvent2 = new CustomerEvent(new DateTime(2002, 1, 1), 2, 1, 1,insertedC.Id, 1, 103);
+
+        //Act
+        ce.Insert(newEvent);
+        ce.Insert(newEvent2);
+
+        List<CustomerEvent> foundEvents = ce.GetBySalesChannel(insertedC.Channel);
+
+        ce.Delete(newEvent.Id);
+        ce.Delete(newEvent2.Id);
+        sc.Delete(insertedC.Id);
+
+        //Assert
+        Assert.AreEqual(foundEvents[0].SalesChannelId, insertedC.Id);
+        Assert.AreEqual(foundEvents[1].SalesChannelId, insertedC.Id);
+    }
+    [TestMethod]
     public void CustomerExistsExists()
     {
         //Arrange

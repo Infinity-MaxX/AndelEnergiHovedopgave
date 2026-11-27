@@ -1,15 +1,12 @@
-import './App.css'
-import './components/DataQualityDashboard'
+import './App.css';
 import DataQualityDashboard from './components/DataQualityDashboard';
-import QualityErrorRow from './components/QualityErrorRow';
-import RegistratedQualityError from './components/RegistratedQualityError';
+//This file starts the front end aplication
+function App() {
 
-const App = () => {
     return (
-      DataQualityDashboard(),
-      QualityErrorRow(),
-      RegistratedQualityError()
-  );
-};
+        <DataQualityDashboard />
+    );
 
-export default App
+}
+
+export default App;

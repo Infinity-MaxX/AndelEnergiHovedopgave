@@ -1,11 +1,21 @@
-//This components shows the overview of how many errors that has been detekstet this month
-//and whitch test it refers too
+//This components sends the data to the RegistratesQualityError
+import dataQualityErrors from '../mockdata/DataQualityErrors';
+import RegistratedQualityError from './RegistratedQualityError';
+
 function DataQualityDashboard()
 {
-    return(
+
+    return (
+
         <div>
-            <h1>Datakvalitet resultater</h1>
+
+            <h1>Datakvalitet Resultater</h1>
+            <RegistratedQualityError
+                errors={dataQualityErrors}
+            />
+
         </div>
+
     );
 
 }

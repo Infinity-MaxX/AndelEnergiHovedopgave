@@ -1,0 +1,22 @@
+//This tool translates the severity id, into a category
+function getSeverityText(severityId: number)
+{
+
+    switch (severityId)
+    {
+        case 1:
+            return 'Low';
+
+        case 2:
+            return 'Medium';
+
+        case 3:
+            return 'High';
+
+        default:
+            return 'Unknown';
+    }
+
+}
+
+export default getSeverityText;
