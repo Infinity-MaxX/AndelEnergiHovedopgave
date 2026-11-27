@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RestServiceAndelEnergi.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class CustomerEventController : Controller
     {
         #region Database instance
@@ -19,6 +21,22 @@ namespace RestServiceAndelEnergi.Controllers
         #endregion
 
         #region Helper methods
+        /// <summary>
+        /// Checks query results and returns the corresponding HTTP action result.
+        /// </summary>
+        /// <param name="query">The function that retrieves the customer events.</param>
+        /// <returns>A not-found result for null results, a no-content result for empty results,
+        /// or an OK result containing the customer events.</returns>
+        // I call on Func because I want to pass a function that returns IEnumerable<CustomerEvent>
+        // as a parameter, rather than the result of the function itself.
+        private ActionResult<IEnumerable<CustomerEvent>> CheckContent(Func<IEnumerable<CustomerEvent>> query)
+        {
+            var content = query();
+            if (content is null) return NotFound();
+            if (content.Count() == 0) return NoContent();
+            else return Ok(content);
+        }
+
         private bool IsValid(CustomerEvent customerEvent)
         {
             if (customerEvent.DateOfEvent != DateTime.Today) return false;
@@ -41,7 +59,7 @@ namespace RestServiceAndelEnergi.Controllers
             else return Ok(content);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<CustomerEvent> Get(int id)
@@ -57,75 +75,60 @@ namespace RestServiceAndelEnergi.Controllers
         //    var content = _db.
         //}
 
-        //[HttpGet("{customerType}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public ActionResult<IEnumerable<CustomerEvent>> GetByCustomerType(string customerType)
-        //{
-        //    var content = _db.GetByCustomerType(customerType);
-        //    if (content.Count == 0) return NoContent();
-        //    if (content == null) return NotFound();
-        //    else return Ok(content);
-        //}
+        [HttpGet("customertype/{customerType}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IEnumerable<CustomerEvent>> GetByCustomerType(string customerType)
+        {
+            return CheckContent(() => _db.GetByCustomerType(customerType));
+        }
 
-        //[HttpGet("{eventType}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public ActionResult<IEnumerable<CustomerEvent>> GetByEventType(string eventType)
-        //{
-        //    var content = _db.GetByEventType(eventType);
-        //    if (content.Count == 0) return NoContent();
-        //    if (content == null) return NotFound();
-        //    else return Ok(content);
-        //}
+        [HttpGet("eventtype/{eventType}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IEnumerable<CustomerEvent>> GetByEventType(string eventType)
+        {
+            return CheckContent(() => _db.GetByEventType(eventType));
+        }
 
-        //[HttpGet("{month}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public ActionResult<IEnumerable<CustomerEvent>> GetByMonth(DateTime month)
-        //{
-        //    var content = _db.GetByDate(month);
-        //    if (content.Count == 0) return NoContent();
-        //    if (content == null) return NotFound();
-        //    else return Ok(content);
-        //}
+        [HttpGet("month/{month}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IEnumerable<CustomerEvent>> GetByMonth(DateTime month)
+        {
+            return CheckContent(() => _db.GetByDate(month));
+        }
 
-        //[HttpGet("{reason}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public ActionResult<IEnumerable<CustomerEvent>> GetByReason(string reason)
-        //{
-        //    var content = _db.GetByReason(reason);
-        //    if (content.Count == 0) return NoContent();
-        //    if (content == null) return NotFound();
-        //    else return Ok(content);
-        //}
+        [HttpGet("reason/{reason}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IEnumerable<CustomerEvent>> GetByReason(string reason)
+        {
+            return CheckContent(() => _db.GetByReason(reason));
+        }
 
-        //[HttpGet("{salesChannel}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public ActionResult<IEnumerable<CustomerEvent>> GetByChannel(string salesChannel)
-        //{
-        //    var content = _db.GetBySalesChannel(salesChannel);
-        //    if (content.Count == 0) return NoContent();
-        //    if (content == null) return NotFound();
-        //    else return Ok(content);
-        //}
+        [HttpGet("saleschannel/{salesChannel}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IEnumerable<CustomerEvent>> GetByChannel(string salesChannel)
+        {
+            return CheckContent(() => _db.GetBySalesChannel(salesChannel));
+        }
 
         // GET: CustomerEventController/Create
         // Create is changed to ViewPost
         // opens the Create page and returns the view of posted content
         // if validation fails, it returns the view with the submitted
         // model so the user can correct the errors
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // needs to notify if the specified parameters are violated when inserting
         // needs to notify if the object was accepted
@@ -140,61 +143,61 @@ namespace RestServiceAndelEnergi.Controllers
         //}
 
         // POST: CustomerEventController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: CustomerEventController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: CustomerEventController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: CustomerEventController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: CustomerEventController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: RestCustomerEvents
         // GetAll()
