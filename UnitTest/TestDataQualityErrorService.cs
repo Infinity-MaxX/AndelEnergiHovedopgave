@@ -17,22 +17,21 @@ namespace UnitTest
             ICustomerEventService ce = new CustomerEventService(Secret.TestConnectionString);
 
             CustomerEvent customerEvent = ce.GetById(1);
-            List<DataQualityError> allDataQualityErrors = _service.GetAll();
             DataQualityError _dataQualityError = new DataQualityError(DateTime.Today, customerEvent.Id, 1, "RuntimeError");
 
             // Act
             // Du 'opsamler' objektet som er oprettet, med det autogenererede Id
             // needs to be attached to a variable for proper cleanup
             DataQualityError insertedError = _service.Insert(_dataQualityError);
-            int countBefore = allDataQualityErrors.Count();
+            int countBefore = _service.GetAll().Count();
 
             DataQualityError findId = _service.GetById(insertedError.Id);
             _service.Delete(insertedError.Id);
             int countAfter = _service.GetAll().Count();
 
             // Assert
-            //Assert.AreEqual(countAfter, countBefore);
-            Assert.IsNull(findId);
+            Assert.AreEqual(countAfter, countBefore - 1);
+            //Assert.IsNull(findId);
         }
 
         [TestMethod]
