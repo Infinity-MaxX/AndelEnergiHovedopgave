@@ -23,15 +23,15 @@ namespace UnitTest
             // Du 'opsamler' objektet som er oprettet, med det autogenererede Id
             // needs to be attached to a variable for proper cleanup
             DataQualityError insertedError = _service.Insert(_dataQualityError);
-            int countBefore = _service.GetAll().Count();
+            //int countBefore = _service.GetAll().Count();
 
-            DataQualityError findId = _service.GetById(insertedError.Id);
             _service.Delete(insertedError.Id);
-            int countAfter = _service.GetAll().Count();
+            DataQualityError? deletedError = _service.GetById(insertedError.Id);
+            //int countAfter = _service.GetAll().Count();
 
             // Assert
-            Assert.AreEqual(countAfter, countBefore - 1);
-            //Assert.IsNull(findId);
+            //Assert.AreEqual(countAfter, countBefore - 1);
+            Assert.IsNull(deletedError);
         }
 
         [TestMethod]

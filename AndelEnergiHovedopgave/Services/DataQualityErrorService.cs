@@ -189,7 +189,7 @@ namespace AndelEnergiHovedopgave.Services
         {
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                DataQualityError error = new DataQualityError();
+                DataQualityError? error = null;
                 try
                 {
                     MySqlCommand command = new MySqlCommand(getByIdSQL, connection);
